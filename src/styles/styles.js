@@ -14,11 +14,10 @@ const styles = {
   headerTextInputPlaceholder: tw.color('text-slate-400'),
   headerFilterIcon: tw`w-15 h-7`, 
 
-
-
   header2: tw`bg-lime-100 w-full h-8 flex-row items-center px-4`,
   
-
+  opcions: tw`flex-col justify-between items-center px-4  w-100% h-80%`,
+  
 };
 
 export default styles;

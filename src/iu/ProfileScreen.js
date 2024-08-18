@@ -1,17 +1,21 @@
 import React from "react";
-import { SafeAreaView, View,Text } from 'react-native';
+import { SafeAreaView, View, Text, TouchableOpacity } from 'react-native';
 import styles from '../styles/styles';
 
-const ProfileScreen=()=>{
-    return(
+const ProfileScreen = ({ navigation }) => {
+    return (
         <SafeAreaView style={styles.mainBackground}>
-            <View style={styles.header}>
-                <Text style={styles.text}>Editar Perfil</Text>
-                <Text style={styles.text}>Cerrar Sesion</Text>
-                <Text style={styles.text}>Mis Compras</Text>
-                <Text style={styles.text}>Mis Productos</Text>
-                <Text style={styles.text}>Vender Productos</Text>
-
+            <View style={styles.container}>
+                <View style={styles.opcions}>
+                    <Text style={styles.text}>Editar Perfil</Text>
+                    <Text style={styles.text}>Mis Compras</Text>
+                    <Text style={styles.text}>Mis Productos</Text>
+                    <Text style={styles.text}>Vender Productos</Text>
+                    <Text style={styles.text}>Ayuda</Text>
+                    <TouchableOpacity onPress={() => navigation.navigate('sesion')}>
+                        <Text style={styles.text}>Cerrar Sesion</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         </SafeAreaView>
     );
