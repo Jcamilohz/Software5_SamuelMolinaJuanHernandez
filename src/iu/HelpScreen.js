@@ -1,15 +1,15 @@
 import React from 'react';
-import { SafeAreaView, View, Image, TextInput, Text } from 'react-native';
+import { SafeAreaView, View, Text } from 'react-native';
 import styles from '../styles/styles';
 
-const ProfileScreen=()=>{
+const HelpScreen=()=>{
     return(
         <SafeAreaView style={styles.mainBackground}>
             <View style={styles.container}>
-                <Text style={styles.text}>Perfil</Text>
+                <Text style={styles.text}>Ayuda</Text>
             </View>    
         </SafeAreaView>
     );
 }
 
-export default ProfileScreen;
+export default HelpScreen;

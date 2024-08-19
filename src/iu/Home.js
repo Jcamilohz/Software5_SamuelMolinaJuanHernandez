@@ -1,48 +1,31 @@
-import React from 'react';
-import { SafeAreaView, View, Image, TextInput, Text } from 'react-native';
+import React, { useState } from 'react';
+import { SafeAreaView, View, Text, TouchableOpacity } from 'react-native';
+import Header from './Header';
+import FilterModal from './Modals/FilterModal';
 import styles from '../styles/styles';
 
-const Home=()=>{
+const Home = ({ navigation }) => {
+  const [modalFilterVisible, setModalFilterVisible] = useState(false);
 
+  return (
+    <SafeAreaView style={styles.mainBackground}>
+      <Header navigation={navigation} onFilterPress={() => setModalFilterVisible(true)} />
+      <View style={styles.productList}>
+        <TouchableOpacity onPress={() => navigation.navigate('ProductDetail', { productId: 1 })}>
+          <Text style={styles.productItem}>Producto  1</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('ProductDetail', { productId: 2 })}>
+          <Text style={styles.productItem}>Producto  2</Text>
+        </TouchableOpacity>
 
-return(
-<SafeAreaView style={styles.mainBackground}>
-      <View style={styles.header}>
-        <Image
-          source={require('../Iconos/IconoCompraYa2SinFondo.png')}
-          style={styles.headerIcon}
-        />
-        
-        <View style={styles.inputContainer}>
-          <Image
-            source={require('../Iconos/lupa.png')}
-            style={styles.headerSearchIcon}
-          />
-          <TextInput
-            style={styles.headerTextInput}
-            placeholder="Buscar un producto"
-            placeholderTextColor={styles.headerTextInputPlaceholder}
-          />
-        </View>
-        <Image
-            source={require('../Iconos/filtro.png')}
-            style={styles.headerFilterIcon}
-            resizeMode="contain"
-          />        
       </View>
 
-      <View style={styles.header2}>
-        <Text style={styles.text}>Direccion
-
-
-        </Text>
-        
-        
-      </View>
-      
+      <FilterModal modalVisible={modalFilterVisible} setModalVisible={setModalFilterVisible} />
     </SafeAreaView>
-);
-
+  );
 }
 
 export default Home;
+
+
+
