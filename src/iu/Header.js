@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Image, TextInput, TouchableOpacity, Text } from 'react-native';
+import { View, Image, TextInput, Pressable, Text } from 'react-native';
 import styles from '../styles/styles';
 
 const Header = ({ navigation, onFilterPress }) => {
@@ -25,13 +25,13 @@ const Header = ({ navigation, onFilterPress }) => {
             }
           />
         </View>
-        <TouchableOpacity onPress={onFilterPress}>
+        <Pressable onPress={onFilterPress}>
           <Image
             source={require('../Iconos/filtro.png')}
             style={styles.headerFilterIcon}
             resizeMode="contain"
           />
-        </TouchableOpacity>
+        </Pressable>
       </View>
 
       <View style={styles.header2}>

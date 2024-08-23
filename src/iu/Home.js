@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SafeAreaView, View, Text, ScrollView, TouchableOpacity } from 'react-native';
+import { SafeAreaView, View, Text, ScrollView, Pressable } from 'react-native';
 import Header from './Header';
 import FilterModal from './Modals/FilterModal';
 import ProductCard from './ProductCardScreen';
@@ -24,10 +24,9 @@ const Home = ({ navigation }) => {
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
             <Text style={styles.text}>Productos en descuento</Text>
-            <TouchableOpacity> 
- 
+            <Pressable onPress={() => navigation.navigate('discounted')}> 
               <Text style={styles.textRed}>Ver Más</Text>
-            </TouchableOpacity>
+            </Pressable>
           </View>
           {discountedProducts.map(product => (
             <ProductCard
@@ -42,9 +41,9 @@ const Home = ({ navigation }) => {
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
             <Text style={styles.text}>Recomendados para ti</Text>
-            <TouchableOpacity>
+            <Pressable onPress={() => navigation.navigate('recommended')}>
               <Text style={styles.textRed}>Ver Más</Text>
-            </TouchableOpacity>
+            </Pressable>
           </View>
           {recommendedProducts.map(product => (
             <ProductCard
@@ -58,9 +57,9 @@ const Home = ({ navigation }) => {
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
             <Text style={styles.text}>Tus productos en favoritos</Text>
-            <TouchableOpacity onPress={() => navigation.navigate('favorites')}>
+            <Pressable onPress={() => navigation.navigate('favorites')}>
               <Text style={styles.textRed}>Ver Más</Text>
-            </TouchableOpacity>
+            </Pressable>
           </View>
           {favoriteProducts.map(product => (
             <ProductCard
@@ -74,9 +73,9 @@ const Home = ({ navigation }) => {
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
             <Text style={styles.text}>Productos en tu carrito</Text>
-            <TouchableOpacity onPress={() => navigation.navigate('cart')}>
+            <Pressable onPress={() => navigation.navigate('cart')}>
               <Text style={styles.textRed}>Ver Más</Text>
-            </TouchableOpacity>
+            </Pressable>
           </View>
           {cardProducts.map(product => (
             <ProductCard
@@ -90,9 +89,9 @@ const Home = ({ navigation }) => {
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
             <Text style={styles.text}>Productos con envio Gratis</Text>
-            <TouchableOpacity>
+            <Pressable onPress={() => navigation.navigate('freeShipping')}>
               <Text style={styles.textRed}>Ver Más</Text>
-            </TouchableOpacity>
+            </Pressable>
           </View>
           {freeShippingProductsProducts.map(product => (
             <ProductCard
