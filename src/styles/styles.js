@@ -1,9 +1,8 @@
-import { Image } from 'react-native';
+
 import tw from 'twrnc';
 
 const styles = {
   container: tw`flex-1 justify-center items-center bg-lime-200`,
-  title: tw`text-2xl font-bold text-black`,
   text: tw`text-lg text-gray-700`,
   mainBackground: tw`bg-white h-full`,
   containerButton: tw`justify-center items-center w-100% h-10 my-5`,
@@ -19,9 +18,9 @@ const styles = {
   headerTextInput: tw`flex-1 text-black`, 
   headerTextInputPlaceholder: tw.color('text-slate-400'),
   headerFilterIcon: tw`w-15 h-7`, 
-  header2: tw`bg-lime-100 w-full h-8 flex-row items-center px-4 justify-between`,
+  header2: tw`bg-green-100 w-full h-8 flex-row items-center px-4 justify-between`,
   opcions: tw`flex-col justify-between items-center px-4  w-100% h-80%`,
-  container2: tw`flex-1 bg-white`,
+
   filterContainer: tw`w-80 h-40 bg-white rounded-lg justify-center items-center`,
   modalBackground: tw`flex-1 justify-center items-center bg-black bg-opacity-20`,
   modalContainer: tw`w-90% h-90% bg-white p-4 rounded-lg items-center border border-gray-700`,
@@ -39,6 +38,27 @@ const styles = {
   title: tw`text-lg font-bold text-black`,
   productInfo2: tw`flex-1 border border-gray-200 rounded-lg p-4 m-2 mt-0`,
   icon: tw`w-5 h-5`,
+
+
+
+  commentContainer: tw`mb-4 p-3 bg-gray-100 rounded-lg`,
+  commentUser: tw`font-bold text-lg mb-1`,
+  commentText: tw`text-base text-gray-700`,
+  commentScore: tw`text-sm text-gray-500 mt-1`,
+  noCommentsText: tw`text-center text-gray-500 text-base`,
+
+  input: tw`w-full p-2 bg-white border border-gray-300 rounded-lg mb-4 text-black`,
+
+
+
+
+
+
+
+
+
+
+
 };
 
 export default styles;

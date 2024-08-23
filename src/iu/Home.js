@@ -24,8 +24,7 @@ const Home = ({ navigation }) => {
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
             <Text style={styles.text}>Productos en descuento</Text>
-            <Pressable> 
- 
+            <Pressable onPress={() => navigation.navigate('discounted')}> 
               <Text style={styles.textRed}>Ver Más</Text>
             </Pressable>
           </View>
@@ -42,7 +41,7 @@ const Home = ({ navigation }) => {
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
             <Text style={styles.text}>Recomendados para ti</Text>
-            <Pressable>
+            <Pressable onPress={() => navigation.navigate('recommended')}>
               <Text style={styles.textRed}>Ver Más</Text>
             </Pressable>
           </View>
@@ -90,7 +89,7 @@ const Home = ({ navigation }) => {
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
             <Text style={styles.text}>Productos con envio Gratis</Text>
-            <Pressable>
+            <Pressable onPress={() => navigation.navigate('freeShipping')}>
               <Text style={styles.textRed}>Ver Más</Text>
             </Pressable>
           </View>

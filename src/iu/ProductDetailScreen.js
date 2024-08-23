@@ -5,7 +5,7 @@ import styles from '../styles/styles';
 import CommentModal from './Modals/CommentModal'
 import ProductDescriptionModal from './Modals/ProductDescriptionModal'
 import { getProductById } from '../controller/ProductController';
-
+import Toast from 'react-native-toast-message';
 
 const ProductDetailScreen = ({ route, navigation }) => {
   const { productId } = route.params;
@@ -13,6 +13,27 @@ const ProductDetailScreen = ({ route, navigation }) => {
   const [ModalDescriptionVisible, setModalDescriptionVisible] = useState(false);
   const product = getProductById(productId);
   const [favorite, setFavorite] = useState(product.favorite);
+
+  const handleAddToCart = () => {
+    Toast.show({
+      type: 'success',
+      text1: 'Producto añadido al carrito',
+      text2: '¡Has añadido el producto correctamente!',
+      position: 'bottom',
+    });
+  };
+
+  const handleAddComment = () => {
+    Toast.show({
+      type: 'success',
+      text1: 'Comentario enviado',
+      text2: 'Tu comentario ha sido enviado correctamente',
+      position: 'bottom',
+    });
+    setModalCommentVisible(false);
+  };
+
+
 
   const toggleFavorite = () => {
     setFavorite(!favorite);
@@ -78,20 +99,23 @@ const ProductDetailScreen = ({ route, navigation }) => {
             <Text style={styles.text}>!COMPRAR AHORA¡</Text>
           </Pressable>
         </View>
-        <View style={styles.containerButton} >
-          <Pressable style={styles.button}>
-            <Text style={styles.text}>Añadir al carrito</Text>
-          </Pressable>
+        <View style={styles.containerButton}>
+        <Pressable style={styles.button} onPress={handleAddToCart}>
+          <Text style={styles.text}>Añadir al carrito</Text>
+        </Pressable>
         </View>
  
         <View style={styles.containerButton} >
           <Pressable style={styles.button} onPress={() => setModalCommentVisible(true)}>
             <Text style={styles.text}>Ver Comentarios</Text>
+            <Toast ref={(ref) => Toast.setRef(ref)} />
           </Pressable>
         </View>
       </ScrollView>
       <ProductDescriptionModal modalVisible={ModalDescriptionVisible} setModalVisible={setModalDescriptionVisible} product= {product} />
-      <CommentModal modalVisible={ModalCommentVisible} setModalVisible={setModalCommentVisible} />
+      <CommentModal modalVisible={ModalCommentVisible} setModalVisible={setModalCommentVisible}  onSubmit={handleAddComment} productId={productId} />
+      <Toast ref={(ref) => Toast.setRef(ref)} />
+  
     </SafeAreaView>
 
   );
