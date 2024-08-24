@@ -1,32 +1,39 @@
 import React from "react";
-import { SafeAreaView, View, Text, Pressable } from 'react-native';
+import { SafeAreaView, View, Text, Pressable, ScrollView } from 'react-native';
 import styles from '../styles/styles';
+
 
 const OptionScreen = ({ navigation }) => {
     return (
         <SafeAreaView style={styles.mainBackground}>
-            <View style={styles.container}>
-                <View style={styles.opcions}>
-                    <Pressable onPress={() => navigation.navigate('profile')}>
-                        <Text style={styles.text}>Editar Perfil</Text>
-                    </Pressable>
-                    <Pressable onPress={() => navigation.navigate('buy')}>
-                        <Text style={styles.text}>Mis Compras</Text>
-                    </Pressable>
-                    <Pressable onPress={() => navigation.navigate('myProduct')}>
-                        <Text style={styles.text}>Mis Productos</Text>
-                    </Pressable>
-                    <Pressable onPress={() => navigation.navigate('productSell')}>
-                    <Text style={styles.text}>Vender Productos</Text>
-                    </Pressable>
-                    <Pressable onPress={() => navigation.navigate('help')}>
-                        <Text style={styles.text}>Ayuda</Text>
-                    </Pressable>    
-                    <Pressable onPress={() => navigation.navigate('sesion')}>
-                        <Text style={styles.text}>Cerrar Sesion</Text>
-                    </Pressable>
-                </View>
+
+            <View style={styles.container6}>
+                
+                    <View style={styles.opcions}>
+                    <ScrollView>
+                        <Pressable style={styles.optionButton} onPress={() => navigation.navigate('profile')}>
+                            <Text style={styles.optionButtonText}>Editar Perfil</Text>
+                        </Pressable>
+                        <Pressable style={styles.optionButton} onPress={() => navigation.navigate('myBuys')}>
+                            <Text style={styles.optionButtonText}>Mis Compras</Text>
+                        </Pressable>
+                        <Pressable style={styles.optionButton} onPress={() => navigation.navigate('myProduct')}>
+                            <Text style={styles.optionButtonText}>Mis Productos</Text>
+                        </Pressable>
+                        <Pressable style={styles.optionButton} onPress={() => navigation.navigate('productSell')}>
+                            <Text style={styles.optionButtonText}>Vender Productos</Text>
+                        </Pressable>
+                        <Pressable style={styles.optionButton} onPress={() => navigation.navigate('help')}>
+                            <Text style={styles.optionButtonText}>Ayuda</Text>
+                        </Pressable>
+                        <Pressable style={styles.optionButton} onPress={() => navigation.navigate('sesion')}>
+                            <Text style={styles.optionButtonText}>Cerrar Sesión</Text>
+                        </Pressable>
+                        </ScrollView>
+                    </View>
+               
             </View>
+
         </SafeAreaView>
     );
 }

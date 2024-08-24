@@ -76,6 +76,7 @@ export const getAllFreeShippingProducts = () => {
 
 export const searchProductsByName = (query) => {
   return products.filter(product => 
-    product.name.toLowerCase().includes(query.toLowerCase())
+    product.name.includes(query) ||
+    product.categories.includes(query)
   );
 }
