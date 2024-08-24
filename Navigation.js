@@ -10,7 +10,7 @@ import OptionScreen from "./src/iu/OptionScreen";
 import SesionScreen from "./src/iu/SesionScreen";
 import RegisterScreen from "./src/iu/RegisterScreen";
 import ProfileScreen from "./src/iu/ProfileScreen";
-import BuyScreen from "./src/iu/BuyScreen";
+import MyBuysScreen from "./src/iu/MyBuysScreen";
 import MyProductScreen from "./src/iu/MyProductScreen";
 import ProductSellScreen from "./src/iu/ProductSellScreen";
 import HelpScreen from "./src/iu/HelpScreen";
@@ -19,7 +19,7 @@ import SearchResults from "./src/iu/SearchResultScreen";
 import DiscountedProductScreen from "./src/iu/DiscountedProductScreen";
 import RecommendedProducts from "./src/iu/RecommendedProductsScreen";
 import FreeShippingProductScreen from "./src/iu/FreeShippingProductScreen";
-
+import BuyScreen from "./src/iu/BuyScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -34,7 +34,7 @@ function MainTab() {
             <Tab.Screen name="home" component={Home} options={{ tabBarLabel: "", headerShown: false }} />
             <Tab.Screen name="cart" component={CartScreen} options={{ tabBarBadge: 3, tabBarLabel: "Carrito", headerShown: false }} />
             <Tab.Screen name="favorites" component={FavoriteScreen} options={{ tabBarBadge: 20, tabBarLabel: "Mis Favoritos", headerShown: false }} />
-            <Tab.Screen name="options" component={OptionScreen} options={{ tabBarLabel: "Opciones", headerShown: false }} />
+            <Tab.Screen name="options" component={OptionScreen} options={{ tabBarLabel: "Opciones", headerTitle: "Opciones" }} />
             
         </Tab.Navigator>
     );
@@ -47,7 +47,7 @@ function AppNavigator() {
             <Stack.Screen name="sesion" component={SesionScreen} options={{ headerShown: false }} />
             <Stack.Screen name="register" component={RegisterScreen} options={{ headerShown: false }} />
             <Stack.Screen name="profile" component={ProfileScreen} options={{ headerShown: true , headerTitle:"Mi Perfil"}} />
-            <Stack.Screen name="buy" component={BuyScreen} options={{ headerShown: true , headerTitle:"Mis Compras"}} />
+            <Stack.Screen name="myBuys" component={MyBuysScreen} options={{ headerShown: true , headerTitle:"Mis Compras"}} />
             <Stack.Screen name="myProduct" component={MyProductScreen} options={{ headerShown: true , headerTitle:"Mis Productos"}} />
             <Stack.Screen name="productSell" component={ProductSellScreen} options={{ headerShown: true , headerTitle:"Vender Productos"}} />
             <Stack.Screen name="help" component={HelpScreen} options={{ headerShown: true , headerTitle:"Ayuda"}} />
@@ -56,6 +56,7 @@ function AppNavigator() {
             <Stack.Screen name="discounted" component={DiscountedProductScreen} options={{ tabBarLabel: "Descuentos", headerShown: false }} />
             <Stack.Screen name="recommended" component={RecommendedProducts} options={{ tabBarLabel: "Recomendados", headerShown: false }} />
             <Stack.Screen name="freeShipping" component={FreeShippingProductScreen} options={{ tabBarLabel: "Envio Gratis", headerShown: false }} />
+            <Stack.Screen name="buy" component={BuyScreen} options={{ headerShown: true , headerTitle:"Comprar productos"}} />
         </Stack.Navigator>
     );
 }

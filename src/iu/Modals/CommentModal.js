@@ -3,21 +3,13 @@ import { View, Text, Modal, ScrollView , TextInput,Pressable} from 'react-native
 import styles from '../../styles/styles';
 import { getCommentsByProductId } from '../../controller/CommentController';
 import { getPersonById } from '../../controller/PersonController';
-import Toast from 'react-native-toast-message';
+
 
 
 
 const CommentModal = ({ modalVisible, setModalVisible, onSubmit, productId }) => {
   const comments = getCommentsByProductId(productId);
 
-  const handleAddComment = () => {
-    Toast.show({
-      type: 'success',
-      text1: 'Producto añadido al carrito',
-      text2: '¡Has añadido el producto correctamente!',
-      position: 'bottom',
-    });
-  };
   return (
     <Modal
       animationType="slide"

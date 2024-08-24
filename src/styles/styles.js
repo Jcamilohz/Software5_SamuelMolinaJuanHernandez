@@ -2,9 +2,14 @@
 import tw from 'twrnc';
 
 const styles = {
-  container: tw`flex-1 justify-center items-center bg-white`,
+
   title: tw`text-2xl font-bold text-black`,
   container: tw`flex-1 justify-center items-center bg-lime-200`,
+  container2: tw`flex-1  items-center bg-lime-200`,
+  container3: tw`justify-end items-center bg-lime-200`,
+  container4: tw`flex-1 bg-lime-200`,
+  container5: tw`flex-1 justify-center items-center p-4`,
+  container6: tw`flex-1 justify-center items-center p-4 border-4 border-green-300`,
   text: tw`text-lg text-gray-700`,
   mainBackground: tw`bg-white h-full`,
   containerButton: tw`justify-center items-center w-100% h-10 my-5`,
@@ -21,8 +26,10 @@ const styles = {
   headerTextInputPlaceholder: tw.color('text-slate-400'),
   headerFilterIcon: tw`w-15 h-7`, 
   header2: tw`bg-green-100 w-full h-8 flex-row items-center px-4 justify-between`,
-  opcions: tw`flex-col justify-between items-center px-4  w-100% h-80%`,
-
+  opcions: tw`flex-col justify-between items-center px-4 `,
+  optionButton: tw`bg-lime-400 p-4 rounded-lg mb-4 w-80 shadow-lg`, 
+  optionButtonText: tw`text-lg text-black font-bold text-center`, 
+  opcions: tw`w-full items-center`, 
   filterContainer: tw`w-80 h-40 bg-white rounded-lg justify-center items-center`,
   modalBackground: tw`flex-1 justify-center items-center bg-black bg-opacity-20`,
   modalContainer: tw`w-90% h-90% bg-white p-4 rounded-lg items-center border border-gray-700`,
@@ -41,7 +48,7 @@ const styles = {
   title: tw`text-lg font-bold text-black`,
   productInfo2: tw`flex-1 border border-gray-200 rounded-lg p-4 m-2 mt-0`,
   icon: tw`w-5 h-5`,
-
+  icon2: tw`w-12 h-20 mr-4 border boder-gray-400`,
 
 
   commentContainer: tw`mb-4 p-3 bg-gray-100 rounded-lg`,
@@ -52,11 +59,16 @@ const styles = {
 
   input: tw`w-full p-2 bg-white border border-gray-300 rounded-lg mb-4 text-black`,
 
+  productContainer: tw`relative mb-4`, 
+  removeButton: tw`absolute top-0 right-0 p-2 bg-red-500 rounded-full z-10`, 
+  removeButtonText: tw`text-white font-bold`, 
 
 
 
 
-
+  quantityContainer: tw`flex-row items-center justify-center`,
+  
+  quantityButton: tw`w-10 h-10 justify-center items-center bg-white rounded-lg mx-2`,
 
 
 
@@ -65,10 +77,8 @@ const styles = {
   sectionTitle: tw`text-lg font-bold`,
   viewMore: tw`text-green-600`,
 
-
-
-
-
+  productContainer: tw`border-b border-gray-300 py-4`,
+  productName: tw`text-xl font-bold text-black`,
 
 
 
