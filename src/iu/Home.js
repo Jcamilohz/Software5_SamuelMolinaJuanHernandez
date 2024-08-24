@@ -1,48 +1,111 @@
-import React from 'react';
-import { SafeAreaView, View, Image, TextInput, Text } from 'react-native';
+import React, { useState } from 'react';
+import { SafeAreaView, View, Text, ScrollView, Pressable } from 'react-native';
+import Header from './Header';
+import FilterModal from './Modals/FilterModal';
+import ProductCard from './ProductCardScreen';
+import { getDiscountedProducts, getRecommendedProducts, getFavoriteProducts ,getCardProducts, getFreeShippingProducts} from '../controller/ProductController';
 import styles from '../styles/styles';
 
-const Home=()=>{
+const Home = ({ navigation }) => {
+  const [modalFilterVisible, setModalFilterVisible] = useState(false);
 
+  const discountedProducts = getDiscountedProducts();
+  const recommendedProducts = getRecommendedProducts();
+  const favoriteProducts = getFavoriteProducts();
+  const cardProducts = getCardProducts();
+  const freeShippingProductsProducts = getFreeShippingProducts();
 
-return(
-<SafeAreaView style={styles.mainBackground}>
-      <View style={styles.header}>
-        <Image
-          source={require('../Iconos/IconoCompraYa2SinFondo.png')}
-          style={styles.headerIcon}
-        />
-        
-        <View style={styles.inputContainer}>
-          <Image
-            source={require('../Iconos/lupa.png')}
-            style={styles.headerSearchIcon}
-          />
-          <TextInput
-            style={styles.headerTextInput}
-            placeholder="Buscar un producto"
-            placeholderTextColor={styles.headerTextInputPlaceholder}
-          />
+  return (
+    <SafeAreaView style={styles.mainBackground}>
+      <Header navigation={navigation} onFilterPress={() => setModalFilterVisible(true)} />
+
+      <ScrollView>
+
+        <View style={styles.section}>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.text}>Productos en descuento</Text>
+            <Pressable onPress={() => navigation.navigate('discounted')}> 
+              <Text style={styles.textRed}>Ver Más</Text>
+            </Pressable>
+          </View>
+          {discountedProducts.map(product => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              onPress={() => navigation.navigate('ProductDetail', { productId: product.id })}
+            />
+          ))}
         </View>
-        <Image
-            source={require('../Iconos/filtro.png')}
-            style={styles.headerFilterIcon}
-            resizeMode="contain"
-          />        
-      </View>
-
-      <View style={styles.header2}>
-        <Text style={styles.text}>Direccion
 
 
-        </Text>
-        
-        
-      </View>
-      
+        <View style={styles.section}>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.text}>Recomendados para ti</Text>
+            <Pressable onPress={() => navigation.navigate('recommended')}>
+              <Text style={styles.textRed}>Ver Más</Text>
+            </Pressable>
+          </View>
+          {recommendedProducts.map(product => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              onPress={() => navigation.navigate('ProductDetail', { productId: product.id })}
+            />
+          ))}
+        </View>
+
+        <View style={styles.section}>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.text}>Tus productos en favoritos</Text>
+            <Pressable onPress={() => navigation.navigate('favorites')}>
+              <Text style={styles.textRed}>Ver Más</Text>
+            </Pressable>
+          </View>
+          {favoriteProducts.map(product => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              onPress={() => navigation.navigate('ProductDetail', { productId: product.id })}
+            />
+          ))}
+        </View>
+
+        <View style={styles.section}>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.text}>Productos en tu carrito</Text>
+            <Pressable onPress={() => navigation.navigate('cart')}>
+              <Text style={styles.textRed}>Ver Más</Text>
+            </Pressable>
+          </View>
+          {cardProducts.map(product => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              onPress={() => navigation.navigate('ProductDetail', { productId: product.id })}
+            />
+          ))}
+        </View>
+
+        <View style={styles.section}>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.text}>Productos con envio Gratis</Text>
+            <Pressable onPress={() => navigation.navigate('freeShipping')}>
+              <Text style={styles.textRed}>Ver Más</Text>
+            </Pressable>
+          </View>
+          {freeShippingProductsProducts.map(product => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              onPress={() => navigation.navigate('ProductDetail', { productId: product.id })}
+            />
+          ))}
+        </View>
+      </ScrollView>
+
+      <FilterModal modalVisible={modalFilterVisible} setModalVisible={setModalFilterVisible} />
     </SafeAreaView>
-);
-
+  );
 }
 
 export default Home;

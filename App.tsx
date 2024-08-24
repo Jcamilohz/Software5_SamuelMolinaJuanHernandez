@@ -1,14 +1,12 @@
 import React from 'react';
-import { SafeAreaView, View, Image, TextInput, Text, Button } from 'react-native';
-import styles from './src/styles/styles';
+import Navigation from './Navigation';
+import { enableScreens } from 'react-native-screens';
+enableScreens(); 
 
 function App(): React.JSX.Element {
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header2}>
-         <Button title='App'/>
-      </View>  
-    </SafeAreaView> 
+    <Navigation />
+
   );
 }
 
