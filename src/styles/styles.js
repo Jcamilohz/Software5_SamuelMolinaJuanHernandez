@@ -130,7 +130,7 @@ sesionMainBackground: tw`flex-1 bg-white justify-center items-center`,
   sesionButtonText: tw`text-white text-lg text-center`,
   sesionTextLink: tw`text-green-500 text-center mt-2`,
 
-
+  
 registerMainBackground: tw`flex-1 bg-white justify-center items-center pt-10`, 
 registerScrollView: tw`flex-grow`, 
 registerLogoContainer: tw`mb-8`,  
@@ -141,6 +141,33 @@ registerLabel: tw`text-base text-black mb-2 ml-2`,
 registerInput: tw`h-12 border border-gray-300 rounded-lg mb-3 px-4 bg-white text-black w-full`,
 registerButton: tw`bg-lime-500 px-4 py-2 rounded w-70% justify-center items-center mt-4 mb-10`,  
 registerButtonText: tw`text-white text-lg text-center`, 
+
+
+helpMainBackground: tw`flex-1 bg-white p-4`,
+helpScrollView: tw`flex-grow`,
+helpTitle: tw`text-2xl font-bold text-black mb-4`,
+helpSection: tw`mb-6`,
+helpSectionTitle: tw`text-lg font-bold text-black mb-2`,
+helpTextInput: tw`bg-white border border-gray-300 rounded-lg p-4 text-black h-32`,
+helpButton: tw`bg-lime-500 px-4 py-2 rounded w-full justify-center items-center`,
+helpButtonText: tw`text-white text-lg text-center`,
+helpOptionContainer: tw`p-4 bg-white rounded-lg shadow mb-4`,
+helpOptionText: tw`text-lg font-bold text-black`,
+helpOptionDescription: tw`text-sm text-gray-600`,
+helpContactContainer: tw`mt-8 p-4 bg-white rounded-lg shadow`,
+helpContactText: tw`text-lg font-bold text-black text-center`,
+helpContactLink: tw`text-sm text-blue-500 text-center`,
+
+profileMainBackground: tw`flex-1 bg-white`,
+profileScrollView: tw`flex-grow justify-center items-center p-6`, 
+profileContainer: tw`justify-center items-center w-full`, 
+profileTitle: tw`text-2xl font-bold text-black mb-6 text-center`, 
+profileImage: tw`w-40 h-40 rounded-full mb-6 border-4 border-gray-300`,
+profileLabel: tw`text-lg font-bold text-gray-700 mb-1 text-center`, 
+profileText: tw`text-lg text-black mb-4 text-center`,
+profileButton: tw`bg-lime-500 px-4 py-2 rounded mt-6 w-3/4`, 
+profileButtonText: tw`text-white text-lg text-center`,
+
 
 
 

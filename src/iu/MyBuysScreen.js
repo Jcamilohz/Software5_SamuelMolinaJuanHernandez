@@ -9,7 +9,7 @@ const MyBuysScreen = ({ navigation }) => {
     return (
         <SafeAreaView style={styles.mainBackground}>
             <View style={styles.container5}>
-                <Text style={styles.text}>Compras hechas o ver su recorrido</Text>
+                <Text style={styles.text}>Compras hechas o ver su recorrido </Text>
                 <ScrollView>
                     {paidProducts.length > 0 ? (
                         paidProducts.map(product => (

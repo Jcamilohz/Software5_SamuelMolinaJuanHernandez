@@ -1,7 +1,8 @@
 const personData = [
     {
       id: 1,
-      name: 'Pepe Perez',
+      name: 'Pepe',
+      lastName: 'Perez',
       userName: 'PepePerez0',
       password: 'pepeP@12',
       mail : 'perezpepe@gmail.com' ,
