@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 import { SafeAreaView, View, Text, Pressable,Modal } from 'react-native';
 import styles from '../styles/styles';
 import ProductCard from './ProductCardScreen';
-import { getProductById } from '../controller/ProductController';
+import productData from "../data/ProductData";
 import PaymentModal from "./Modals/PaymentModal";
 import Toast from 'react-native-toast-message';
 
 import { ScrollView } from "react-native-gesture-handler";
 const BuyScreen = ({ route }) => {
     const { productId } = route.params;
-    const product = getProductById(productId);
+    const product = productData.find(product => product.id === productId);
     const [quantity, setQuantity] = useState(1);
     const [totalPrice, setTotalPrice] = useState(product.discount > 0 ? product.discountPrice : product.price);
     const [ModalPaymentVisible, setModalPaymentVisible] = useState(false);

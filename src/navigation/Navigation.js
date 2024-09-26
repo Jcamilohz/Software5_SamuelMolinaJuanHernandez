@@ -3,30 +3,26 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import Toast from 'react-native-toast-message';
-import Home from "./src/iu/Home";
-import CartScreen from "./src/iu/CartScreen";
-import FavoriteScreen from "./src/iu/FavoriteScreen";
-import OptionScreen from "./src/iu/OptionScreen";
-import SesionScreen from "./src/iu/SesionScreen";
-import RegisterScreen from "./src/iu/RegisterScreen";
-import ProfileScreen from "./src/iu/ProfileScreen";
-import MyBuysScreen from "./src/iu/MyBuysScreen";
-import MyProductScreen from "./src/iu/MyProductScreen";
-import ProductSellScreen from "./src/iu/ProductSellScreen";
-import HelpScreen from "./src/iu/HelpScreen";
-import ProductDetailScreen from "./src/iu/ProductDetailScreen";
-import SearchResults from "./src/iu/SearchResultScreen";
-import DiscountedProductScreen from "./src/iu/DiscountedProductScreen";
-import RecommendedProducts from "./src/iu/RecommendedProductsScreen";
-import FreeShippingProductScreen from "./src/iu/FreeShippingProductScreen";
-import BuyScreen from "./src/iu/BuyScreen";
+import Home from "../iu/Home";
+import CartScreen from "../iu/CartScreen";
+import FavoriteScreen from "../iu/FavoriteScreen";
+import OptionScreen from "../iu/OptionScreen";
+import SesionScreen from "../iu/SesionScreen";
+import RegisterScreen from "../iu/RegisterScreen";
+import ProfileScreen from "../iu/ProfileScreen";
+import MyBuysScreen from "../iu/MyBuysScreen";
+import MyProductScreen from "../iu/MyProductScreen";
+import ProductSellScreen from "../iu/ProductSellScreen";
+import HelpScreen from "../iu/HelpScreen";
+import ProductDetailScreen from "../iu/ProductDetailScreen";
+import SearchResults from "../iu/SearchResultScreen";
+import DiscountedProductScreen from "../iu/DiscountedProductScreen";
+import RecommendedProducts from "../iu/RecommendedProductsScreen";
+import FreeShippingProductScreen from "../iu/FreeShippingProductScreen";
+import BuyScreen from "../iu/BuyScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
-
-
-
-
 
 function MainTab() {
     return (
@@ -35,7 +31,6 @@ function MainTab() {
             <Tab.Screen name="cart" component={CartScreen} options={{ tabBarBadge: 3, tabBarLabel: "Carrito", headerShown: false }} />
             <Tab.Screen name="favorites" component={FavoriteScreen} options={{ tabBarBadge: 20, tabBarLabel: "Mis Favoritos", headerShown: false }} />
             <Tab.Screen name="options" component={OptionScreen} options={{ tabBarLabel: "Opciones", headerTitle: "Opciones" }} />
-            
         </Tab.Navigator>
     );
 }

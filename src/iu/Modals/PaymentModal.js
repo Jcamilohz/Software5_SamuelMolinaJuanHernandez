@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, Modal, TextInput, Pressable, Image, ScrollView } from 'react-native';
 import styles from '../../styles/styles';
-import { getPersonById } from '../../controller/PersonController';
+import personData from '../../data/PersonData';
 
 const PaymentModal = ({ modalVisible, setModalVisible, onSubmit }) => {
-    const person = getPersonById(1);
+    const getPersonById = personData.find(person => person.id === 1);
     const [paymentMethod, setPaymentMethod] = useState(null);
 
     const handlePaymentMethodChange = (method) => {
@@ -25,9 +25,9 @@ const PaymentModal = ({ modalVisible, setModalVisible, onSubmit }) => {
                     <ScrollView>
                         <Text style={styles.title}>Finalizar Compra</Text>
                         <Text style={styles.text}>Dirección de Entrega:</Text>
-                        <Text style={styles.text}>{person.adress}</Text>
-                        <Text style={styles.text}>{person.city}, {person.departament}</Text>
-                        <Text style={styles.text}>{person.country}</Text>
+                        <Text style={styles.text}>{getPersonById.adress}</Text>
+                        <Text style={styles.text}>{getPersonById.city}, {getPersonById.departament}</Text>
+                        <Text style={styles.text}>{getPersonById.country}</Text>
 
                         <Text style={styles.text}>Selecciona un método de pago:</Text>
                         <View style={styles.sectionHeader}>

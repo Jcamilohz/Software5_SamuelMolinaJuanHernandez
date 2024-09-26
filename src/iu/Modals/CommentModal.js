@@ -1,14 +1,13 @@
 import React from 'react';
-import { View, Text, Modal, ScrollView , TextInput,Pressable} from 'react-native';
+import { View, Text, Modal, ScrollView, TextInput, Pressable } from 'react-native';
 import styles from '../../styles/styles';
-import { getCommentsByProductId } from '../../controller/CommentController';
-import { getPersonById } from '../../controller/PersonController';
-
-
+import commentData from '../../data/CommentData';
+import personData from '../../data/PersonData'; 
 
 
 const CommentModal = ({ modalVisible, setModalVisible, onSubmit, productId }) => {
-  const comments = getCommentsByProductId(productId);
+  const comments = commentData.filter(comment => comment.productId === productId);
+  const getPersonById = (personId) => personData.find(person => person.id === personId);
 
   return (
     <Modal
@@ -25,7 +24,7 @@ const CommentModal = ({ modalVisible, setModalVisible, onSubmit, productId }) =>
           <ScrollView>
             {comments.length > 0 ? (
               comments.map(comment => {
-                const person = getPersonById(comment.personId);
+                const person = getPersonById(comment.personId); 
                 return (
                   <View key={comment.id} style={styles.commentContainer}>
                     <Text style={styles.text}>{person.name} ({comment.commentDate})</Text>
@@ -38,9 +37,18 @@ const CommentModal = ({ modalVisible, setModalVisible, onSubmit, productId }) =>
               <Text style={styles.textSmall}>No hay comentarios disponibles.</Text>
             )}
           </ScrollView>
-          <TextInput style={styles.input} placeholder="Escribe tu comentario..." placeholderTextColor={styles.headerTextInputPlaceholder}  />
-          <TextInput style={styles.input} placeholder="Calificación (1-5)" keyboardType="numeric" placeholderTextColor={styles.headerTextInputPlaceholder}/>
-          <Pressable style={styles.button} onPress={() => {setModalVisible(false); onSubmit()}} >
+          <TextInput 
+            style={styles.input} 
+            placeholder="Escribe tu comentario..." 
+            placeholderTextColor={styles.headerTextInputPlaceholder}  
+          />
+          <TextInput 
+            style={styles.input} 
+            placeholder="Calificación (1-5)" 
+            keyboardType="numeric" 
+            placeholderTextColor={styles.headerTextInputPlaceholder}
+          />
+          <Pressable style={styles.button} onPress={() => { setModalVisible(false); onSubmit(); }} >
             <Text style={styles.text}>Enviar Comentario</Text>
           </Pressable>
         </View>
@@ -50,4 +58,3 @@ const CommentModal = ({ modalVisible, setModalVisible, onSubmit, productId }) =>
 };
 
 export default CommentModal;
-

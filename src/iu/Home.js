@@ -3,17 +3,18 @@ import { SafeAreaView, View, Text, ScrollView, Pressable } from 'react-native';
 import Header from './Header';
 import FilterModal from './Modals/FilterModal';
 import ProductCard from './ProductCardScreen';
-import { getDiscountedProducts, getRecommendedProducts, getFavoriteProducts ,getCardProducts, getFreeShippingProducts} from '../controller/ProductController';
+import productData from '../data/ProductData';
 import styles from '../styles/styles';
+
 
 const Home = ({ navigation }) => {
   const [modalFilterVisible, setModalFilterVisible] = useState(false);
 
-  const discountedProducts = getDiscountedProducts();
-  const recommendedProducts = getRecommendedProducts();
-  const favoriteProducts = getFavoriteProducts();
-  const cardProducts = getCardProducts();
-  const freeShippingProductsProducts = getFreeShippingProducts();
+  const discountedProducts = productData.filter(product => product.discount > 1).slice(0, 5);
+  const recommendedProducts = productData.filter(product => product.recommended === true).slice(0, 5);
+  const favoriteProducts = productData.filter(product => product.favorite === true).slice(0, 5); 
+  const cardProducts = productData.filter(product => product.card === true).slice(0, 5);
+  const freeShippingProductsProducts = productData.filter(product => product.freeShipping === true).slice(0, 5);
 
   return (
     <SafeAreaView style={styles.mainBackground}>

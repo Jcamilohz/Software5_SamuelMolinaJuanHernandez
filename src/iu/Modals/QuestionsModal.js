@@ -1,14 +1,14 @@
 import React from 'react';
 import { View, Text, Modal, ScrollView , TextInput,Pressable} from 'react-native';
 import styles from '../../styles/styles';
-import { getQuestionByProductId } from '../../controller/QuestionController';
-import { getPersonById } from '../../controller/PersonController';
-
+import questionData from '../../data/QuestionData';
+import personData from '../../data/PersonData';
 
 
 
 const QuestionModal = ({ modalVisible, setModalVisible, onSubmit, productId }) => {
-  const questions = getQuestionByProductId(productId);
+  const questions = questionData.filter(question => question.productId === productId);
+  const getPersonById = (personId) => personData.find(person => person.id === personId); 
 
   return (
     <Modal

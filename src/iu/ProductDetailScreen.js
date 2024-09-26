@@ -5,7 +5,7 @@ import styles from '../styles/styles';
 import CommentModal from './Modals/CommentModal'
 import ProductDescriptionModal from './Modals/ProductDescriptionModal'
 import QuestionModal from './Modals/QuestionsModal'
-import { getProductById } from '../controller/ProductController';
+import productData from '../data/ProductData';
 import Toast from 'react-native-toast-message';
 
 const ProductDetailScreen = ({ route, navigation }) => {
@@ -13,7 +13,7 @@ const ProductDetailScreen = ({ route, navigation }) => {
   const [ModalCommentVisible, setModalCommentVisible] = useState(false);
   const [ModalDescriptionVisible, setModalDescriptionVisible] = useState(false);
   const [ModalQuestionVisible, setModalQuestionVisible] = useState(false);
-  const product = getProductById(productId);
+  const product = productData.find(product => product.id === productId);
   const [favorite, setFavorite] = useState(product.favorite);
  
 

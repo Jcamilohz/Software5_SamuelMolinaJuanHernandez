@@ -1,13 +1,21 @@
 import React from "react";
 import { SafeAreaView, View, Text, ScrollView, Pressable } from 'react-native';
 import styles from '../styles/styles';
-import { getAllCardProducts, getTotalCartPrice } from '../controller/ProductController';
+import productData from "../data/ProductData";
 import ProductCard from "./ProductCardScreen";
 import Toast from 'react-native-toast-message';
 
 const CartScreen = ({ navigation }) => {
-    const cardProducts = getAllCardProducts();
-    const totalCartPrice = getTotalCartPrice();
+    const cardProducts = productData.filter(product => product.card === true);
+
+    const totalCartPrice = cardProducts.reduce((total, product) => {
+        const productPrice = product.discount > 0 ? product.discountPrice : product.price;
+        const shippingCost = product.shippingCost;
+    
+        return total + productPrice + shippingCost;
+    }, 0);
+    
+
 
     const handleRemoveProduct = (productId) => {
         Toast.show({
