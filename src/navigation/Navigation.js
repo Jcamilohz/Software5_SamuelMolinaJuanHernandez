@@ -1,25 +1,26 @@
 import React from "react";
+import { Image } from 'react-native';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import Toast from 'react-native-toast-message';
-import Home from "../iu/Home";
-import CartScreen from "../iu/CartScreen";
-import FavoriteScreen from "../iu/FavoriteScreen";
-import OptionScreen from "../iu/OptionScreen";
-import SesionScreen from "../iu/SesionScreen";
-import RegisterScreen from "../iu/RegisterScreen";
-import ProfileScreen from "../iu/ProfileScreen";
-import MyBuysScreen from "../iu/MyBuysScreen";
-import MyProductScreen from "../iu/MyProductScreen";
-import ProductSellScreen from "../iu/ProductSellScreen";
-import HelpScreen from "../iu/HelpScreen";
-import ProductDetailScreen from "../iu/ProductDetailScreen";
-import SearchResults from "../iu/SearchResultScreen";
-import DiscountedProductScreen from "../iu/DiscountedProductScreen";
-import RecommendedProducts from "../iu/RecommendedProductsScreen";
-import FreeShippingProductScreen from "../iu/FreeShippingProductScreen";
-import BuyScreen from "../iu/BuyScreen";
+import Home from "../iu/Screens/SectionScreen";
+import CartScreen from "../iu/Screens/CartScreen";
+import FavoriteScreen from "../iu/Screens/FavoriteScreen";
+import OptionScreen from "../iu/Screens/OptionScreen";
+import SesionScreen from "../iu/Screens/SesionScreen";
+import RegisterScreen from "../iu/Screens/RegisterScreen";
+import ProfileScreen from "../iu/Screens/ProfileScreen";
+import MyBuysScreen from "../iu/Screens/MyBuysScreen";
+import MyProductScreen from "../iu/Screens/MyProductScreen";
+import ProductSellScreen from "../iu/Screens/ProductSellScreen";
+import HelpScreen from "../iu/Screens/HelpScreen";
+import ProductDetailScreen from "../iu/Screens/ProductDetailScreen";
+import SearchResults from "../iu/Screens/SearchResultScreen";
+import DiscountedProductScreen from "../iu/Screens/DiscountedProductScreen";
+import RecommendedProducts from "../iu/Screens/RecommendedProductsScreen";
+import FreeShippingProductScreen from "../iu/Screens/FreeShippingProductScreen";
+import BuyScreen from "../iu/Screens/BuyScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -27,10 +28,10 @@ const Stack = createStackNavigator();
 function MainTab() {
     return (
         <Tab.Navigator initialRouteName="home" >
-            <Tab.Screen name="home" component={Home} options={{ tabBarLabel: "", headerShown: false }} />
-            <Tab.Screen name="cart" component={CartScreen} options={{ tabBarBadge: 3, tabBarLabel: "Carrito", headerShown: false }} />
-            <Tab.Screen name="favorites" component={FavoriteScreen} options={{ tabBarBadge: 20, tabBarLabel: "Mis Favoritos", headerShown: false }} />
-            <Tab.Screen name="options" component={OptionScreen} options={{ tabBarLabel: "Opciones", headerTitle: "Opciones" }} />
+            <Tab.Screen name="home" component={Home} options={{ tabBarLabel: "", headerShown: false ,tabBarIcon: () => ( <Image source={require('../Iconos/casa.png')} style={{ width: 24, height: 24 }}/> )}} />
+            <Tab.Screen name="cart" component={CartScreen} options={{ tabBarBadge: 3, tabBarLabel: "Carrito", headerShown: false ,tabBarIcon: () => ( <Image source={require('../Iconos/carrito-de-compras.png')} style={{ width: 24, height: 24 }}/> )}} />
+            <Tab.Screen name="favorites" component={FavoriteScreen} options={{ tabBarBadge: 20, tabBarLabel: "Mis Favoritos", headerShown: false,tabBarIcon: () => ( <Image source={require('../Iconos/favorito.png')} style={{ width: 24, height: 24 }}/> )}} /> 
+            <Tab.Screen name="options" component={OptionScreen} options={{ tabBarLabel: "Opciones", headerTitle: "Opciones",tabBarIcon: () => ( <Image source={require('../Iconos/lista-de-opciones.png')} style={{ width: 24, height: 24 }}/> )}} />
         </Tab.Navigator>
     );
 }

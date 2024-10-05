@@ -4,7 +4,6 @@ import styles from '../../styles/styles';
 import commentData from '../../data/CommentData';
 import personData from '../../data/PersonData'; 
 
-
 const CommentModal = ({ modalVisible, setModalVisible, onSubmit, productId }) => {
   const comments = commentData.filter(comment => comment.productId === productId);
   const getPersonById = (personId) => personData.find(person => person.id === personId);
@@ -14,13 +13,11 @@ const CommentModal = ({ modalVisible, setModalVisible, onSubmit, productId }) =>
       animationType="slide"
       transparent={true}
       visible={modalVisible}
-      onRequestClose={() => {
-        setModalVisible(!modalVisible);
-      }}
+      onRequestClose={() => setModalVisible(!modalVisible)}
     >
-      <View style={styles.modalBackground}>
-        <View style={styles.modalContainer}>
-          <Text style={styles.text}>Comentarios</Text>
+      <View style={styles.modalBackgroundmfp}>
+        <View style={styles.modalContainermfp}>
+          <Text style={styles.modalTitlemfp}>Comentarios</Text>
           <ScrollView>
             {comments.length > 0 ? (
               comments.map(comment => {
@@ -48,8 +45,11 @@ const CommentModal = ({ modalVisible, setModalVisible, onSubmit, productId }) =>
             keyboardType="numeric" 
             placeholderTextColor={styles.headerTextInputPlaceholder}
           />
-          <Pressable style={styles.button} onPress={() => { setModalVisible(false); onSubmit(); }} >
+          <Pressable style={styles.button} onPress={() => { setModalVisible(false); onSubmit && onSubmit(); }} >
             <Text style={styles.text}>Enviar Comentario</Text>
+          </Pressable>
+          <Pressable style={styles.modalCloseButtonmfp} onPress={() => setModalVisible(false)}>
+            <Text style={styles.modalCloseButtonTextmfp}>Cerrar</Text>
           </Pressable>
         </View>
       </View>

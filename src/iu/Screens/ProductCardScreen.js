@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, Image, Pressable } from 'react-native';
-import styles from '../styles/styles';
+import styles from '../../styles/styles';
 
 const ProductCard = ({ product, onPress }) => {
   return (

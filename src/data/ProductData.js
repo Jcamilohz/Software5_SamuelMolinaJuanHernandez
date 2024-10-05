@@ -13,6 +13,7 @@ const productData = [
     card: false,
     stock: 40,
     categories: ['Tecnología', 'Computación', 'Portátiles', 'Electrónica', 'Oficina'],
+    sellerId:1,
     description: {
       trademark: 'Hp',
       storageSpace: '1 terabyte',
@@ -38,6 +39,7 @@ const productData = [
     favorite: false,
     card: false,
     stock: 25,
+    sellerId:1,
     categories: ['Tecnología', 'Computación', 'Portátiles', 'Electrónica', 'Trabajo'],
     description: {
       trademark: 'Dell',
@@ -64,6 +66,7 @@ const productData = [
     favorite: true,
     card: false,
     stock: 120,
+    sellerId:1,
     categories: ['Moda', 'Hombres', 'Ropa', 'Casual', 'Oficina'],
     description: {
       brand: 'Levi\'s',
