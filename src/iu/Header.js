@@ -1,8 +1,18 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Image, TextInput, Pressable, Text } from 'react-native';
 import styles from '../styles/styles';
+import personData from '../data/PersonData';
 
 const Header = ({ navigation, onFilterPress }) => {
+  const [userAddress, setUserAddress] = useState('');
+
+  useEffect(() => {
+    const person = personData.find(person => person.id === 1);
+    if (person) {
+      setUserAddress(`${person.adress}, ${person.city}`);
+    }
+  }, []);
+
   return (
     <View>
       <View style={styles.header}>
@@ -35,11 +45,10 @@ const Header = ({ navigation, onFilterPress }) => {
       </View>
 
       <View style={styles.header2}>
-        <Text style={styles.text}>Dirección</Text>
-        <Text style={styles.text}>Eliminar Filtro</Text>
+        <Text style={styles.text2}>{userAddress}</Text>
       </View>
     </View>
   );
-}
+};
 
 export default Header;

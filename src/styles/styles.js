@@ -19,17 +19,17 @@ const styles = {
   textRed: tw`text-red-500`,
   textSmall: tw`text-sm text-gray-500`,
   header: tw`bg-lime-400 w-full h-15 flex-row items-center px-4`,
-  headerIcon: tw`w-12 h-20 mr-4`, 
+  headerIcon: tw`w-12 h-20 mr-4`,
   inputContainer: tw`flex-1 flex-row items-center h-10 bg-white border border-gray-700 rounded-lg px-3`,
-  headerSearchIcon: tw`w-4 h-4 mr-2`, 
-  headerTextInput: tw`flex-1 text-black`, 
+  headerSearchIcon: tw`w-4 h-4 mr-2`,
+  headerTextInput: tw`flex-1 text-black`,
   headerTextInputPlaceholder: tw.color('text-slate-400'),
-  headerFilterIcon: tw`w-15 h-7`, 
+  headerFilterIcon: tw`w-15 h-7`,
   header2: tw`bg-green-100 w-full h-8 flex-row items-center px-4 justify-between`,
   opcions: tw`flex-col justify-between items-center px-4 `,
-  optionButton: tw`bg-lime-400 p-4 rounded-lg mb-4 w-80 shadow-lg`, 
-  optionButtonText: tw`text-lg text-black font-bold text-center`, 
-  opcions: tw`w-full items-center`, 
+  optionButton: tw`bg-lime-400 p-4 rounded-lg mb-4 w-80 shadow-lg`,
+  optionButtonText: tw`text-lg text-black font-bold text-center`,
+  opcions: tw`w-full items-center`,
   filterContainer: tw`w-80 h-40 bg-white rounded-lg justify-center items-center`,
   modalBackground: tw`flex-1 justify-center items-center bg-black bg-opacity-20`,
   modalContainer: tw`w-90% h-90% bg-white p-4 rounded-lg items-center border border-gray-700`,
@@ -59,15 +59,15 @@ const styles = {
 
   input: tw`w-full p-2 bg-white border border-gray-300 rounded-lg mb-4 text-black`,
 
-  productContainer: tw`relative mb-4`, 
-  removeButton: tw`absolute top-0 right-0 p-2 bg-red-500 rounded-full z-10`, 
-  removeButtonText: tw`text-white font-bold`, 
+  productContainer: tw`relative mb-4`,
+  removeButton: tw`absolute top-0 right-0 p-2 bg-red-500 rounded-full z-10`,
+  removeButtonText: tw`text-white font-bold`,
 
 
 
 
   quantityContainer: tw`flex-row items-center justify-center`,
-  
+
   quantityButton: tw`w-10 h-10 justify-center items-center bg-white rounded-lg mx-2`,
 
 
@@ -80,48 +80,9 @@ const styles = {
   productContainer: tw`border-b border-gray-300 py-4`,
   productName: tw`text-xl font-bold text-black`,
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-///
-sesionMainBackground: tw`flex-1 bg-white justify-center items-center`,
-  sesionLogoContainer: tw`mb-10`, 
-  sesionLogo: tw`w-50 h-50`,  
+  sesionMainBackground: tw`flex-1 bg-white justify-center items-center`,
+  sesionLogoContainer: tw`mb-10`,
+  sesionLogo: tw`w-50 h-50`,
   sesionInstructionText: tw`text-lg mb-5 text-black text-center`,
   sesionInputWrapper: tw`w-4/5 mb-5`,
   sesionLabel: tw`text-base text-black mb-2 ml-2`,
@@ -130,59 +91,144 @@ sesionMainBackground: tw`flex-1 bg-white justify-center items-center`,
   sesionButtonText: tw`text-white text-lg text-center`,
   sesionTextLink: tw`text-green-500 text-center mt-2`,
 
-  
-registerMainBackground: tw`flex-1 bg-white justify-center items-center pt-10`, 
-registerScrollView: tw`flex-grow`, 
-registerLogoContainer: tw`mb-8`,  
-registerLogo: tw`w-50 h-50`,  
-registerInstructionText: tw`text-lg mb-4 text-black text-center`,  
-registerInputWrapper: tw`w-full px-10 mb-4`,  
-registerLabel: tw`text-base text-black mb-2 ml-2`,  
-registerInput: tw`h-12 border border-gray-300 rounded-lg mb-3 px-4 bg-white text-black w-full`,
-registerButton: tw`bg-lime-500 px-4 py-2 rounded w-70% justify-center items-center mt-4 mb-10`,  
-registerButtonText: tw`text-white text-lg text-center`, 
+
+  registerMainBackground: tw`flex-1 bg-white justify-center items-center pt-10`,
+  registerScrollView: tw`flex-grow`,
+  registerLogoContainer: tw`mb-8`,
+  registerLogo: tw`w-50 h-50`,
+  registerInstructionText: tw`text-lg mb-4 text-black text-center`,
+  registerInputWrapper: tw`w-full px-10 mb-4`,
+  registerLabel: tw`text-base text-black mb-2 ml-2`,
+  registerInput: tw`h-12 border border-gray-300 rounded-lg mb-3 px-4 bg-white text-black w-full`,
+  registerButton: tw`bg-lime-500 px-4 py-2 rounded w-70% justify-center items-center mt-4 mb-10`,
+  registerButtonText: tw`text-white text-lg text-center`,
 
 
-helpMainBackground: tw`flex-1 bg-white p-4`,
-helpScrollView: tw`flex-grow`,
-helpTitle: tw`text-2xl font-bold text-black mb-4`,
-helpSection: tw`mb-6`,
-helpSectionTitle: tw`text-lg font-bold text-black mb-2`,
-helpTextInput: tw`bg-white border border-gray-300 rounded-lg p-4 text-black h-32`,
-helpButton: tw`bg-lime-500 px-4 py-2 rounded w-full justify-center items-center`,
-helpButtonText: tw`text-white text-lg text-center`,
-helpOptionContainer: tw`p-4 bg-white rounded-lg shadow mb-4`,
-helpOptionText: tw`text-lg font-bold text-black`,
-helpOptionDescription: tw`text-sm text-gray-600`,
-helpContactContainer: tw`mt-8 p-4 bg-white rounded-lg shadow`,
-helpContactText: tw`text-lg font-bold text-black text-center`,
-helpContactLink: tw`text-sm text-blue-500 text-center`,
+  helpMainBackground: tw`flex-1 bg-white p-4`,
+  helpScrollView: tw`flex-grow`,
+  helpTitle: tw`text-2xl font-bold text-black mb-4`,
+  helpSection: tw`mb-6`,
+  helpSectionTitle: tw`text-lg font-bold text-black mb-2`,
+  helpTextInput: tw`bg-white border border-gray-300 rounded-lg p-4 text-black h-32`,
+  helpButton: tw`bg-lime-500 px-4 py-2 rounded w-full justify-center items-center`,
+  helpButtonText: tw`text-white text-lg text-center`,
+  helpOptionContainer: tw`p-4 bg-white rounded-lg shadow mb-4`,
+  helpOptionText: tw`text-lg font-bold text-black`,
+  helpOptionDescription: tw`text-sm text-gray-600`,
+  helpContactContainer: tw`mt-8 p-4 bg-white rounded-lg shadow`,
+  helpContactText: tw`text-lg font-bold text-black text-center`,
+  helpContactLink: tw`text-sm text-blue-500 text-center`,
 
-profileMainBackground: tw`flex-1 bg-white`,
-profileScrollView: tw`flex-grow justify-center items-center p-6`, 
-profileContainer: tw`justify-center items-center w-full`, 
-profileTitle: tw`text-2xl font-bold text-black mb-6 text-center`, 
-profileImage: tw`w-40 h-40 rounded-full mb-6 border-4 border-gray-300`,
-profileLabel: tw`text-lg font-bold text-gray-700 mb-1 text-center`, 
-profileText: tw`text-lg text-black mb-4 text-center`,
-profileButton: tw`bg-lime-500 px-4 py-2 rounded mt-6 w-3/4`, 
-profileButtonText: tw`text-white text-lg text-center`,
-
-
+  profileMainBackground: tw`flex-1 bg-white`,
+  profileScrollView: tw`flex-grow justify-center items-center p-6`,
+  profileContainer: tw`justify-center items-center w-full`,
+  profileTitle: tw`text-2xl font-bold text-black mb-6 text-center`,
+  profileImage: tw`w-40 h-40 rounded-full mb-6 border-4 border-gray-300`,
+  profileLabel: tw`text-lg font-bold text-gray-700 mb-1 text-center`,
+  profileText: tw`text-lg text-black mb-4 text-center`,
+  profileButton: tw`bg-lime-500 px-4 py-2 rounded mt-6 w-3/4`,
+  profileButtonText: tw`text-white text-lg text-center`,
 
 
+  productListContainer1: tw`p-4 bg-gray-100`,
+  headerTitle1: tw`text-3xl font-bold text-black mb-4`,
+  productCardContainer1: tw`bg-white p-4 mb-4 border border-gray-300 rounded-lg`,
+  productImage1: tw`w-full h-40 mb-4`,
+  productInfoContainer1: tw`mb-4`,
+  productName1: tw`text-xl font-bold text-black mb-2`,
+  productPrice1: tw`text-lg text-gray-700`,
+  productStock1: tw`text-sm text-gray-500`,
+  actionButton1: tw`bg-lime-500 px-4 py-2 rounded-lg mb-2 w-full items-center`,
+  buttonText1: tw`text-white text-center`,
+  noProductsText1: tw`text-lg text-gray-500 text-center mt-10`,
 
 
+  stepsContainer1: tw`flex-row justify-between items-center mt-4`,
+  stepWrapper1: tw`flex-col items-center flex-1`,  
+  stepCircle1: tw`w-8 h-8 border-2 border-gray-300 rounded-full bg-white mb-2`,
+  stepCircleActive1: tw`border-lime-500 bg-lime-500`,
+  stepLabel1: tw`text-xs text-gray-500 text-center h-10`, 
+  stepLabelActive1: tw`text-lime-500 font-bold h-10`, 
+  formContainer1: tw`p-4 bg-white flex-1`, 
+  headerTitle1: tw`text-3xl font-bold text-black mb-6`,
+  inputField1: tw`border border-gray-300 rounded-lg p-2 mb-4 text-black`,
+  imagePicker1: tw`bg-lime-500 px-4 py-2 rounded-lg mb-4 w-full items-center`,
+  selectedImage1: tw`w-full h-40 mb-4`,
+  actionButton1: tw`bg-lime-500 px-4 py-2 rounded-lg mb-2 w-full items-center`,
+  buttonText1: tw`text-white text-center`,
+  noProductsText1: tw`text-lg text-gray-500 text-center mt-10`,
 
+  fullContainer: tw`flex-1 p-4 bg-gray-100`,  
+  headerTitle1: tw`text-3xl font-bold text-black mb-6`,  
+  label1: tw`text-lg font-bold text-gray-700 mb-2`,  
+  input1: tw`bg-white border border-gray-300 rounded-lg mb-4 px-4 py-2 text-black`,  
+  picker1: tw`bg-white border border-gray-300 rounded-lg mb-4 text-black`,  
+  pickerWrapper: tw`bg-white border border-gray-300 rounded-lg mb-4`,  
+  descriptionInput1: tw`bg-white border border-gray-300 rounded-lg mb-4 px-4 py-2 text-black h-24`,  
+  actionButton1: tw`bg-lime-500 px-4 py-3 rounded-lg w-full items-center mt-4`,  
+  buttonText1: tw`text-white text-lg text-center`,
+  addButton: tw`bg-lime-500 px-4 py-2 rounded-lg mb-4 w-full items-center`,
+  addButtonText: tw`text-white text-lg text-center`,
+  containerPadding: tw`p-4`,
 
+  modalBackgroundmfp: tw`flex-1 justify-center items-center bg-black bg-opacity-50`,
+  modalContainermfp: tw`bg-white p-6 rounded-lg w-11/12 max-w-md shadow-lg`,
+  modalTitlemfp: tw`text-2xl font-bold text-black mb-4 text-center`,
+  modalInputmfp: tw`bg-gray-100 border border-gray-300 rounded-lg mb-4 px-4 py-2 text-black`,
+  modalButtonmfp: tw`bg-lime-500 px-4 py-3 rounded-lg w-full items-center mt-4`,
+  modalButtonTextmfp: tw`text-white text-lg text-center`,
+  modalCloseButtonmfp: tw`absolute top-2 right-2 p-2 bg-red-500 rounded-full`,
+  modalCloseButtonTextmfp: tw`text-white text-lg text-center`,
+  modalDescriptionTextmfp: tw`text-lg text-gray-600 text-center mb-4`,
+  pickerWrapper: tw`border border-gray-300 rounded-lg mb-4 px-4`,
+  picker: tw`text-black`, 
+  filterOption: tw`flex-row justify-start items-center mb-2`,
+  filterOptionText: tw`text-lg text-black`,
+  label: tw`text-base font-bold text-gray-600 mb-2`,
+  addButton: tw`bg-lime-500 px-4 py-3 rounded-lg w-full items-center mt-4`,
+  addButtonText: tw`text-white text-lg text-center`, 
+  text2: tw`text-sm text-gray-500`,
 
+  scrollContentContainer: tw`flex-grow`,
+  buttonContainer1: tw`flex-row justify-between mt-4`,
+  modalButtonmfp1: tw`bg-lime-500 px-4 py-3 rounded-lg w-5/12 items-center`,
+  modalResetButtonmfp1: tw`bg-red-500 px-4 py-3 rounded-lg w-5/12 items-center`,
+  modalButtonTextmfp1: tw`text-white text-lg text-center`,
+  modalResetButtonTextmfp1: tw`text-white text-lg text-center`,
 
+  sectionPdS: tw`mb-4 p-4 bg-gray-100 rounded-lg`,
+  sectionTitlePdS: tw`text-lg font-bold text-black mb-2`,
+  textPdS: tw`text-base text-gray-700 mb-1`,
+  buttonPdS: tw`bg-blue-500 px-4 py-2 rounded-lg justify-center items-center mt-2`,
+  buttonTextPdS: tw`text-white text-base`,
 
-
-
-
-
-//
+ 
+  productDetailsPdS: tw`p-4`,
+  sectionHeaderPdS: tw`items-center justify-center mb-4`, 
+  imagePdS: tw`w-full h-60 border border-gray-300 rounded-lg mb-4`, 
+  iconPdS: tw`w-6 h-6 self-end`, 
+  productInfoPdS: tw`border border-gray-200 rounded-lg p-4 mt-2`, 
+  textGreenPdS: tw`text-green-500`,
+  textRedPdS: tw`text-red-500`,
+  textSmallPdS: tw`text-sm text-gray-500`,
+  buttonGreenPdS: tw`bg-lime-500 px-6 py-3 rounded-lg w-full items-center`, 
+  containerButtonPdS: tw`justify-center items-center w-full my-3`, 
+  beforePricePdS: tw`text-sm text-gray-500 line-through`,
+  titlePdS: tw`text-lg font-bold text-black mb-4 text-center`, 
+  sectionTitlePdS: tw`text-lg font-bold text-black mb-4`,
+  textPdS: tw`text-base text-black mb-2 text-center`, 
+  buttonPdS: tw`bg-gray-300 px-6 py-3 rounded-lg w-80 justify-center items-center self-center`, 
+  buttonTextPdS: tw`text-black text-base text-center`,
+  sectionPdS: tw`p-4`, 
+  commentTextPdS: tw`text-base text-gray-700`,
+  commentScorePdS: tw`text-sm text-gray-500 mt-1`,
+  commentContainerPdS : tw`mb-4 p-3 bg-gray-100 rounded-lg`,
+  relatedProductCard: tw`mr-4 w-40 bg-gray-100 rounded-lg p-2 items-center`,
+  relatedProductImage: tw`w-full h-24 mb-2`,
+  relatedProductText: tw`text-sm font-bold mb-1 text-center text-black`,
+  relatedProductPrice: tw`text-green-500 text-center`,
+  noRelatedProductsText: tw`text-gray-500 text-center`,
+  //
 };
 
 export default styles;
