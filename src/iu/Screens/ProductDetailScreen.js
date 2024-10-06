@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { SafeAreaView, ScrollView } from 'react-native';
+import { SafeAreaView, ScrollView, Text } from 'react-native';
+import { useProductId } from '../../Context/ProductIdContext';  
+import { useCart } from '../../Context/CartProvider';  
 import styles from '../../styles/styles';
 import Header from '../Header';
 import ProductDetailComponent from '../Componets/ProductDetailComponent';
@@ -7,43 +9,40 @@ import Toast from 'react-native-toast-message';
 import CommentModal from '../Modals/CommentModal';
 import ProductDescriptionModal from '../Modals/ProductDescriptionModal';
 import QuestionModal from '../Modals/QuestionsModal';
-import RelatedProducts from '../Componets/RelatedComponent';
 import productData from '../../data/ProductData';
 import commentData from '../../data/CommentData';
 import questionData from '../../data/QuestionData';
 
 const ProductDetailScreen = ({ route, navigation }) => {
   const { productId } = route.params;
+  const { setProductId } = useProductId();  
+  const { addToCart } = useCart();  
+
+  const product = productData.find(product => product.id === productId);
+  if (!product) {
+    return (
+      <SafeAreaView style={styles.mainBackground}>
+        <Header navigation={navigation} />
+        <ScrollView>
+          <Text style={styles.text}>Producto no encontrado</Text>
+        </ScrollView>
+      </SafeAreaView>
+    );
+  }
+
   const [ModalCommentVisible, setModalCommentVisible] = useState(false);
   const [ModalDescriptionVisible, setModalDescriptionVisible] = useState(false);
   const [ModalQuestionVisible, setModalQuestionVisible] = useState(false);
-  const product = productData.find(product => product.id === productId);
   const [favorite, setFavorite] = useState(product.favorite);
   const [relatedProductsVisible, setRelatedProductsVisible] = useState(false);
 
-  const handleAddComment = () => {
-    Toast.show({
-      type: 'success',
-      text1: 'Comentario enviado',
-      text2: 'Tu comentario ha sido enviado correctamente',
-      position: 'bottom',
-    });
-  };
-
-  const handleAddQuestion = () => {
-    Toast.show({
-      type: 'success',
-      text1: 'Pregunta enviada',
-      text2: 'Tu pregunta ha sido enviada correctamente',
-      position: 'bottom',
-    });
-  };
-
-  const toggleFavorite = () => {
-    setFavorite(!favorite);
+  const handleBuyNow = () => {
+    console.log('Producto que se va a comprar:', product); 
+    navigation.navigate('buy', { products: [product] });
   };
 
   const handleAddToCart = () => {
+    addToCart(product);
     Toast.show({
       type: 'success',
       text1: 'Producto añadido al carrito',
@@ -63,18 +62,19 @@ const ProductDetailScreen = ({ route, navigation }) => {
         <ProductDetailComponent
           product={product}
           favorite={favorite}
-          toggleFavorite={toggleFavorite}
+          toggleFavorite={() => setFavorite(!favorite)}
           setModalDescriptionVisible={setModalDescriptionVisible}
           setModalQuestionVisible={setModalQuestionVisible}
           setModalCommentVisible={setModalCommentVisible}
           handleAddToCart={handleAddToCart}
+          handleBuyNow={handleBuyNow}  
           recentComments={recentComments}
           recentQuestions={recentQuestions}
           relatedProductsVisible={relatedProductsVisible}
           navigation={navigation}
         />
       </ScrollView>
-      
+
       <ProductDescriptionModal
         modalVisible={ModalDescriptionVisible}
         setModalVisible={setModalDescriptionVisible}
@@ -84,14 +84,12 @@ const ProductDetailScreen = ({ route, navigation }) => {
       <CommentModal
         modalVisible={ModalCommentVisible}
         setModalVisible={setModalCommentVisible}
-        onSubmit={handleAddComment}
         productId={product.id}
       />
 
       <QuestionModal
         modalVisible={ModalQuestionVisible}
         setModalVisible={setModalQuestionVisible}
-        onSubmit={handleAddQuestion}
         productId={product.id}
       />
 

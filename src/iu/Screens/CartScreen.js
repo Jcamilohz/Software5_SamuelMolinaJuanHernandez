@@ -1,21 +1,15 @@
 import React from "react";
-import { SafeAreaView, ScrollView, Text, Pressable, View } from 'react-native';
+import { SafeAreaView, ScrollView } from 'react-native';
 import styles from '../../styles/styles';
-import productData from "../../data/ProductData";
 import CartComponent from "../Componets/CartComponent";
+import { useCart } from '../../Context/CartProvider';  
 import Toast from 'react-native-toast-message';
 
 const CartScreen = ({ navigation }) => {
-  const cardProducts = productData.filter(product => product.card === true);
-
-  const totalCartPrice = cardProducts.reduce((total, product) => {
-    const productPrice = product.discount > 0 ? product.discountPrice : product.price;
-    const shippingCost = product.shippingCost;
-
-    return total + productPrice + shippingCost;
-  }, 0);
+  const { cartItems, removeFromCart } = useCart(); 
 
   const handleRemoveProduct = (productId) => {
+    removeFromCart(productId);  
     Toast.show({
       type: 'success',
       text1: 'Producto eliminado',
@@ -24,13 +18,19 @@ const CartScreen = ({ navigation }) => {
     });
   };
 
+  const handleBuyAll = () => {
+    if (cartItems.length > 0) {
+      navigation.navigate('buy', { products: cartItems }); 
+    }
+  };
+
   return (
     <SafeAreaView style={styles.mainBackground}>
       <ScrollView>
         <CartComponent 
-          cardProducts={cardProducts}
-          totalCartPrice={totalCartPrice}
+          cartItems={cartItems}  
           handleRemoveProduct={handleRemoveProduct}
+          handleBuyAll={handleBuyAll} 
           navigation={navigation}
         />
       </ScrollView>

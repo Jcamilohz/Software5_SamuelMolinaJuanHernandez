@@ -1,14 +1,20 @@
 import React from 'react';
 import { View, Text, TextInput, Pressable, Image } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 import styles from '../../styles/styles';
 
 const RegisterComponent = ({
+  name, setName, 
   username, setUsername,
   password, setPassword,
   email, setEmail,
   birthDate, setBirthDate,
   address, setAddress,
-  location, setLocation,
+  country, setCountry,
+  department, setDepartment,
+  city, setCity,
+  filteredDepartments,
+  filteredCities,
   handleRegister
 }) => {
   return (
@@ -20,6 +26,17 @@ const RegisterComponent = ({
       <Text style={styles.registerInstructionText}>Registrarse</Text>
 
       <View style={styles.registerInputWrapper}>
+        {}
+        <Text style={styles.registerLabel}>Nombre</Text>
+        <TextInput
+          style={styles.registerInput}
+          placeholder="Nombre"
+          placeholderTextColor={styles.headerTextInputPlaceholder}
+          value={name}
+          onChangeText={setName}
+        />
+
+        {}
         <Text style={styles.registerLabel}>Usuario</Text>
         <TextInput
           style={styles.registerInput}
@@ -30,6 +47,7 @@ const RegisterComponent = ({
           maxLength={10}
         />
 
+        {}
         <Text style={styles.registerLabel}>Contraseña</Text>
         <TextInput
           style={styles.registerInput}
@@ -39,10 +57,11 @@ const RegisterComponent = ({
           onChangeText={setPassword}
           secureTextEntry
           maxLength={8}
-          keyboardType="default" 
-          autoCapitalize="none" 
+          keyboardType="default"
+          autoCapitalize="none"
         />
 
+        {}
         <Text style={styles.registerLabel}>Correo</Text>
         <TextInput
           style={styles.registerInput}
@@ -54,6 +73,7 @@ const RegisterComponent = ({
           autoCapitalize="none"
         />
 
+        {}
         <Text style={styles.registerLabel}>Fecha de Nacimiento (DD/MM/AAAA)</Text>
         <TextInput
           style={styles.registerInput}
@@ -63,6 +83,7 @@ const RegisterComponent = ({
           onChangeText={setBirthDate}
         />
 
+        {}
         <Text style={styles.registerLabel}>Dirección</Text>
         <TextInput
           style={styles.registerInput}
@@ -70,22 +91,57 @@ const RegisterComponent = ({
           placeholderTextColor={styles.headerTextInputPlaceholder}
           value={address}
           onChangeText={setAddress}
-          maxLength={30}
         />
 
-        <Text style={styles.registerLabel}>País, Departamento, Ciudad</Text>
-        <TextInput
-          style={styles.registerInput}
-          placeholder="Colombia, Depto, Ciudad"
-          placeholderTextColor={styles.headerTextInputPlaceholder}
-          value={location}
-          onChangeText={setLocation}
-        />
+        {}
+        <Text style={styles.registerLabel}>País</Text>
+        <View style={styles.pickerWrapper}>
+          <Picker
+            selectedValue={country}
+            onValueChange={setCountry}
+            style={styles.picker1}
+          >
+            <Picker.Item label="Seleccione un país" value="" />
+            <Picker.Item label="Colombia" value="1" />
+          </Picker>
+        </View>
+
+        {}
+        <Text style={styles.registerLabel}>Departamento</Text>
+        <View style={styles.pickerWrapper}>
+          <Picker
+            selectedValue={department}
+            onValueChange={setDepartment}
+            enabled={filteredDepartments.length > 0}
+            style={styles.picker1}
+          >
+            <Picker.Item label="Seleccione un departamento" value="" />
+            {filteredDepartments.map(dept => (
+              <Picker.Item key={dept.id} label={dept.name} value={dept.id.toString()} />
+            ))}
+          </Picker>
+        </View>
+
+        {}
+        <Text style={styles.registerLabel}>Ciudad</Text>
+        <View style={styles.pickerWrapper}>
+          <Picker
+            selectedValue={city}
+            onValueChange={setCity}
+            enabled={filteredCities.length > 0}
+            style={styles.picker1}
+          >
+            <Picker.Item label="Seleccione una ciudad" value="" />
+            {filteredCities.map(city => (
+              <Picker.Item key={city.id} label={city.name} value={city.id.toString()} />
+            ))}
+          </Picker>
+        </View>
+
+        <Pressable style={styles.registerButton} onPress={handleRegister}>
+          <Text style={styles.registerButtonText}>Registrarse</Text>
+        </Pressable>
       </View>
-
-      <Pressable style={styles.registerButton} onPress={handleRegister}>
-        <Text style={styles.registerButtonText}>Registrarse</Text>
-      </Pressable>
     </>
   );
 };

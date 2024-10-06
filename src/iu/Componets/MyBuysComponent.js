@@ -15,7 +15,7 @@ const MyBuysComponent = ({ paidProducts, steps, onCancelPurchase, onReturnItem }
               <Text style={styles.productName1}>{product.name}</Text>
               <Text style={styles.productPrice1}>Precio: ${product.discount > 0 ? product.discountPrice : product.price}</Text>
 
-              {/* Progreso de Estado */}
+             
               <View style={styles.stepsContainer1}>
                 {steps.map((step, index) => (
                   <View key={index} style={styles.stepWrapper1}>

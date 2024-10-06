@@ -1,11 +1,11 @@
 const personData = [
     {
       id: 1,
-      name: 'Pepe',
+      name: 'epe',
       lastName: 'Perez',
       userName: 'PepePerez0',
       password: 'pepeP@12',
-      mail : 'perezpepe@gmail.com' ,
+      mail : 'Perezpepe@gmail.com' ,
       birthDate: '01/01/2000' ,
       adress : 'Calle 50  #72-12',
       country : 'Colombia',

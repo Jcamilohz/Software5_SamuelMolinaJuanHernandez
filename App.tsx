@@ -1,12 +1,15 @@
 import React from 'react';
 import Navigation from './src/navigation/Navigation';
 import { enableScreens } from 'react-native-screens';
-enableScreens(); 
+import AppProvider from './src/Context/AppProvider';
+
+enableScreens();
 
 function App(): React.JSX.Element {
   return (
-    <Navigation />
-
+    <AppProvider>
+      <Navigation />
+    </AppProvider>
   );
 }
 
