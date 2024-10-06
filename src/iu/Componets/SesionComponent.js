@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TextInput, Pressable, Image } from 'react-native';
 import styles from '../../styles/styles';
 
-const SesionComponent = ({ onLogin, onForgotPassword, onRegister }) => {
+const SesionComponent = ({ onLogin, onForgotPassword, onRegister, username, setUsername, password, setPassword }) => {
   return (
     <>
       <View style={styles.sesionLogoContainer}>
@@ -15,17 +15,26 @@ const SesionComponent = ({ onLogin, onForgotPassword, onRegister }) => {
         <Text style={styles.sesionLabel}>Usuario</Text>
         <TextInput
           style={styles.sesionInput}
-          placeholder="Usuario"
+          placeholder="Usuario (máx 10 caracteres)"
           placeholderTextColor="#888"
-          keyboardType="email-address"
+          value={username}
+          onChangeText={setUsername}
+          maxLength={10}
+          keyboardType="default"
           autoCapitalize="none"
         />
+
         <Text style={styles.sesionLabel}>Contraseña</Text>
         <TextInput
           style={styles.sesionInput}
-          placeholder="Contraseña"
+          placeholder="Contraseña (Mayúscula, Especial, 8 caracteres)"
           placeholderTextColor="#888"
+          value={password}
+          onChangeText={setPassword}
           secureTextEntry
+          maxLength={8}
+          keyboardType="default"
+          autoCapitalize="none"
         />
       </View>
 

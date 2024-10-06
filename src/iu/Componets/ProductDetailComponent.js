@@ -11,6 +11,7 @@ const ProductDetailComponent = ({
   setModalQuestionVisible,
   setModalCommentVisible,
   handleAddToCart,
+  handleBuyNow,
   recentComments,
   recentQuestions,
   relatedProductsVisible,
@@ -65,7 +66,7 @@ const ProductDetailComponent = ({
       </View>
 
       <View style={styles.containerButtonPdS}>
-        <Pressable style={styles.buttonGreenPdS} onPress={() => navigation.navigate('buy', { productId: product.id })}>
+        <Pressable style={styles.buttonGreenPdS} onPress={handleBuyNow}>
           <Text style={styles.textPdS}>¡COMPRAR AHORA!</Text>
         </Pressable>
       </View>
