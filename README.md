@@ -28,23 +28,31 @@
 
    Navega a la raíz del proyecto y ejecuta el comando `npm install` para instalar todas las dependencias necesarias.
 
+
+
 3. **Ejecutar la Aplicación:**
 
-   Para iniciar la aplicación en un dispositivo Android, ejecuta el comando `npx react-native run-android`.
+   Para iniciar la aplicación en un dispositivo Android, ejecuta el comando:
+
+   ```bash
+   npx react-native run-android
+   ```
 
 4. **Solución de Problemas de `gradlew`:**
 
    Si encuentras problemas con `gradlew`, navega al directorio `android` y ejecuta los siguientes comandos:
 
-   - `cd android`
-   - `./gradlew clean`
+   ```bash
+   cd android
+   ./gradlew clean
+   ```
 
 ## **Librerías Utilizadas**
 
 ### **1. Twrnc**
 
    - **Descripción**: Twrnc es una librería que permite utilizar Tailwind CSS en React Native, facilitando la escritura de estilos utilizando una sintaxis familiar y concisa.
-   - **Uso**: Twrnc es ideal para aplicar estilos rápidos y reutilizables en componentes de React Native.
+
 
 ### **2. React Native Navigation**
 
@@ -59,35 +67,51 @@
 
    - **Descripción**: Esta librería permite mostrar mensajes de tipo "toast" en la aplicación, proporcionando una forma sencilla y no intrusiva de notificar a los usuarios sobre eventos como errores, confirmaciones o advertencias.
 
+### **4. @react-native-picker/picker**
+
+   - **Descripción**: Esta librería proporciona un componente Picker para React Native, que permite a los usuarios seleccionar opciones de una lista desplegable.
+
 ## **Solución de Problemas con React Native Gesture Handler**
 
 Si tienes problemas con el `handler` de `react-native`, puedes intentar lo siguiente:
 
 1. **Limpiar la Caché y el Proyecto:**
 
-   - Ejecuta los siguientes comandos para limpiar la caché y el proyecto:
-     - `npm cache clean --force`
-     - `npx react-native-clean-project`
+   Ejecuta los siguientes comandos para limpiar la caché y el proyecto:
+
+   ```bash
+   npm cache clean --force
+   npx react-native-clean-project
+   ```
 
 2. **Ajustar el `MainActivity` en Android:**
 
    Abre el archivo `MainActivity.java`, que se encuentra en `android/app/src/main/java/<tu-paquete>/MainActivity.java`, y asegúrate de que contiene lo siguiente:
 
    - Importa `RNGestureHandlerEnabledRootView`:
-     - `import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;`
-   
+
+     ```java
+     import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;
+     ```
+
    - Ajusta el método `createReactActivityDelegate()`:
-     - ```java
-       @Override
-       protected ReactActivityDelegate createReactActivityDelegate() {
-           return new ReactActivityDelegate(this, getMainComponentName()) {
-               @Override
-               protected RNGestureHandlerEnabledRootView createRootView() {
-                   return new RNGestureHandlerEnabledRootView(MainActivity.this);
-               }
-           };
-       }
-       ```
 
+     ```java
+     @Override
+     protected ReactActivityDelegate createReactActivityDelegate() {
+         return new ReactActivityDelegate(this, getMainComponentName()) {
+             @Override
+             protected RNGestureHandlerEnabledRootView createRootView() {
+                 return new RNGestureHandlerEnabledRootView(MainActivity.this);
+             }
+         };
+     }
+     ```
 
+## **Usuario de Prueba**
+
+Para realizar pruebas en la aplicación:
+
+- **Username**: Admin
+- **Contraseña**: Admin@12
 

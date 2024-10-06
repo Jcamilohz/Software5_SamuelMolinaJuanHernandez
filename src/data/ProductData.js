@@ -6,50 +6,32 @@ const productData = [
     discountPrice: 2500000,
     discount: 15,
     shippingCost: 13400,
-    image: require('../Iconos/ImagenProducto.jpg'), 
+    image: require('../Iconos/ImagenProducto.jpg'),
     freeShipping: false,
-    recommended: true,
+    recommended: false,
     favorite: false,
-    card: true,
+    card: false,
     stock: 40,
     categories: ['Tecnología', 'Computación', 'Portátiles', 'Electrónica', 'Oficina'],
-    description: {
-      trademark: 'Hp',
-      storageSpace: '1 terabyte',
-      storageType: 'SDD',
-      ramMemory: '8 gigabytes',
-      color: 'Black',
-      state: 'Nuevo',
-      computerProcessor: 'Ryzen 75700G',
-      graphicCard: 'Integrada',
-      size: '15.6"',
-    },
+    sellerId: 1,
+    description: "Computador Marca Hp\n1 terabyte de almacenamiento tipo SSD\n8 gigabytes de RAM\nColor negro\nEstado: Nuevo\nProcesador Ryzen 757000G\nGráfica integrada\nPantalla de 15.6 pulgadas"
   },
   {
     id: 2,
     name: 'Portátil Dell 16gb ram 512gb SDD',
     price: 4500000,
     discountPrice: 4000000,
-    discount: 11,
+    discount: 0,
     shippingCost: 0,
     image: require('../Iconos/Productos/portatilDell.jpg'),
     freeShipping: true,
     recommended: true,
     favorite: false,
-    card: true,
+    card: false,
     stock: 25,
+    sellerId: 1,
     categories: ['Tecnología', 'Computación', 'Portátiles', 'Electrónica', 'Trabajo'],
-    description: {
-      trademark: 'Dell',
-      storageSpace: '512 gigabytes',
-      storageType: 'SDD',
-      ramMemory: '16 gigabytes',
-      color: 'Silver',
-      state: 'Nuevo',
-      computerProcessor: 'Intel i7-10750H',
-      graphicCard: 'NVIDIA GTX 1650',
-      size: '15.6"',
-    },
+    description: "Portátil Marca Dell\n512 gigabytes de almacenamiento tipo SDD\n16 gigabytes de RAM\nColor Plata\nEstado: Nuevo\nProcesador Intel i7-10750H\nTarjeta gráfica NVIDIA GTX 1650\nPantalla de 15.6 pulgadas"
   },
   {
     id: 3,
@@ -62,17 +44,11 @@ const productData = [
     freeShipping: false,
     recommended: true,
     favorite: true,
-    card: true,
+    card: false,
     stock: 120,
+    sellerId: 1,
     categories: ['Moda', 'Hombres', 'Ropa', 'Casual', 'Oficina'],
-    description: {
-      brand: 'Levi\'s',
-      size: 'M',
-      color: 'Azul',
-      material: 'Algodón',
-      state: 'Nuevo',
-      gender: 'Hombre',
-    },
+    description: "Camisa Casual Marca Levi's\nTamaño M\nColor Azul\nMaterial Algodón\nEstado: Nuevo\nGénero: Hombre"
   },
   {
     id: 4,
@@ -88,14 +64,7 @@ const productData = [
     card: true,
     stock: 50,
     categories: ['Moda', 'Deportes', 'Calzado', 'Unisex', 'Fitness'],
-    description: {
-      brand: 'Nike',
-      size: '42',
-      color: 'Blanco',
-      material: 'Cuero',
-      state: 'Nuevo',
-      gender: 'Unisex',
-    },
+    description: "Zapatos Deportivos Marca Nike\nTamaño 42\nColor Blanco\nMaterial Cuero\nEstado: Nuevo\nGénero: Unisex"
   },
   {
     id: 5,
@@ -111,14 +80,7 @@ const productData = [
     card: true,
     stock: 10,
     categories: ['Hogar', 'Muebles', 'Sala', 'Decoración', 'Confort'],
-    description: {
-      brand: 'Ikea',
-      color: 'Gris',
-      material: 'Tela',
-      dimensions: '300 x 200 cm',
-      state: 'Nuevo',
-      seatingCapacity: '4 personas',
-    },
+    description: "Sofá Seccional Marca Ikea\nColor Gris\nMaterial Tela\nDimensiones 300 x 200 cm\nCapacidad: 4 personas\nEstado: Nuevo"
   },
   {
     id: 6,
@@ -134,14 +96,7 @@ const productData = [
     card: true,
     stock: 20,
     categories: ['Hogar', 'Cocina', 'Electrodomésticos', 'Café', 'Automatización'],
-    description: {
-      brand: 'Breville',
-      color: 'Negro',
-      material: 'Acero Inoxidable',
-      state: 'Nuevo',
-      type: 'Automática',
-      waterTankCapacity: '1.8 litros',
-    },
+    description: "Cafetera Marca Breville\nColor Negro\nMaterial Acero Inoxidable\nEstado: Nuevo\nTipo Automática\nCapacidad del tanque de agua: 1.8 litros"
   },
   {
     id: 7,
@@ -157,14 +112,7 @@ const productData = [
     card: true,
     stock: 30,
     categories: ['Electrónica', 'Televisores', 'Entretenimiento', 'Hogar', '4K'],
-    description: {
-      brand: 'Samsung',
-      screenSize: '55 pulgadas',
-      resolution: '4K UHD',
-      smartTV: 'Sí',
-      state: 'Nuevo',
-      ports: 'HDMI, USB, Ethernet',
-    },
+    description: "Televisor Marca Samsung\nTamaño 55 pulgadas\nResolución 4K UHD\nSmart TV: Sí\nEstado: Nuevo\nPuertos: HDMI, USB, Ethernet"
   },
   {
     id: 8,
@@ -180,14 +128,7 @@ const productData = [
     card: true,
     stock: 80,
     categories: ['Electrónica', 'Audio', 'Bluetooth', 'Cascos', 'Tecnología'],
-    description: {
-      brand: 'Sony',
-      color: 'Negro',
-      batteryLife: '30 horas',
-      noiseCancelling: 'Sí',
-      state: 'Nuevo',
-      connectivity: 'Bluetooth 5.0',
-    },
+    description: "Auriculares Bluetooth Marca Sony\nColor Negro\nDuración de batería: 30 horas\nCancelación de ruido: Sí\nEstado: Nuevo\nConectividad Bluetooth 5.0"
   },
   {
     id: 9,
@@ -203,15 +144,7 @@ const productData = [
     card: true,
     stock: 15,
     categories: ['Deportes', 'Ciclismo', 'Montaña', 'Outdoor', 'Aventura'],
-    description: {
-      brand: 'Trek',
-      wheelSize: '29 pulgadas',
-      frameMaterial: 'Aluminio',
-      gearCount: '21 velocidades',
-      color: 'Rojo',
-      state: 'Nuevo',
-      brakeType: 'Disco Hidráulico',
-    },
+    description: "Bicicleta de Montaña Marca Trek\nRodada 29 pulgadas\nMaterial del marco Aluminio\n21 velocidades\nColor Rojo\nEstado: Nuevo\nTipo de frenos: Disco Hidráulico"
   },
   {
     id: 10,
@@ -227,14 +160,7 @@ const productData = [
     card: true,
     stock: 100,
     categories: ['Deportes', 'Fútbol', 'Outdoor', 'Accesorios', 'Juvenil'],
-    description: {
-      brand: 'Adidas',
-      color: 'Blanco/Negro',
-      material: 'Poliuretano',
-      state: 'Nuevo',
-      size: '5',
-      type: 'Fútbol',
-    },
+    description: "Pelota de Fútbol Marca Adidas\nColor Blanco/Negro\nMaterial Poliuretano\nEstado: Nuevo\nTamaño 5\nTipo de pelota: Fútbol"
   },
 ];
 
