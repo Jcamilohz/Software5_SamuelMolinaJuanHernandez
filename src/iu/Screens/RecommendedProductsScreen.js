@@ -1,11 +1,12 @@
 import React from 'react';
-import { SafeAreaView} from 'react-native';
+import { SafeAreaView } from 'react-native';
 import styles from '../../styles/styles';
 import RecommendedProductComponent from '../Componets/RecommendedProductsComponent';
-import { getAllRecommendedProducts } from '../../controller/ProductController';
+import products from '../../data/ProductData'; 
 
 const RecommendedProductScreen = ({ navigation }) => {
-  const recommendedProducts = getAllRecommendedProducts();
+
+  const recommendedProducts = products.filter(product => product.recommended);
 
   return (
     <SafeAreaView style={styles.mainBackground}>

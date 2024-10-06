@@ -8,13 +8,16 @@ const ProductSellComponent = ({
     price,
     discount,
     shippingCost,
+    stock,
     selectedCategories,
     setProductName,
     setPrice,
     setDiscount,
     setShippingCost,
+    setStock,
     handleAddCategory,
     handleCategoryChange,
+    handleRemoveCategory, 
     handlePublishProduct,
     categories
 }) => {
@@ -59,6 +62,15 @@ const ProductSellComponent = ({
                     onChangeText={setShippingCost}
                 />
 
+                <Text style={styles.label1}>Stock</Text>
+                <TextInput
+                    style={styles.input1}
+                    placeholder="Ingresa la cantidad de stock"
+                    keyboardType="numeric"
+                    value={stock}
+                    onChangeText={setStock}
+                />
+
                 <Text style={styles.label1}>Categorías</Text>
                 {selectedCategories.map((selectedCategory, index) => (
                     <View key={index} style={styles.pickerWrapper}>
@@ -71,6 +83,11 @@ const ProductSellComponent = ({
                                 <Picker.Item key={categoryIndex} label={category} value={category} />
                             ))}
                         </Picker>
+
+                       
+                        <Pressable style={styles.removeButton} onPress={() => handleRemoveCategory(index)}>
+                            <Text style={styles.removeButtonText}>Eliminar</Text>
+                        </Pressable>
                     </View>
                 ))}
 

@@ -1,50 +1,55 @@
 import React from "react";
-import { SafeAreaView, View, Text, ScrollView, Pressable } from 'react-native';
-import styles from '../../styles/styles';
-import productData from "../../data/ProductData";
-import FavoriteComponent from '../Componets/FavoriteComponent'; 
+import { SafeAreaView, ScrollView } from 'react-native';
 import Toast from 'react-native-toast-message';
+import { useFavorites } from '../../Context/FavoriteProvider';
+import FavoriteComponent from '../Componets/FavoriteComponent';
+import styles from '../../styles/styles';
 
 const FavoritesScreen = ({ navigation }) => {
-   
-    const favoriteProducts = productData.filter(product => product.favorite === true);
+    const { favoriteItems, removeFromFavorites } = useFavorites();
 
 
-    const totalFavoritePrice = favoriteProducts.reduce((total, product) => {
+    const totalFavoritePrice = favoriteItems.reduce((total, product) => {
         const productPrice = product.discount > 0 ? product.discountPrice : product.price;
         return total + productPrice;
     }, 0);
 
+    const handleBuyAll = () => {
+        if (favoriteItems.length > 0) {
+            navigation.navigate('buy', { products: favoriteItems });
+        }
+    };
+
+
+    const handleRemoveFromFavorites = (productId) => {
+        removeFromFavorites(productId);
+        Toast.show({
+            type: 'success',
+            text1: 'Producto eliminado de favoritos',
+            text2: 'El producto ha sido eliminado de tus favoritos',
+            position: 'bottom',
+        });
+    };
+
+
+    const handlePressProduct = (productId) => {
+        navigation.navigate('ProductDetail', { productId });
+    };
+
     return (
         <SafeAreaView style={styles.mainBackground}>
-            <View style={styles.header}>
-                <Text style={styles.text}>Favoritos</Text>
-            </View>
             <ScrollView>
-                <View style={styles.section}>
-                    <View style={styles.sectionHeader}>
-                        <Text style={styles.text}>Tus productos favoritos</Text>
-                    </View>
-                    {favoriteProducts.map(product => (
-                        <FavoriteComponent
-                            key={product.id}
-                            product={product}
-                            onPress={() => navigation.navigate('ProductDetail', { productId: product.id })}
-                        />
-                    ))}
-                </View>
-
-                <Text style={styles.text}>El precio total de todos tus productos favoritos: </Text>
-                <Text style={styles.text}>${totalFavoritePrice.toFixed(2)}</Text>
-                <View style={styles.containerButton}>
-                    <Pressable style={styles.buttonGreen}>
-                        <Text style={styles.text}>!COMPRAR TODO AHORA¡</Text>
-                    </Pressable>
-                </View>
+                <FavoriteComponent
+                    favoriteItems={favoriteItems}
+                    totalFavoritePrice={totalFavoritePrice}
+                    onRemove={handleRemoveFromFavorites}
+                    onPressProduct={handlePressProduct}
+                    handleBuyAll={handleBuyAll}
+                />
             </ScrollView>
             <Toast ref={(ref) => Toast.setRef(ref)} />
         </SafeAreaView>
     );
-}
+};
 
 export default FavoritesScreen;

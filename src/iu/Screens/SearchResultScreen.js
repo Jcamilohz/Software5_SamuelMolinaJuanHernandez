@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { SafeAreaView } from 'react-native';
 import styles from '../../styles/styles';
 import Header from '../Header';
 import SearchResultsComponent from '../Componets/SearchResultsComponent';
-import { searchProductsByName } from '../../controller/ProductController';
+import { useProduct } from '../../Context/ProductProvider';
 
 const SearchResultsScreen = ({ route, navigation }) => {
   const { query } = route.params;
-  const [filteredProducts, setFilteredProducts] = useState([]);
+  const { filteredProducts, filterProducts } = useProduct(); 
 
   useEffect(() => {
-    const results = searchProductsByName(query);
-    setFilteredProducts(results);
+    filterProducts(query); 
   }, [query]);
 
   return (

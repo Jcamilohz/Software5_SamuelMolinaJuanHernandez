@@ -5,16 +5,16 @@ import RelatedProducts from '../Componets/RelatedComponent';
 
 const ProductDetailComponent = ({
   product,
-  favorite,
+  isFavorite,  
   toggleFavorite,
   setModalDescriptionVisible,
-  setModalQuestionVisible,
   setModalCommentVisible,
+  setModalQuestionVisible,
   handleAddToCart,
   handleBuyNow,
-  recentComments,
-  recentQuestions,
-  relatedProductsVisible,
+  recentComments = [],  
+  recentQuestions = [], 
+  relatedProductsVisible, 
   navigation
 }) => {
   return (
@@ -28,7 +28,7 @@ const ProductDetailComponent = ({
         <Pressable onPress={toggleFavorite}>
           <Image
             source={
-              favorite
+              isFavorite
                 ? require('../../Iconos/corazon.png')
                 : require('../../Iconos/me-gusta.png')
             }
@@ -80,7 +80,6 @@ const ProductDetailComponent = ({
       {relatedProductsVisible && (
         <RelatedProducts product={product} navigation={navigation} />
       )}
-
 
       <View style={styles.sectionPdS}>
         <Text style={styles.sectionTitlePdS}>Comentarios Recientes</Text>

@@ -9,12 +9,12 @@ import { countryData, departmentData, cityData } from '../../data/NationalityDat
 const RegisterScreen = ({ navigation }) => {
   const { registerUser } = useUser(); 
   const [name, setName] = useState(''); 
+  const [lastName, setLastName] = useState('');  
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [birthDate, setBirthDate] = useState('');
   const [address, setAddress] = useState('');
-  const [location, setLocation] = useState('');
   const [country, setCountry] = useState('');
   const [department, setDepartment] = useState('');
   const [city, setCity] = useState('');
@@ -48,6 +48,16 @@ const RegisterScreen = ({ navigation }) => {
         type: 'error',
         text1: 'Error',
         text2: 'El campo de nombre es obligatorio.',
+        position: 'bottom',
+      });
+      return false;
+    }
+
+    if (lastName.length === 0) {
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: 'El campo de apellido es obligatorio.',
         position: 'bottom',
       });
       return false;
@@ -155,6 +165,7 @@ const RegisterScreen = ({ navigation }) => {
     if (validateFields()) {
       const newUser = {
         name,
+        lastName, 
         userName: username,
         password,
         mail: email,
@@ -184,7 +195,9 @@ const RegisterScreen = ({ navigation }) => {
       <SafeAreaView style={styles.registerMainBackground}>
         <RegisterComponent
           name={name}
-          setName={setName} 
+          setName={setName}
+          lastName={lastName}  
+          setLastName={setLastName}  
           username={username}
           setUsername={setUsername}
           password={password}

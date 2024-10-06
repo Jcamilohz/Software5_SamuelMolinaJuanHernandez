@@ -1,17 +1,20 @@
 import React from 'react';
-import { ProductIdProvider } from './ProductIdContext';
+import { ProductProvider } from './ProductProvider';
 import { CartProvider } from './CartProvider';
 import { UserProvider } from './UserContext';
+import { FavoritesProvider } from './FavoriteProvider'; 
 
 const AppProvider = ({ children }) => {
   return (
-    <ProductIdProvider>
+    <ProductProvider>
       <CartProvider>
         <UserProvider>
-          {children}
+          <FavoritesProvider> 
+            {children}
+          </FavoritesProvider>
         </UserProvider>
       </CartProvider>
-    </ProductIdProvider>
+    </ProductProvider>
   );
 };
 

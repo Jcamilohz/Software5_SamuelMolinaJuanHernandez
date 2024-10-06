@@ -1,22 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'; 
 import { SafeAreaView, ScrollView, Text } from 'react-native';
-import { useProductId } from '../../Context/ProductIdContext';  
 import { useCart } from '../../Context/CartProvider';  
+import { useFavorites } from '../../Context/FavoriteProvider'; 
 import styles from '../../styles/styles';
 import Header from '../Header';
 import ProductDetailComponent from '../Componets/ProductDetailComponent';
 import Toast from 'react-native-toast-message';
-import CommentModal from '../Modals/CommentModal';
-import ProductDescriptionModal from '../Modals/ProductDescriptionModal';
-import QuestionModal from '../Modals/QuestionsModal';
 import productData from '../../data/ProductData';
 import commentData from '../../data/CommentData';
 import questionData from '../../data/QuestionData';
+import ProductDescriptionModal from '../Modals/ProductDescriptionModal';
+import CommentModal from '../Modals/CommentModal';
+import QuestionModal from '../Modals/QuestionsModal';
 
 const ProductDetailScreen = ({ route, navigation }) => {
   const { productId } = route.params;
-  const { setProductId } = useProductId();  
-  const { addToCart } = useCart();  
+  const { cartItems, addToCart } = useCart(); 
+  const { favoriteItems, addToFavorites, removeFromFavorites } = useFavorites(); 
 
   const product = productData.find(product => product.id === productId);
   if (!product) {
@@ -30,30 +30,57 @@ const ProductDetailScreen = ({ route, navigation }) => {
     );
   }
 
-  const [ModalCommentVisible, setModalCommentVisible] = useState(false);
-  const [ModalDescriptionVisible, setModalDescriptionVisible] = useState(false);
-  const [ModalQuestionVisible, setModalQuestionVisible] = useState(false);
-  const [favorite, setFavorite] = useState(product.favorite);
-  const [relatedProductsVisible, setRelatedProductsVisible] = useState(false);
+  const [relatedProductsVisible, setRelatedProductsVisible] = useState(false);  
+  const [modalDescriptionVisible, setModalDescriptionVisible] = useState(false);
+  const [modalCommentVisible, setModalCommentVisible] = useState(false);
+  const [modalQuestionVisible, setModalQuestionVisible] = useState(false);
 
-  const handleBuyNow = () => {
-    console.log('Producto que se va a comprar:', product); 
-    navigation.navigate('buy', { products: [product] });
+  const recentComments = commentData.filter(comment => comment.productId === productId).slice(0, 2) || [];
+  const recentQuestions = questionData.filter(question => question.productId === productId).slice(0, 2) || [];
+
+  const isFavorite = favoriteItems.some(item => item.id === product.id);
+
+  const handleToggleFavorite = () => {
+    if (isFavorite) {
+      removeFromFavorites(product.id);
+      Toast.show({
+        type: 'info',
+        text1: 'Eliminado de Favoritos',
+        text2: 'El producto ha sido eliminado de tus favoritos.',
+        position: 'bottom',
+      });
+    } else {
+      addToFavorites(product);
+      Toast.show({
+        type: 'success',
+        text1: 'Añadido a Favoritos',
+        text2: 'El producto ha sido añadido a tus favoritos.',
+        position: 'bottom',
+      });
+    }
   };
 
   const handleAddToCart = () => {
-    addToCart(product);
-    Toast.show({
-      type: 'success',
-      text1: 'Producto añadido al carrito',
-      text2: '¡Has añadido el producto correctamente!',
-      position: 'bottom',
-    });
-    setRelatedProductsVisible(true);
-  };
+    const isProductInCart = cartItems.find(item => item.id === product.id);
 
-  const recentComments = commentData.filter(comment => comment.productId === productId).slice(0, 2);
-  const recentQuestions = questionData.filter(question => question.productId === productId).slice(0, 2);
+    if (isProductInCart) {
+      Toast.show({
+        type: 'error',
+        text1: 'Producto ya en el carrito',
+        text2: 'Este producto ya ha sido añadido al carrito.',
+        position: 'bottom',
+      });
+    } else {
+      addToCart(product);
+      Toast.show({
+        type: 'success',
+        text1: 'Producto añadido al carrito',
+        text2: '¡Has añadido el producto correctamente!',
+        position: 'bottom',
+      });
+      setRelatedProductsVisible(true); 
+    }
+  };
 
   return (
     <SafeAreaView style={styles.mainBackground}>
@@ -61,34 +88,34 @@ const ProductDetailScreen = ({ route, navigation }) => {
       <ScrollView>
         <ProductDetailComponent
           product={product}
-          favorite={favorite}
-          toggleFavorite={() => setFavorite(!favorite)}
-          setModalDescriptionVisible={setModalDescriptionVisible}
-          setModalQuestionVisible={setModalQuestionVisible}
-          setModalCommentVisible={setModalCommentVisible}
-          handleAddToCart={handleAddToCart}
-          handleBuyNow={handleBuyNow}  
+          isFavorite={isFavorite}  
+          toggleFavorite={handleToggleFavorite}
+          handleAddToCart={handleAddToCart} 
+          handleBuyNow={() => navigation.navigate('buy', { products: [product] })}
           recentComments={recentComments}
           recentQuestions={recentQuestions}
           relatedProductsVisible={relatedProductsVisible}
-          navigation={navigation}
+          setModalDescriptionVisible={setModalDescriptionVisible} 
+          setModalCommentVisible={setModalCommentVisible}
+          setModalQuestionVisible={setModalQuestionVisible}
         />
       </ScrollView>
 
+   
       <ProductDescriptionModal
-        modalVisible={ModalDescriptionVisible}
+        modalVisible={modalDescriptionVisible}
         setModalVisible={setModalDescriptionVisible}
         product={product}
       />
-
+      
       <CommentModal
-        modalVisible={ModalCommentVisible}
+        modalVisible={modalCommentVisible}
         setModalVisible={setModalCommentVisible}
         productId={product.id}
       />
 
       <QuestionModal
-        modalVisible={ModalQuestionVisible}
+        modalVisible={modalQuestionVisible}
         setModalVisible={setModalQuestionVisible}
         productId={product.id}
       />

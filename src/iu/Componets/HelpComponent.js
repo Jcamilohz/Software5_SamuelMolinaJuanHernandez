@@ -34,7 +34,7 @@ const HelpComponent = ({
 
         <Pressable 
           style={styles.helpOptionContainer}
-          onPress={() => navigation.navigate('')}>
+          >
           <Text style={styles.helpOptionText}>Preguntas frecuentes sobre compras</Text>
         </Pressable>
       </View>

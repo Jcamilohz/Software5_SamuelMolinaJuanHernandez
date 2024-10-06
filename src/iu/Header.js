@@ -1,17 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { View, Image, TextInput, Pressable, Text } from 'react-native';
 import styles from '../styles/styles';
-import personData from '../data/PersonData';
+import { useUser } from '../Context/UserContext';  
+import { cityData } from '../data/NationalityData';  
 
 const Header = ({ navigation, onFilterPress }) => {
+  const { user } = useUser(); 
   const [userAddress, setUserAddress] = useState('');
 
   useEffect(() => {
-    const person = personData.find(person => person.id === 1);
-    if (person) {
-      setUserAddress(`${person.adress}, ${person.city}`);
+    if (user) {
+      
+      const cityName = isNaN(user.city) 
+        ? user.city 
+        : (cityData.find(c => c.id === parseInt(user.city))?.name || 'Ciudad desconocida');
+        
+    
+      setUserAddress(`${user.address}, ${cityName}`);
+    } else {
+      setUserAddress('');
     }
-  }, []);
+  }, [user]); 
 
   return (
     <View>
@@ -43,10 +52,12 @@ const Header = ({ navigation, onFilterPress }) => {
           />
         </Pressable>
       </View>
-
-      <View style={styles.header2}>
-        <Text style={styles.text2}>{userAddress}</Text>
-      </View>
+      
+      {user && (
+        <View style={styles.header2}>
+          <Text style={styles.text2}>{userAddress}</Text>
+        </View>
+      )}
     </View>
   );
 };
