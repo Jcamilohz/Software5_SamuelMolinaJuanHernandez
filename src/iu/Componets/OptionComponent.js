@@ -26,7 +26,7 @@ const OptionComponent = ({ navigation }) => {
     <View style={styles.container6}>
       <View style={styles.opcions}>
         <ScrollView>
-          {}
+       
           {user && (
             <Pressable style={styles.optionButton} onPress={() => navigation.navigate('profile')}>
               <Text style={styles.optionButtonText}>Editar Perfil</Text>
