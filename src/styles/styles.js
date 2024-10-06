@@ -120,15 +120,15 @@ const styles = {
   helpContactLink: tw`text-sm text-blue-500 text-center`,
 
   profileMainBackground: tw`flex-1 bg-white`,
-  profileScrollView: tw`flex-grow justify-center items-center p-6`,
-  profileContainer: tw`justify-center items-center w-full`,
-  profileTitle: tw`text-2xl font-bold text-black mb-6 text-center`,
-  profileImage: tw`w-40 h-40 rounded-full mb-6 border-4 border-gray-300`,
-  profileLabel: tw`text-lg font-bold text-gray-700 mb-1 text-center`,
-  profileText: tw`text-lg text-black mb-4 text-center`,
-  profileButton: tw`bg-lime-500 px-4 py-2 rounded mt-6 w-3/4`,
-  profileButtonText: tw`text-white text-lg text-center`,
-
+  profileScrollView: tw`flex-grow justify-start items-center p-6`, 
+  profileContainer: tw`justify-center items-center w-full px-6`,  
+  profileLabelPf: tw`text-lg font-bold text-gray-700 mb-2 w-full text-left`,
+  profileInputPf: tw`w-full p-4 mb-4 bg-white border border-gray-300 rounded-lg text-black`, 
+  profileButtonPf: tw`bg-lime-500 px-6 py-3 rounded mt-6 w-full`, 
+  profileButtonTextPf: tw`text-white text-lg font-bold text-center`,
+  pickerWrapper2: tw`w-full mb-4`,  
+  picker2: tw`w-full text-black`,  
+  profileBox: tw`w-full bg-gray-100 p-3 mb-3 border border-gray-300 rounded-lg`,
 
   productListContainer1: tw`p-4 bg-gray-100`,
   headerTitle1: tw`text-3xl font-bold text-black mb-4`,
@@ -237,12 +237,15 @@ const styles = {
 
      
   profileMainBackgroundPf: tw`flex-1 bg-white`,  
-  profileScrollViewPf: tw`flex-grow justify-center items-center p-6`,
-  profileInputPf: tw`w-full p-4 mb-4 bg-white border border-gray-300 rounded-lg text-black`,
-  profileLabelPf: tw`text-lg text-gray-700 mb-2 self-start`,
-  profileButtonPf: tw`bg-lime-500 px-6 py-3 rounded-full mt-6 w-3/4`,
-  profileButtonTextPf: tw`text-white text-lg font-bold text-center`,
-  profileInputTextPf: tw`text-black`,
+  profileScrollViewPf: tw`flex-grow justify-center items-center p-4`,  
+  profileContainer: tw`w-full px-6`, 
+  profileInputPf: tw`w-full p-3 mb-4 bg-white border border-gray-300 rounded-lg text-black`,  
+  profileLabelPf: tw`text-base text-gray-700 mb-2 self-start`,  
+  profileButtonPf: tw`bg-lime-500 px-6 py-3 rounded-full mt-6 w-full`,  
+  profileButtonTextPf: tw`text-white text-base font-bold text-center`,  
+  profileInputTextPf: tw`text-black`,  
+  pickerWrapper2: tw`w-full bg-white border border-gray-300 rounded-lg mb-4`,  
+  picker2: tw`w-full p-3 text-black`, 
   
 };
 

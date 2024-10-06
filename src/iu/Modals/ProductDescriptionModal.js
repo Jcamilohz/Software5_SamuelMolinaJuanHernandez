@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Modal } from 'react-native';
+import { View, Text, Modal, Pressable, ScrollView } from 'react-native';
 import styles from '../../styles/styles';
 
 const ProductDescriptionModal = ({ modalVisible, setModalVisible, product }) => {
@@ -12,15 +12,15 @@ const ProductDescriptionModal = ({ modalVisible, setModalVisible, product }) => 
         setModalVisible(!modalVisible);
       }}
     >
-      <View style={styles.modalBackground}>
-        <View style={styles.modalContainer}>
-          <Text style={styles.text}>descripcion del producto</Text>
-          {product?.description &&
-            Object.keys(product.description).map((key) => (
-              <Text key={key} style={styles.text}>
-                {key}: {product.description[key]}
-              </Text>
-            ))}
+      <View style={styles.modalBackgroundmfp}>
+        <View style={styles.modalContainermfp}>
+          <Text style={styles.modalTitlemfp}>Descripción</Text>
+          <ScrollView>
+            <Text style={styles.text}>{product?.description}</Text>
+          </ScrollView>
+          <Pressable style={styles.modalCloseButtonmfp} onPress={() => setModalVisible(false)}>
+            <Text style={styles.modalCloseButtonTextmfp}>Cerrar</Text>
+          </Pressable>
         </View>
       </View>
     </Modal>

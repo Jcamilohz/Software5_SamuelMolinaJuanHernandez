@@ -5,11 +5,10 @@ import PaymentModal from "../Modals/PaymentModal";
 import Toast from 'react-native-toast-message';
 import styles from '../../styles/styles';
 
-const BuyScreen = ({ route }) => {
-  const { products } = route.params || {};  
-
-  console.log('Productos recibidos en BuyScreen:', products); 
-
+const BuyScreen = ({ route, navigation }) => {
+  const { products } = route.params || {};
+  
+ 
   const productList = Array.isArray(products) ? products.filter(p => p) : [];
 
   if (!productList || productList.length === 0) {
@@ -23,15 +22,45 @@ const BuyScreen = ({ route }) => {
   }
 
   const [totalPrice, setTotalPrice] = useState(0);
+  const [quantities, setQuantities] = useState(() => {
+    const initialQuantities = {};
+    productList.forEach(product => {
+      initialQuantities[product.id] = 1; 
+    });
+    return initialQuantities;
+  });
   const [modalPaymentVisible, setModalPaymentVisible] = useState(false);
 
+  
   useEffect(() => {
     const total = productList.reduce((sum, product) => {
       const price = product.discount > 0 ? product.discountPrice : product.price;
-      return sum + price;
+      return sum + price * quantities[product.id];
     }, 0);
     setTotalPrice(total);
-  }, [productList]);
+  }, [quantities, productList]);
+
+  const handleIncreaseQuantity = (productId) => {
+    setQuantities(prevQuantities => {
+      const newQuantities = { ...prevQuantities };
+      const product = productList.find(p => p.id === productId);
+
+      if (newQuantities[productId] < product.stock) {  
+        newQuantities[productId] += 1;
+      }
+      return newQuantities;
+    });
+  };
+
+  const handleDecreaseQuantity = (productId) => {
+    setQuantities(prevQuantities => {
+      const newQuantities = { ...prevQuantities };
+      if (newQuantities[productId] > 1) {  
+        newQuantities[productId] -= 1;
+      }
+      return newQuantities;
+    });
+  };
 
   const handlePay = () => {
     Toast.show({
@@ -40,20 +69,25 @@ const BuyScreen = ({ route }) => {
       text2: 'Gracias por comprar :)',
       position: 'bottom',
     });
+
+    
+    setTimeout(() => {
+      navigation.navigate('home'); 
+    }, 3500);
   };
 
   return (
     <SafeAreaView style={styles.mainBackground}>
       <ScrollView>
         <View style={styles.container4}>
-          <Text style={styles.title}>Productos que vas a Comprar</Text>
-
           {productList.map((product) => (
             product && (
               <BuyComponent
                 key={product.id}
                 product={product}
-                quantity={1}
+                quantity={quantities[product.id]}
+                increaseQuantity={() => handleIncreaseQuantity(product.id)}
+                decreaseQuantity={() => handleDecreaseQuantity(product.id)}
               />
             )
           ))}

@@ -8,6 +8,12 @@ import Toast from 'react-native-toast-message';
 const CartScreen = ({ navigation }) => {
   const { cartItems, removeFromCart } = useCart(); 
 
+ 
+  const totalCartPrice = cartItems.reduce((total, product) => {
+    const productPrice = product.discount > 0 ? product.discountPrice : product.price;
+    return total + productPrice;
+  }, 0);
+
   const handleRemoveProduct = (productId) => {
     removeFromCart(productId);  
     Toast.show({
@@ -32,6 +38,7 @@ const CartScreen = ({ navigation }) => {
           handleRemoveProduct={handleRemoveProduct}
           handleBuyAll={handleBuyAll} 
           navigation={navigation}
+          totalCartPrice={totalCartPrice}  
         />
       </ScrollView>
       <Toast ref={(ref) => Toast.setRef(ref)} />

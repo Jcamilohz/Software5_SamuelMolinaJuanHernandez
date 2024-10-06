@@ -1,9 +1,9 @@
 import React from 'react';
-import { View, Text, Pressable, ScrollView } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
 import styles from '../../styles/styles';
 import ProductCard from '../Screens/ProductCardScreen';
 
-const CartComponent = ({ cartItems, handleRemoveProduct, handleBuyAll, navigation }) => {
+const CartComponent = ({ cartItems, handleRemoveProduct, handleBuyAll, navigation, totalCartPrice }) => {
   return (
     <View>
       <View style={styles.header}>
@@ -21,8 +21,8 @@ const CartComponent = ({ cartItems, handleRemoveProduct, handleBuyAll, navigatio
 
             {cartItems.map(product => (
               <View key={product.id} style={styles.productContainer}>
-                <Pressable 
-                  style={styles.removeButton} 
+                <Pressable
+                  style={styles.removeButton}
                   onPress={() => handleRemoveProduct(product.id)}
                 >
                   <Text style={styles.removeButtonText}>X</Text>
@@ -30,12 +30,19 @@ const CartComponent = ({ cartItems, handleRemoveProduct, handleBuyAll, navigatio
                 <ProductCard product={product} onPress={() => navigation.navigate('ProductDetail', { productId: product.id })} />
               </View>
             ))}
-
-            <View style={styles.containerButton}>
-              <Pressable style={styles.buttonGreen} onPress={handleBuyAll}>
-                <Text style={styles.text}>!COMPRAR TODO AHORA!</Text>
-              </Pressable>
+            <View style={styles.section}>
+              <Text style={styles.text}>Precio total de todos tus productos en carrito:</Text>
+              <Text style={styles.text}>${totalCartPrice.toFixed(2)}</Text>
             </View>
+
+  
+            {cartItems.length > 0 && (
+              <View style={styles.containerButton}>
+                <Pressable style={styles.buttonGreen} onPress={handleBuyAll}>
+                  <Text style={styles.text}>!COMPRAR TODO AHORA!</Text>
+                </Pressable>
+              </View>
+            )}
           </>
         )}
       </View>

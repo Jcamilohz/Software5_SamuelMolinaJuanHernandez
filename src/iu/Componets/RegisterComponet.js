@@ -4,7 +4,8 @@ import { Picker } from '@react-native-picker/picker';
 import styles from '../../styles/styles';
 
 const RegisterComponent = ({
-  name, setName, 
+  name, setName,
+  lastName, setLastName,  
   username, setUsername,
   password, setPassword,
   email, setEmail,
@@ -26,7 +27,7 @@ const RegisterComponent = ({
       <Text style={styles.registerInstructionText}>Registrarse</Text>
 
       <View style={styles.registerInputWrapper}>
-        {}
+    
         <Text style={styles.registerLabel}>Nombre</Text>
         <TextInput
           style={styles.registerInput}
@@ -36,7 +37,17 @@ const RegisterComponent = ({
           onChangeText={setName}
         />
 
-        {}
+  
+        <Text style={styles.registerLabel}>Apellido</Text>
+        <TextInput
+          style={styles.registerInput}
+          placeholder="Apellido"
+          placeholderTextColor={styles.headerTextInputPlaceholder}
+          value={lastName}
+          onChangeText={setLastName}
+        />
+
+ 
         <Text style={styles.registerLabel}>Usuario</Text>
         <TextInput
           style={styles.registerInput}
@@ -47,7 +58,7 @@ const RegisterComponent = ({
           maxLength={10}
         />
 
-        {}
+
         <Text style={styles.registerLabel}>Contraseña</Text>
         <TextInput
           style={styles.registerInput}
@@ -61,7 +72,7 @@ const RegisterComponent = ({
           autoCapitalize="none"
         />
 
-        {}
+  
         <Text style={styles.registerLabel}>Correo</Text>
         <TextInput
           style={styles.registerInput}
@@ -73,7 +84,7 @@ const RegisterComponent = ({
           autoCapitalize="none"
         />
 
-        {}
+   
         <Text style={styles.registerLabel}>Fecha de Nacimiento (DD/MM/AAAA)</Text>
         <TextInput
           style={styles.registerInput}
@@ -83,7 +94,7 @@ const RegisterComponent = ({
           onChangeText={setBirthDate}
         />
 
-        {}
+
         <Text style={styles.registerLabel}>Dirección</Text>
         <TextInput
           style={styles.registerInput}
@@ -93,7 +104,7 @@ const RegisterComponent = ({
           onChangeText={setAddress}
         />
 
-        {}
+
         <Text style={styles.registerLabel}>País</Text>
         <View style={styles.pickerWrapper}>
           <Picker
@@ -106,7 +117,7 @@ const RegisterComponent = ({
           </Picker>
         </View>
 
-        {}
+
         <Text style={styles.registerLabel}>Departamento</Text>
         <View style={styles.pickerWrapper}>
           <Picker
@@ -122,7 +133,7 @@ const RegisterComponent = ({
           </Picker>
         </View>
 
-        {}
+     
         <Text style={styles.registerLabel}>Ciudad</Text>
         <View style={styles.pickerWrapper}>
           <Picker

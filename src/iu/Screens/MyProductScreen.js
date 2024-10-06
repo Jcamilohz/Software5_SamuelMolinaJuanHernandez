@@ -1,22 +1,26 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { SafeAreaView } from 'react-native';
+import { useProduct } from '../../Context/ProductProvider'; 
 import styles from '../../styles/styles';
 import MyProductComponent from '../Componets/MyProductComponent'; 
-import productData from '../../data/ProductData'; 
 import Toast from 'react-native-toast-message';
 
 const MyProductScreen = ({ navigation }) => {
-  const [products, setProducts] = useState(productData.filter(product => product.sellerId === 1));
+  const { products, setProducts } = useProduct(); 
 
+
+  const sellerProducts = products.filter(product => product.sellerId === 1);
 
   const handlePausePublication = (productId) => {
-    const productName = products.find(p => p.id === productId)?.name || 'producto'; 
-    setProducts(prevProducts =>
-      prevProducts.map(product =>
-        product.id === productId ? { ...product, paused: !product.paused } : product
-      )
+    const productName = sellerProducts.find(p => p.id === productId)?.name || 'producto';
+    const updatedProducts = sellerProducts.map(product =>
+      product.id === productId ? { ...product, paused: !product.paused } : product
     );
-    const isPaused = products.find(p => p.id === productId)?.paused; 
+    
+    
+    setProducts(updatedProducts);
+
+    const isPaused = sellerProducts.find(p => p.id === productId)?.paused;
     Toast.show({
       type: 'success',
       text1: 'Publicación actualizada',
@@ -26,8 +30,12 @@ const MyProductScreen = ({ navigation }) => {
   };
 
   const handleCancelPublication = (productId) => {
-    const productName = products.find(p => p.id === productId)?.name || 'producto'; 
-    setProducts(prevProducts => prevProducts.filter(product => product.id !== productId));
+    const productName = sellerProducts.find(p => p.id === productId)?.name || 'producto';
+    const updatedProducts = sellerProducts.filter(product => product.id !== productId);
+    
+    
+    setProducts(updatedProducts);
+
     Toast.show({
       type: 'success',
       text1: 'Publicación cancelada',
@@ -39,8 +47,8 @@ const MyProductScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.mainBackground}>
       <MyProductComponent 
-        products={products} 
-        navigation={navigation} 
+        products={sellerProducts} 
+        navigation={navigation}
         onPausePublication={handlePausePublication}
         onCancelPublication={handleCancelPublication}
       />

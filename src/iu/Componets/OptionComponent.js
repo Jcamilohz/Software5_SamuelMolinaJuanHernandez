@@ -26,24 +26,35 @@ const OptionComponent = ({ navigation }) => {
     <View style={styles.container6}>
       <View style={styles.opcions}>
         <ScrollView>
-       
           {user && (
             <Pressable style={styles.optionButton} onPress={() => navigation.navigate('profile')}>
               <Text style={styles.optionButtonText}>Editar Perfil</Text>
             </Pressable>
           )}
-          <Pressable style={styles.optionButton} onPress={() => navigation.navigate('myBuys')}>
-            <Text style={styles.optionButtonText}>Mis Compras</Text>
-          </Pressable>
-          <Pressable style={styles.optionButton} onPress={() => navigation.navigate('myProduct')}>
-            <Text style={styles.optionButtonText}>Mis Productos</Text>
-          </Pressable>
-          <Pressable style={styles.optionButton} onPress={() => navigation.navigate('productSell')}>
-            <Text style={styles.optionButtonText}>Vender Productos</Text>
-          </Pressable>
+
+          {user && (
+            <Pressable style={styles.optionButton} onPress={() => navigation.navigate('myBuys')}>
+              <Text style={styles.optionButtonText}>Mis Compras</Text>
+            </Pressable>
+          )}
+
+          {user && (
+            <Pressable style={styles.optionButton} onPress={() => navigation.navigate('myProduct')}>
+              <Text style={styles.optionButtonText}>Mis Productos</Text>
+            </Pressable>
+          )}
+
+          {user && (
+            <Pressable style={styles.optionButton} onPress={() => navigation.navigate('productSell')}>
+              <Text style={styles.optionButtonText}>Vender Productos</Text>
+            </Pressable>
+          )}
+        {user && (
           <Pressable style={styles.optionButton} onPress={() => navigation.navigate('help')}>
             <Text style={styles.optionButtonText}>Ayuda</Text>
           </Pressable>
+         )}  
+
           <Pressable style={styles.optionButton} onPress={handleLogout}>
             <Text style={styles.optionButtonText}>{user ? 'Cerrar Sesión' : 'Iniciar Sesión'}</Text>
           </Pressable>
