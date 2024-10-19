@@ -1,18 +1,22 @@
 import React from 'react';
 import { SafeAreaView, View, Text, ScrollView, Pressable, Image } from 'react-native';
+import { useProduct } from '../../Context/ProductProvider'; 
 import styles from '../../styles/styles';
 import productPaidData from '../../data/ProductPaidData';
-import productData from '../../data/ProductData';
 import Toast from 'react-native-toast-message';
 
 const steps = ['Validando compra', 'En centro de distribución', 'En camino', 'Entregado'];
 
 const MyBuysScreen = ({ navigation }) => {
-  const getProductById = (productId) => productData.find(product => product.id === productId);
+  const { products } = useProduct(); 
+
+
+  const getProductById = (productId) => products.find(product => product.id === productId);
   
+
   const paidProducts = productPaidData.filter(productPaid => productPaid.personId === 1)
     .map(productPaid => {
-      const product = getProductById(productPaid.productId);
+      const product = getProductById(productPaid.productId); 
       return { 
         ...product, 
         status: productPaid.status,

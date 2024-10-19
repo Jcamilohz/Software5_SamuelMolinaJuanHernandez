@@ -6,17 +6,19 @@ import ProductCard from '../Componets/ProductCardComponent';
 import styles from '../../styles/styles';
 import { useCart } from '../../Context/CartProvider';
 import { useFavorites } from '../../Context/FavoriteProvider';
-import productData from '../../data/ProductData';  
+import { useProduct } from '../../Context/ProductProvider';  
 
 const SectionScreen = ({ navigation }) => {
   const [modalFilterVisible, setModalFilterVisible] = useState(false);
   
   const { cartItems } = useCart(); 
-  const { favoriteItems } = useFavorites();  
+  const { favoriteItems } = useFavorites();
+  const { products } = useProduct(); 
   
-  const discountedProducts = productData.filter(product => product.discount > 1).slice(0, 5);
-  const recommendedProducts = productData.filter(product => product.recommended === true).slice(0, 5);
-  const freeShippingProducts = productData.filter(product => product.freeShipping === true).slice(0, 5);
+
+  const discountedProducts = products.filter(product => product.discount > 1).slice(0, 5);
+  const recommendedProducts = products.filter(product => product.recommended === true).slice(0, 5);
+  const freeShippingProducts = products.filter(product => product.freeShipping === true).slice(0, 5);
 
   return (
     <SafeAreaView style={styles.mainBackground}>

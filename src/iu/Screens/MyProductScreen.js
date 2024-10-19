@@ -7,17 +7,17 @@ import Toast from 'react-native-toast-message';
 const MyProductScreen = ({ navigation }) => {
   const { products, setProducts } = useProduct(); 
 
-  const sellerProducts = products.filter(product => product.sellerId === 1);
+  const publishedProducts = products;
 
   const handlePausePublication = (productId) => {
-    const productName = sellerProducts.find(p => p.id === productId)?.name || 'producto';
-    const updatedProducts = sellerProducts.map(product =>
+    const productName = publishedProducts.find(p => p.id === productId)?.name || 'producto';
+    const updatedProducts = publishedProducts.map(product =>
       product.id === productId ? { ...product, paused: !product.paused } : product
     );
     
     setProducts(updatedProducts);
 
-    const isPaused = sellerProducts.find(p => p.id === productId)?.paused;
+    const isPaused = publishedProducts.find(p => p.id === productId)?.paused;
     Toast.show({
       type: 'success',
       text1: 'Publicación actualizada',
@@ -27,8 +27,8 @@ const MyProductScreen = ({ navigation }) => {
   };
 
   const handleCancelPublication = (productId) => {
-    const productName = sellerProducts.find(p => p.id === productId)?.name || 'producto';
-    const updatedProducts = sellerProducts.filter(product => product.id !== productId);
+    const productName = publishedProducts.find(p => p.id === productId)?.name || 'producto';
+    const updatedProducts = publishedProducts.filter(product => product.id !== productId);
     
     setProducts(updatedProducts);
 
@@ -43,9 +43,9 @@ const MyProductScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.mainBackground}>
       <ScrollView style={styles.productListContainer1}>
-        <Text style={styles.headerTitle1}>Mis Productos Publicados</Text>
-        {sellerProducts.length > 0 ? (
-          sellerProducts.map((product) => (
+        <Text style={styles.headerTitle1}>Productos Publicados</Text>
+        {publishedProducts.length > 0 ? (
+          publishedProducts.map((product) => (
             <View key={product.id} style={[styles.productCardContainer1, product.paused && styles.productPaused]}>
               <Image source={product.image} style={styles.productImage1} resizeMode="contain" />
 

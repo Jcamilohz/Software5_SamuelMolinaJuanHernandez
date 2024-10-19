@@ -1,27 +1,29 @@
 import React, { useState } from 'react'; 
-import { SafeAreaView, ScrollView } from 'react-native';
+import { SafeAreaView, ScrollView, Text } from 'react-native';
+import { useProduct } from '../../Context/ProductProvider';
 import { useCart } from '../../Context/CartProvider';  
 import { useFavorites } from '../../Context/FavoriteProvider'; 
 import styles from '../../styles/styles';
 import Header from '../Componets/HeaderComponent';
 import Toast from 'react-native-toast-message';
-import productData from '../../data/ProductData';
-import commentData from '../../data/CommentData';
-import questionData from '../../data/QuestionData';
+import ProductInfoComponent from '../Componets/ProductInfoComponent';
+import ProductActionsComponent from '../Componets/ProductActionsComponent';
+import ProductFeedbackComponent from '../Componets/ProductFeedbackComponent';
 import ProductDescriptionModal from '../Modals/ProductDescriptionModal';
 import CommentModal from '../Modals/CommentModal';
 import QuestionModal from '../Modals/QuestionsModal';
 import RelatedProducts from '../Componets/RelatedComponent';
-import ProductInfoComponent from '../Componets/ProductInfoComponent';
-import ProductActionsComponent from '../Componets/ProductActionsComponent';
-import ProductFeedbackComponent from '../Componets/ProductFeedbackComponent';
+import commentData from '../../data/CommentData';
+import questionData from '../../data/QuestionData';
 
 const ProductDetailScreen = ({ route, navigation }) => {
   const { productId } = route.params;
+  const { products } = useProduct();  
   const { cartItems, addToCart } = useCart(); 
   const { favoriteItems, addToFavorites, removeFromFavorites } = useFavorites(); 
 
-  const product = productData.find(product => product.id === productId);
+
+  const product = products.find(product => product.id === productId);
   if (!product) {
     return (
       <SafeAreaView style={styles.mainBackground}>
@@ -37,9 +39,9 @@ const ProductDetailScreen = ({ route, navigation }) => {
   const [modalDescriptionVisible, setModalDescriptionVisible] = useState(false);
   const [modalCommentVisible, setModalCommentVisible] = useState(false);
   const [modalQuestionVisible, setModalQuestionVisible] = useState(false);
-
+  
   const recentComments = commentData.filter(comment => comment.productId === productId).slice(0, 2) || [];
-  const recentQuestions = questionData.filter(question => question.productId === productId).slice(0, 2) || [];
+  const recentQuestions = questionData.filter(question => question.productId === productId).slice(0, 2) || []; 
 
   const isFavorite = favoriteItems.some(item => item.id === product.id);
 
@@ -101,10 +103,10 @@ const ProductDetailScreen = ({ route, navigation }) => {
         />
         {relatedProductsVisible && <RelatedProducts product={product} navigation={navigation} />}
         <ProductFeedbackComponent
-          recentComments={recentComments}
-          recentQuestions={recentQuestions}
+          recentComments={recentComments}  
+          recentQuestions={recentQuestions} 
           setModalCommentVisible={setModalCommentVisible}
-          setModalQuestionVisible={setModalQuestionVisible}
+          setModalQuestionVisible={setModalQuestionVisible} 
         />
       </ScrollView>
 
