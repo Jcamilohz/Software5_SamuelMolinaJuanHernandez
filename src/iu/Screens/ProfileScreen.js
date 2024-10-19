@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView } from 'react-native';
 import { useUser } from '../../Context/UserContext';
 import { countryData, departmentData, cityData } from '../../data/NationalityData'; 
-import ProfileComponent from '../Componets/ProfileComponent';
 import styles from '../../styles/styles';
 import Toast from 'react-native-toast-message';
+import ProfileViewComponent from '../Componets/ProfileViewComponent';
+import ProfileEditComponent from '../Componets/ProfileEditComponent';
 
 const ProfileScreen = () => {
   const { user, updateUser } = useUser(); 
@@ -168,33 +169,49 @@ const ProfileScreen = () => {
 
   return (
     <SafeAreaView style={styles.profileMainBackgroundPf}>
-      <ScrollView contentContainerStyle={styles.profileScrollViewPf}>
-        <ProfileComponent
-          isEditing={isEditing}
-          setIsEditing={setIsEditing}
-          name={name}
-          setName={setName}
-          lastName={lastName}
-          setLastName={setLastName}
-          userName={userName}
-          setUserName={setUserName}
-          mail={mail}
-          setMail={setMail}
-          birthDate={birthDate}
-          setBirthDate={setBirthDate}
-          address={address}
-          setAddress={setAddress}
-          country={country}
-          setCountry={handleCountryChange}
-          department={department}
-          setDepartment={handleDepartmentChange}
-          city={city}
-          setCity={setCity}
-          filteredCountries={countryData} 
-          filteredDepartments={filteredDepartments}
-          filteredCities={filteredCities}
-          handleSave={handleSave}
-        />
+      <ScrollView>
+        {isEditing ? (
+          <ProfileEditComponent
+            name={name}
+            setName={setName}
+            lastName={lastName}
+            setLastName={setLastName}
+            userName={userName}
+            setUserName={setUserName}
+            mail={mail}
+            setMail={setMail}
+            birthDate={birthDate}
+            setBirthDate={setBirthDate}
+            address={address}
+            setAddress={setAddress}
+            country={country}
+            handleCountryChange={handleCountryChange}
+            department={department}
+            handleDepartmentChange={handleDepartmentChange}
+            city={city}
+            setCity={setCity}
+            filteredCountries={countryData}
+            filteredDepartments={filteredDepartments}
+            filteredCities={filteredCities}
+            handleSave={handleSave}
+          />
+        ) : (
+          <ProfileViewComponent
+            name={name}
+            lastName={lastName}
+            userName={userName}
+            mail={mail}
+            birthDate={birthDate}
+            address={address}
+            country={country}
+            department={department}
+            city={city}
+            countryData={countryData}
+            filteredDepartments={filteredDepartments}
+            filteredCities={filteredCities}
+            onEdit={() => setIsEditing(true)}
+          />
+        )}
       </ScrollView>
       <Toast ref={(ref) => Toast.setRef(ref)} />
     </SafeAreaView>

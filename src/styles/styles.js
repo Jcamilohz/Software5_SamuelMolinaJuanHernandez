@@ -18,6 +18,7 @@ const styles = {
   textGreen: tw`text-green-500`,
   textRed: tw`text-red-500`,
   textSmall: tw`text-sm text-gray-500`,
+  textWhite: tw`text-white text-lg font-bold text-center`,
   header: tw`bg-lime-400 w-full h-15 flex-row items-center px-4`,
   headerIcon: tw`w-12 h-20 mr-4`,
   inputContainer: tw`flex-1 flex-row items-center h-10 bg-white border border-gray-700 rounded-lg px-3`,
@@ -25,10 +26,9 @@ const styles = {
   headerTextInput: tw`flex-1 text-black`,
   headerTextInputPlaceholder: tw.color('text-slate-400'),
   headerFilterIcon: tw`w-15 h-7`,
-  header2: tw`bg-green-100 w-full h-8 flex-row items-center px-4 justify-between`,
+  header2: tw`bg-lime-400 w-full h-8 flex-row items-center px-4 justify-between`,
   opcions: tw`flex-col justify-between items-center px-4 `,
   optionButton: tw`bg-lime-400 p-4 rounded-lg mb-4 w-80 shadow-lg`,
-  optionButtonText: tw`text-lg text-black font-bold text-center`,
   opcions: tw`w-full items-center`,
   filterContainer: tw`w-80 h-40 bg-white rounded-lg justify-center items-center`,
   modalBackground: tw`flex-1 justify-center items-center bg-black bg-opacity-20`,
@@ -123,7 +123,6 @@ const styles = {
   profileScrollView: tw`flex-grow justify-start items-center p-6`, 
   profileContainer: tw`justify-center items-center w-full px-6`,  
   profileLabelPf: tw`text-lg font-bold text-gray-700 mb-2 w-full text-left`,
-  profileInputPf: tw`w-full p-4 mb-4 bg-white border border-gray-300 rounded-lg text-black`, 
   profileButtonPf: tw`bg-lime-500 px-6 py-3 rounded mt-6 w-full`, 
   profileButtonTextPf: tw`text-white text-lg font-bold text-center`,
   pickerWrapper2: tw`w-full mb-4`,  
@@ -236,17 +235,14 @@ const styles = {
 
 
      
-  profileMainBackgroundPf: tw`flex-1 bg-white`,  
-  profileScrollViewPf: tw`flex-grow justify-center items-center p-4`,  
-  profileContainer: tw`w-full px-6`, 
-  profileInputPf: tw`w-full p-3 mb-4 bg-white border border-gray-300 rounded-lg text-black`,  
-  profileLabelPf: tw`text-base text-gray-700 mb-2 self-start`,  
-  profileButtonPf: tw`bg-lime-500 px-6 py-3 rounded-full mt-6 w-full`,  
-  profileButtonTextPf: tw`text-white text-base font-bold text-center`,  
-  profileInputTextPf: tw`text-black`,  
-  pickerWrapper2: tw`w-full bg-white border border-gray-300 rounded-lg mb-4`,  
-  picker2: tw`w-full p-3 text-black`, 
-  
+  profileMainBackgroundPf: tw`flex-1 bg-white`, 
+  profileContainer: tw`w-full px-6 mt-6`,
+  profileInputPf: tw`w-full p-4 mb-5 bg-white border border-gray-300 rounded-lg text-black`,  
+  profileLabelPf: tw`text-lg text-gray-700 mb-3 self-start`, 
+  profileButtonPf: tw`bg-lime-500 px-8 py-4 rounded-full mt-8 w-full`,
+  profileButtonTextPf: tw`text-white text-lg font-bold text-center`,  
+  pickerWrapper2: tw`w-full bg-white border border-gray-300 rounded-lg mb-5`, 
+  picker2: tw`w-full p-4 text-black`, 
 };
 
 export default styles;

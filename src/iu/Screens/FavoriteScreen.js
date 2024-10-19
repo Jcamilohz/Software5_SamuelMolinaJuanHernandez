@@ -1,13 +1,12 @@
 import React from "react";
-import { SafeAreaView, ScrollView } from 'react-native';
+import { SafeAreaView, ScrollView, View, Pressable, Text } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { useFavorites } from '../../Context/FavoriteProvider';
-import FavoriteComponent from '../Componets/FavoriteComponent';
+import ProductCard from '../Componets/ProductCardComponent'; 
 import styles from '../../styles/styles';
 
 const FavoritesScreen = ({ navigation }) => {
     const { favoriteItems, removeFromFavorites } = useFavorites();
-
 
     const totalFavoritePrice = favoriteItems.reduce((total, product) => {
         const productPrice = product.discount > 0 ? product.discountPrice : product.price;
@@ -20,7 +19,6 @@ const FavoritesScreen = ({ navigation }) => {
         }
     };
 
-
     const handleRemoveFromFavorites = (productId) => {
         removeFromFavorites(productId);
         Toast.show({
@@ -31,7 +29,6 @@ const FavoritesScreen = ({ navigation }) => {
         });
     };
 
-
     const handlePressProduct = (productId) => {
         navigation.navigate('ProductDetail', { productId });
     };
@@ -39,14 +36,48 @@ const FavoritesScreen = ({ navigation }) => {
     return (
         <SafeAreaView style={styles.mainBackground}>
             <ScrollView>
-                <FavoriteComponent
-                    favoriteItems={favoriteItems}
-                    totalFavoritePrice={totalFavoritePrice}
-                    onRemove={handleRemoveFromFavorites}
-                    onPressProduct={handlePressProduct}
-                    handleBuyAll={handleBuyAll}
-                />
+                <View>
+                    <View style={styles.header}>
+                        <Text style={styles.textWhite}>Favoritos</Text>
+                    </View>
+
+                    <View style={styles.section}>
+                        <Text style={styles.text}>Tus productos favoritos</Text>
+
+                        {favoriteItems.length === 0 ? (
+                            <Text style={styles.text}>No hay productos en tus favoritos</Text>
+                        ) : (
+                            favoriteItems.map(product => (
+                                <View key={product.id} style={styles.productContainer}>
+                                    <Pressable style={styles.removeButton} onPress={() => handleRemoveFromFavorites(product.id)}>
+                                        <Text style={styles.removeButtonText}>X</Text>
+                                    </Pressable>
+                                    <ProductCard 
+                                        product={product} 
+                                        onPress={() => handlePressProduct(product.id)} 
+                                    />
+                                </View>
+                            ))
+                        )}
+                    </View>
+
+
+                </View>
             </ScrollView>
+            {favoriteItems.length > 0 && (
+                        <View>
+                            <View style={styles.section}>
+                                <Text style={styles.text}>Precio total de todos tus productos favoritos:</Text>
+                                <Text style={styles.text}>${totalFavoritePrice.toFixed(2)}</Text>
+                            </View>
+
+                            <View style={styles.containerButton}>
+                                <Pressable style={styles.buttonGreen} onPress={handleBuyAll}>
+                                    <Text style={styles.textWhite}>Comprar Todo YA</Text>
+                                </Pressable>
+                            </View>
+                        </View>
+                    )}
             <Toast ref={(ref) => Toast.setRef(ref)} />
         </SafeAreaView>
     );
