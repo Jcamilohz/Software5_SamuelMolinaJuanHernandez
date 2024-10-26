@@ -1,25 +1,28 @@
 import React from "react";
 import { SafeAreaView, View, Text, ScrollView } from 'react-native';
 import styles from '../../styles/styles';
-import productData from '../../data/ProductData';
-import FreeShippingProductComponent from '../Componets/FreeShippingProductComponent'; 
+import ProductCard from '../Componets/ProductCardComponent'; 
+import { useProduct } from '../../Context/ProductProvider';  
 
 const FreeShippingProductScreen = ({ navigation }) => {
-    const freeShippingProducts = productData.filter(product => product.freeShipping === true);
+    const { products } = useProduct(); 
+
+    const freeShippingProducts = products.filter(product => product.freeShipping === true);
 
     return (
         <SafeAreaView style={styles.mainBackground}>
             <View style={styles.header}>
-                <Text style={styles.text}>Productos con envío gratis</Text>
+                <Text style={styles.textWhite}>Productos con envío gratis</Text>
             </View>
             <ScrollView>
                 <View style={styles.section}>
                     {freeShippingProducts.map(product => (
-                        <FreeShippingProductComponent
-                            key={product.id}
-                            product={product}
-                            onPress={() => navigation.navigate('ProductDetail', { productId: product.id })}
-                        />
+                        <View key={product.id} style={styles.productContainer}>
+                            <ProductCard 
+                                product={product} 
+                                onPress={() => navigation.navigate('ProductDetail', { productId: product.id })} 
+                            />
+                        </View>
                     ))}
                 </View>
             </ScrollView>

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { View, Image, TextInput, Pressable, Text } from 'react-native';
-import styles from '../styles/styles';
-import { useUser } from '../Context/UserContext';  
-import { cityData } from '../data/NationalityData';  
+import styles from '../../styles/styles';
+import { useUser } from '../../Context/UserContext';  
+import { cityData } from '../../data/NationalityData';  
 
-const Header = ({ navigation, onFilterPress }) => {
+const HeaderComponent = ({ navigation, onFilterPress }) => {
   const { user } = useUser(); 
   const [userAddress, setUserAddress] = useState('');
 
@@ -26,13 +26,13 @@ const Header = ({ navigation, onFilterPress }) => {
     <View>
       <View style={styles.header}>
         <Image
-          source={require('../Iconos/IconoCompraYa2SinFondo.png')}
+          source={require('../../Iconos/IconoCompraYa2SinFondo.png')}
           style={styles.headerIcon}
         />
 
         <View style={styles.inputContainer}>
           <Image
-            source={require('../Iconos/lupa.png')}
+            source={require('../../Iconos/lupa.png')}
             style={styles.headerSearchIcon}
           />
           <TextInput
@@ -46,7 +46,7 @@ const Header = ({ navigation, onFilterPress }) => {
         </View>
         <Pressable onPress={onFilterPress}>
           <Image
-            source={require('../Iconos/filtro.png')}
+            source={require('../../Iconos/filtro.png')}
             style={styles.headerFilterIcon}
             resizeMode="contain"
           />
@@ -55,11 +55,11 @@ const Header = ({ navigation, onFilterPress }) => {
       
       {user && (
         <View style={styles.header2}>
-          <Text style={styles.text2}>{userAddress}</Text>
+          <Text style={styles.textWhite}>{userAddress}</Text>
         </View>
       )}
     </View>
   );
 };
 
-export default Header;
+export default HeaderComponent;
