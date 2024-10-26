@@ -12,6 +12,7 @@ const ProductSellScreen = () => {
     const [discount, setDiscount] = useState('');
     const [shippingCost, setShippingCost] = useState('');
     const [stock, setStock] = useState(''); 
+    const [description, setDescription] = useState('');
     const [selectedCategories, setSelectedCategories] = useState([categoriesData[0]]);
     const { addProduct } = useProduct(); 
 
@@ -30,40 +31,64 @@ const ProductSellScreen = () => {
         setSelectedCategories(updatedCategories);
     };
 
-    const handlePublishProduct = () => {
-        const calculatedDiscountPrice = price - (price * (discount / 100));
+    const handlePublishProduct = async () => {
+        try {
+            // Validar que los campos requeridos no estén vacíos
+            if (!productName || !price || !stock) {
+                Toast.show({
+                    type: 'error',
+                    text1: 'Error',
+                    text2: 'Por favor completa todos los campos requeridos',
+                    position: 'bottom',
+                });
+                return;
+            }
 
-        const newProduct = {
-            id: Math.random().toString(36).substr(2, 9),
-            name: productName,
-            price: parseFloat(price),
-            discountPrice: parseFloat(calculatedDiscountPrice),
-            discount: parseFloat(discount),
-            shippingCost: parseFloat(shippingCost),
-            image: require('../../Iconos/ImagenProducto.jpg'), 
-            freeShipping: parseFloat(shippingCost) === 0,
-            stock: parseInt(stock),
-            categories: selectedCategories.map(cat => cat.name),
-            sellerId: 1, 
-            description: `${productName}\nPrecio: ${price}\nDescuento: ${discount}%\nCategorías: ${selectedCategories.map(cat => cat.name).join(', ')}`,
-        };
+            const calculatedDiscountPrice = price - (price * (discount / 100));
 
-        addProduct(newProduct);
+            const newProduct = {
+                name: productName,
+                price: parseFloat(price) || 0,
+                discountPrice: parseFloat(calculatedDiscountPrice) || 0,
+                discount: parseFloat(discount) || 0,
+                shippingCost: parseFloat(shippingCost) || 0,
+                imageUrl: 'https://via.placeholder.com/150', // URL de imagen por defecto
+                freeShipping: parseFloat(shippingCost) === 0,
+                stock: parseInt(stock) || 0,
+                categories: selectedCategories.map(cat => cat.name),
+                sellerId: '1', // Considera obtener esto del contexto de usuario
+                description: description || `${productName}\nPrecio: ${price}\nDescuento: ${discount}%\nCategorías: ${selectedCategories.map(cat => cat.name).join(', ')}`,
+                createdAt: new Date().toISOString(),
+                status: 'active'
+            };
 
-        Toast.show({
-            type: 'success',
-            text1: 'Producto Publicado',
-            text2: `El producto "${productName}" ha sido publicado.`,
-            position: 'bottom',
-        });
+            await addProduct(newProduct);
 
-        // Limpiar el formulario
-        setProductName('');
-        setPrice('');
-        setDiscount('');
-        setShippingCost('');
-        setStock(''); 
-        setSelectedCategories([categoriesData[0]]);
+            Toast.show({
+                type: 'success',
+                text1: 'Producto Publicado',
+                text2: `El producto "${productName}" ha sido publicado.`,
+                position: 'bottom',
+            });
+
+            // Limpiar el formulario
+            setProductName('');
+            setPrice('');
+            setDiscount('');
+            setShippingCost('');
+            setStock(''); 
+            setDescription('');
+            setSelectedCategories([categoriesData[0]]);
+            
+        } catch (error) {
+            console.error('Error al publicar producto:', error);
+            Toast.show({
+                type: 'error',
+                text1: 'Error',
+                text2: 'No se pudo publicar el producto. Por favor intenta de nuevo.',
+                position: 'bottom',
+            });
+        }
     };
 
     return (
@@ -72,7 +97,7 @@ const ProductSellScreen = () => {
                 <View style={styles.containerPadding}>
                     <Text style={styles.headerTitle1}>Publicar Producto</Text>
 
-                    <Text style={styles.label1}>Nombre del producto</Text>
+                    <Text style={styles.label1}>Nombre del producto *</Text>
                     <TextInput
                         style={styles.input1}
                         placeholder="Ingresa el nombre del producto"
@@ -80,7 +105,7 @@ const ProductSellScreen = () => {
                         onChangeText={setProductName}
                     />
 
-                    <Text style={styles.label1}>Precio</Text>
+                    <Text style={styles.label1}>Precio *</Text>
                     <TextInput
                         style={styles.input1}
                         placeholder="Ingresa el precio"
@@ -107,7 +132,7 @@ const ProductSellScreen = () => {
                         onChangeText={setShippingCost}
                     />
 
-                    <Text style={styles.label1}>Stock</Text>
+                    <Text style={styles.label1}>Stock *</Text>
                     <TextInput
                         style={styles.input1}
                         placeholder="Ingresa la cantidad de stock"
@@ -129,9 +154,11 @@ const ProductSellScreen = () => {
                                 ))}
                             </Picker>
 
-                            <Pressable style={styles.removeButton} onPress={() => handleRemoveCategory(index)}>
-                                <Text style={styles.removeButtonText}>Eliminar</Text>
-                            </Pressable>
+                            {selectedCategories.length > 1 && (
+                                <Pressable style={styles.removeButton} onPress={() => handleRemoveCategory(index)}>
+                                    <Text style={styles.removeButtonText}>Eliminar</Text>
+                                </Pressable>
+                            )}
                         </View>
                     ))}
 
@@ -145,6 +172,8 @@ const ProductSellScreen = () => {
                         placeholder="Describe el producto"
                         multiline
                         numberOfLines={4}
+                        value={description}
+                        onChangeText={setDescription}
                     />
 
                     <Pressable style={styles.actionButton1} onPress={handlePublishProduct}>

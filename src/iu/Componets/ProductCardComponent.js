@@ -5,7 +5,7 @@ import styles from '../../styles/styles';
 const ProductCardComponent = ({ product, onPress }) => {
   return (
     <Pressable style={styles.productCard} onPress={onPress}>
-      <Image source={product.image} style={styles.productImage} resizeMode="contain" />
+ <Image source={{ uri: product.image }} style={styles.productImage} resizeMode="contain" />
       <View style={styles.productInfo}>
         <Text style={styles.title}>{product.name}</Text>
         {product.discount ? (
