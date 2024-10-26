@@ -36,24 +36,34 @@ const SesionScreen = ({ navigation }) => {
     return true;
   };
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (validateFields()) {
-      const success = login(username, password); 
-      if (success) {
-        Toast.show({
-          type: 'success',
-          text1: 'Inicio de sesión exitoso',
-          text2: 'Has iniciado sesión correctamente',
-          position: 'bottom',
-        });
-        setTimeout(() => {
-          navigation.navigate('home'); 
-        }, 500);
-      } else {
+      try {
+        const success = await login(username, password); // Agregamos await aquí
+        if (success) {
+          Toast.show({
+            type: 'success',
+            text1: 'Inicio de sesión exitoso',
+            text2: 'Has iniciado sesión correctamente',
+            position: 'bottom',
+          });
+          setTimeout(() => {
+            navigation.navigate('home');
+          }, 500);
+        } else {
+          Toast.show({
+            type: 'error',
+            text1: 'Error de autenticación',
+            text2: 'Usuario o contraseña incorrectos.',
+            position: 'bottom',
+          });
+        }
+      } catch (error) {
+        console.error('Error en login:', error);
         Toast.show({
           type: 'error',
-          text1: 'Error de autenticación',
-          text2: 'Usuario o contraseña incorrectos.',
+          text1: 'Error',
+          text2: 'Ocurrió un error al iniciar sesión.',
           position: 'bottom',
         });
       }

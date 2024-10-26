@@ -8,7 +8,7 @@ const ProductInfoComponent = ({ product, isFavorite, toggleFavorite, setModalDes
       <View style={styles.productDetailsPdS}>
         <Text style={styles.titlePdS}>{product.name}</Text>
         <View style={styles.sectionHeaderPdS}>
-          <Image source={product.image} style={styles.imagePdS} resizeMode="contain" />
+          <Image source={{ uri: product.image }}  style={styles.imagePdS} resizeMode="contain" />
         </View>
         <Pressable onPress={toggleFavorite}>
           <Image
