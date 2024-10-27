@@ -48,7 +48,7 @@ const styles = {
   title: tw`text-lg font-bold text-black`,
   productInfo2: tw`flex-1 border border-gray-200 rounded-lg p-4 m-2 mt-0`,
   icon: tw`w-5 h-5`,
-  icon2: tw`w-12 h-20 mr-4 border boder-gray-400`,
+  icon2: tw`w-12 h-20 mr-4 border`,
 
 
   commentContainer: tw`mb-4 p-3 bg-gray-100 rounded-lg`,

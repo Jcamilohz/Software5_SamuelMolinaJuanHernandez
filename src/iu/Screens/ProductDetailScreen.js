@@ -1,4 +1,4 @@
-import React, { useState } from 'react'; 
+import React, { useState , useEffect  } from 'react'; 
 import { SafeAreaView, ScrollView, Text } from 'react-native';
 import { useProduct } from '../../Context/ProductProvider';
 import { useCart } from '../../Context/CartProvider';  
@@ -15,12 +15,16 @@ import QuestionModal from '../Modals/QuestionsModal';
 import RelatedProducts from '../Componets/RelatedComponent';
 import commentData from '../../data/CommentData';
 import questionData from '../../data/QuestionData';
+import { useUser } from '../../Context/UserContext';
+import { useComment } from '../../Context/CommentProvider';
 
 const ProductDetailScreen = ({ route, navigation }) => {
   const { productId } = route.params;
   const { products } = useProduct();  
   const { cartItems, addToCart } = useCart(); 
   const { favoriteItems, addToFavorites, removeFromFavorites } = useFavorites(); 
+  const { user } = useUser();
+  const { comments, getComments } = useComment();
 
 
   const product = products.find(product => product.id === productId);
@@ -40,12 +44,28 @@ const ProductDetailScreen = ({ route, navigation }) => {
   const [modalCommentVisible, setModalCommentVisible] = useState(false);
   const [modalQuestionVisible, setModalQuestionVisible] = useState(false);
   
-  const recentComments = commentData.filter(comment => comment.productId === productId).slice(0, 2) || [];
+  useEffect(() => {
+    if (product) {
+      getComments(productId);
+    }
+  }, [productId]);
+
+  const recentComments = comments.slice(0, 2);
   const recentQuestions = questionData.filter(question => question.productId === productId).slice(0, 2) || []; 
 
   const isFavorite = favoriteItems.some(item => item.id === product.id);
 
   const handleToggleFavorite = () => {
+    if (!user) {
+      Toast.show({
+        type: 'error',
+        text1: 'Inicio de sesión requerido',
+        text2: 'Debes iniciar sesión para agregar productos a favoritos',
+        position: 'bottom',
+      });
+      return;
+    }
+
     if (isFavorite) {
       removeFromFavorites(product.id);
       Toast.show({
@@ -66,8 +86,18 @@ const ProductDetailScreen = ({ route, navigation }) => {
   };
 
   const handleAddToCart = () => {
+    if (!user) {
+      Toast.show({
+        type: 'error',
+        text1: 'Inicio de sesión requerido',
+        text2: 'Debes iniciar sesión para agregar productos al carrito',
+        position: 'bottom',
+      });
+      return;
+    }
+  
     const isProductInCart = cartItems.find(item => item.id === product.id);
-
+    
     if (isProductInCart) {
       Toast.show({
         type: 'error',
@@ -96,6 +126,7 @@ const ProductDetailScreen = ({ route, navigation }) => {
           isFavorite={isFavorite} 
           toggleFavorite={handleToggleFavorite}
           setModalDescriptionVisible={setModalDescriptionVisible}
+          isUserLoggedIn={!!user} 
         />
         <ProductActionsComponent 
           handleAddToCart={handleAddToCart} 
