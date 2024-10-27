@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { SafeAreaView, ScrollView, View, Text, TextInput, Pressable } from 'react-native';
+import { SafeAreaView, ScrollView, View, Text, TextInput, Pressable, Image } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import { launchImageLibrary } from 'react-native-image-picker'; // Importar el selector de imágenes
 import styles from '../../styles/styles';
 import Toast from 'react-native-toast-message';
 import categoriesData from '../../data/CategoriesData';
 import { useProduct } from '../../Context/ProductProvider'; 
+import { useUser } from '../../Context/UserContext';
 
 const ProductSellScreen = () => {
     const [productName, setProductName] = useState('');
@@ -14,7 +16,9 @@ const ProductSellScreen = () => {
     const [stock, setStock] = useState(''); 
     const [description, setDescription] = useState('');
     const [selectedCategories, setSelectedCategories] = useState([categoriesData[0]]);
-    const { addProduct } = useProduct(); 
+    const [imageUri, setImageUri] = useState(null); // Estado para almacenar la URI de la imagen
+    const { addProduct } = useProduct();
+    const { user } = useUser(); // Obtener el usuario autenticado
 
     const handleAddCategory = () => {
         setSelectedCategories([...selectedCategories, categoriesData[0]]);
@@ -31,14 +35,32 @@ const ProductSellScreen = () => {
         setSelectedCategories(updatedCategories);
     };
 
+    const handleSelectImage = () => {
+        const options = {
+            mediaType: 'photo',
+            quality: 1,
+        };
+
+        launchImageLibrary(options, (response) => {
+            if (response.didCancel) {
+                console.log('User cancelled image picker');
+            } else if (response.errorCode) {
+                console.error('ImagePicker Error: ', response.errorMessage);
+            } else if (response.assets && response.assets.length > 0) {
+                const selectedImage = response.assets[0];
+                setImageUri(selectedImage.uri);
+                console.log('Selected image URI:', selectedImage.uri);
+            }
+        });
+    };
+
     const handlePublishProduct = async () => {
         try {
-            // Validar que los campos requeridos no estén vacíos
-            if (!productName || !price || !stock) {
+            if (!productName || !price || !stock || !imageUri) {
                 Toast.show({
                     type: 'error',
                     text1: 'Error',
-                    text2: 'Por favor completa todos los campos requeridos',
+                    text2: 'Por favor completa todos los campos requeridos y selecciona una imagen',
                     position: 'bottom',
                 });
                 return;
@@ -52,15 +74,22 @@ const ProductSellScreen = () => {
                 discountPrice: parseFloat(calculatedDiscountPrice) || 0,
                 discount: parseFloat(discount) || 0,
                 shippingCost: parseFloat(shippingCost) || 0,
-                imageUrl: 'https://via.placeholder.com/150', // URL de imagen por defecto
                 freeShipping: parseFloat(shippingCost) === 0,
                 stock: parseInt(stock) || 0,
-                categories: selectedCategories.map(cat => cat.name),
-                sellerId: '1', // Considera obtener esto del contexto de usuario
-                description: description || `${productName}\nPrecio: ${price}\nDescuento: ${discount}%\nCategorías: ${selectedCategories.map(cat => cat.name).join(', ')}`,
+                categories: selectedCategories.filter(cat => cat),
+                sellerId: user?.id || '', 
+                description: description || `${productName}\nPrecio: ${price}\nDescuento: ${discount}%\nCategorías: ${selectedCategories.join(', ')}`,
+                image: imageUri, // Incluye la URI de la imagen
                 createdAt: new Date().toISOString(),
-                status: 'active'
+                status: 'active',
             };
+
+            console.log('Datos del producto antes de agregar:', JSON.stringify(newProduct, null, 2));
+            for (const key in newProduct) {
+                if (newProduct[key] === undefined) {
+                    console.error(`El campo "${key}" tiene un valor 'undefined'.`);
+                }
+            }
 
             await addProduct(newProduct);
 
@@ -79,6 +108,7 @@ const ProductSellScreen = () => {
             setStock(''); 
             setDescription('');
             setSelectedCategories([categoriesData[0]]);
+            setImageUri(null);
             
         } catch (error) {
             console.error('Error al publicar producto:', error);
@@ -175,6 +205,18 @@ const ProductSellScreen = () => {
                         value={description}
                         onChangeText={setDescription}
                     />
+
+                    <Pressable style={styles.actionButton1} onPress={handleSelectImage}>
+                        <Text style={styles.buttonText1}>Seleccionar Imagen</Text>
+                    </Pressable>
+
+                    {imageUri && (
+                        <Image 
+                            source={{ uri: imageUri }} 
+                            style={{ width: 200, height: 200, marginTop: 10 }} 
+                            resizeMode="cover"
+                        />
+                    )}
 
                     <Pressable style={styles.actionButton1} onPress={handlePublishProduct}>
                         <Text style={styles.buttonText1}>Publicar Producto</Text>
