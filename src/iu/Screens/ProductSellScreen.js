@@ -103,7 +103,7 @@ const ProductSellScreen = () => {
                 categories: selectedCategories.filter(cat => cat),
                 sellerId: user?.id || '',
                 description: description || `${productName}\nPrecio: ${price}\nDescuento: ${discount}%\nCategorías: ${selectedCategories.join(', ')}`,
-                image: imageUrl, // Usamos la URL de Firebase Storage
+                image: imageUrl,
                 createdAt: new Date().toISOString(),
                 status: 'active',
             };
@@ -123,8 +123,6 @@ const ProductSellScreen = () => {
                 text2: `El producto "${productName}" ha sido publicado.`,
                 position: 'bottom',
             });
-
-            // Limpiar el formulario
             setProductName('');
             setPrice('');
             setDiscount('');
