@@ -39,7 +39,7 @@ const SesionScreen = ({ navigation }) => {
   const handleLogin = async () => {
     if (validateFields()) {
       try {
-        const success = await login(username, password); // Agregamos await aquí
+        const success = await login(username, password); 
         if (success) {
           Toast.show({
             type: 'success',

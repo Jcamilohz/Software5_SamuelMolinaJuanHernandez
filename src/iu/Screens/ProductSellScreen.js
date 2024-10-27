@@ -1,20 +1,26 @@
 import React, { useState } from 'react';
-import { SafeAreaView, ScrollView, View, Text, TextInput, Pressable } from 'react-native';
+import { SafeAreaView, ScrollView, View, Text, TextInput, Pressable, Image } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import { launchImageLibrary } from 'react-native-image-picker';
 import styles from '../../styles/styles';
 import Toast from 'react-native-toast-message';
 import categoriesData from '../../data/CategoriesData';
-import { useProduct } from '../../Context/ProductProvider'; 
+import { useProduct } from '../../Context/ProductProvider';
+import { useUser } from '../../Context/UserContext';
+import firebase from '../../firebase/firebase';
 
 const ProductSellScreen = () => {
     const [productName, setProductName] = useState('');
     const [price, setPrice] = useState('');
     const [discount, setDiscount] = useState('');
     const [shippingCost, setShippingCost] = useState('');
-    const [stock, setStock] = useState(''); 
+    const [stock, setStock] = useState('');
     const [description, setDescription] = useState('');
     const [selectedCategories, setSelectedCategories] = useState([categoriesData[0]]);
-    const { addProduct } = useProduct(); 
+    const [imageUri, setImageUri] = useState(null);
+    const [isUploading, setIsUploading] = useState(false);
+    const { addProduct } = useProduct();
+    const { user } = useUser();
 
     const handleAddCategory = () => {
         setSelectedCategories([...selectedCategories, categoriesData[0]]);
@@ -31,19 +37,59 @@ const ProductSellScreen = () => {
         setSelectedCategories(updatedCategories);
     };
 
+    const uploadImageToStorage = async (uri) => {
+        try {
+            const response = await fetch(uri);
+            const blob = await response.blob();
+            
+            const timestamp = Date.now();
+            const fileName = `product_images/${timestamp}_${Math.random().toString(36).substr(2, 9)}`;
+            
+            const storageRef = firebase.storage.ref().child(fileName);
+            await storageRef.put(blob);
+            
+            const downloadUrl = await storageRef.getDownloadURL();
+            return downloadUrl;
+        } catch (error) {
+            console.error('Error al subir imagen:', error);
+            throw error;
+        }
+    };
+
+    const handleSelectImage = () => {
+        const options = {
+            mediaType: 'photo',
+            quality: 1,
+        };
+
+        launchImageLibrary(options, (response) => {
+            if (response.didCancel) {
+                console.log('User cancelled image picker');
+            } else if (response.errorCode) {
+                console.error('ImagePicker Error: ', response.errorMessage);
+            } else if (response.assets && response.assets.length > 0) {
+                const selectedImage = response.assets[0];
+                setImageUri(selectedImage.uri);
+                console.log('Selected image URI:', selectedImage.uri);
+            }
+        });
+    };
+
     const handlePublishProduct = async () => {
         try {
-            // Validar que los campos requeridos no estén vacíos
-            if (!productName || !price || !stock) {
+            if (!productName || !price || !stock || !imageUri) {
                 Toast.show({
                     type: 'error',
                     text1: 'Error',
-                    text2: 'Por favor completa todos los campos requeridos',
+                    text2: 'Por favor completa todos los campos requeridos y selecciona una imagen',
                     position: 'bottom',
                 });
                 return;
             }
 
+            setIsUploading(true);
+            const imageUrl = await uploadImageToStorage(imageUri);
+            
             const calculatedDiscountPrice = price - (price * (discount / 100));
 
             const newProduct = {
@@ -52,15 +98,22 @@ const ProductSellScreen = () => {
                 discountPrice: parseFloat(calculatedDiscountPrice) || 0,
                 discount: parseFloat(discount) || 0,
                 shippingCost: parseFloat(shippingCost) || 0,
-                imageUrl: 'https://via.placeholder.com/150', // URL de imagen por defecto
                 freeShipping: parseFloat(shippingCost) === 0,
                 stock: parseInt(stock) || 0,
-                categories: selectedCategories.map(cat => cat.name),
-                sellerId: '1', // Considera obtener esto del contexto de usuario
-                description: description || `${productName}\nPrecio: ${price}\nDescuento: ${discount}%\nCategorías: ${selectedCategories.map(cat => cat.name).join(', ')}`,
+                categories: selectedCategories.filter(cat => cat),
+                sellerId: user?.id || '',
+                description: description || `${productName}\nPrecio: ${price}\nDescuento: ${discount}%\nCategorías: ${selectedCategories.join(', ')}`,
+                image: imageUrl,
                 createdAt: new Date().toISOString(),
-                status: 'active'
+                status: 'active',
             };
+
+            console.log('Datos del producto antes de agregar:', JSON.stringify(newProduct, null, 2));
+            for (const key in newProduct) {
+                if (newProduct[key] === undefined) {
+                    console.error(`El campo "${key}" tiene un valor 'undefined'.`);
+                }
+            }
 
             await addProduct(newProduct);
 
@@ -70,16 +123,15 @@ const ProductSellScreen = () => {
                 text2: `El producto "${productName}" ha sido publicado.`,
                 position: 'bottom',
             });
-
-            // Limpiar el formulario
             setProductName('');
             setPrice('');
             setDiscount('');
             setShippingCost('');
-            setStock(''); 
+            setStock('');
             setDescription('');
             setSelectedCategories([categoriesData[0]]);
-            
+            setImageUri(null);
+
         } catch (error) {
             console.error('Error al publicar producto:', error);
             Toast.show({
@@ -88,6 +140,8 @@ const ProductSellScreen = () => {
                 text2: 'No se pudo publicar el producto. Por favor intenta de nuevo.',
                 position: 'bottom',
             });
+        } finally {
+            setIsUploading(false);
         }
     };
 
@@ -176,8 +230,30 @@ const ProductSellScreen = () => {
                         onChangeText={setDescription}
                     />
 
-                    <Pressable style={styles.actionButton1} onPress={handlePublishProduct}>
-                        <Text style={styles.buttonText1}>Publicar Producto</Text>
+                    <Pressable 
+                        style={[styles.actionButton1, isUploading && { opacity: 0.7 }]} 
+                        onPress={handleSelectImage}
+                        disabled={isUploading}
+                    >
+                        <Text style={styles.buttonText1}>Seleccionar Imagen</Text>
+                    </Pressable>
+
+                    {imageUri && (
+                        <Image
+                            source={{ uri: imageUri }}
+                            style={styles.image}
+                            resizeMode="cover"
+                        />
+                    )}
+
+                    <Pressable 
+                        style={[styles.actionButton1, isUploading && { opacity: 0.7 }]} 
+                        onPress={handlePublishProduct}
+                        disabled={isUploading}
+                    >
+                        <Text style={styles.buttonText1}>
+                            {isUploading ? 'Subiendo...' : 'Publicar Producto'}
+                        </Text>
                     </Pressable>
                 </View>
             </ScrollView>

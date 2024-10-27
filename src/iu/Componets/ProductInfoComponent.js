@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Image, Pressable } from 'react-native';
 import styles from '../../styles/styles';
 
-const ProductInfoComponent = ({ product, isFavorite, toggleFavorite, setModalDescriptionVisible }) => {
+const ProductInfoComponent = ({ product, isFavorite, toggleFavorite, setModalDescriptionVisible,  isUserLoggedIn  }) => {
   return (
     <View>
       <View style={styles.productDetailsPdS}>
@@ -10,11 +10,13 @@ const ProductInfoComponent = ({ product, isFavorite, toggleFavorite, setModalDes
         <View style={styles.sectionHeaderPdS}>
           <Image source={{ uri: product.image }}  style={styles.imagePdS} resizeMode="contain" />
         </View>
-        <Pressable onPress={toggleFavorite}>
+        <Pressable 
+          onPress={toggleFavorite}
+          style={({ pressed }) => [ styles.favoriteButton,pressed && styles.favoriteButtonPressed]}
+        >
           <Image
             source={isFavorite ? require('../../Iconos/corazon.png') : require('../../Iconos/me-gusta.png')}
-            style={styles.iconPdS}
-            resizeMode="contain"
+            style={[ styles.iconPdS,!isUserLoggedIn && styles.iconDisabled ]} resizeMode="contain"
           />
         </Pressable>
       </View>
