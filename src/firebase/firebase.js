@@ -7,11 +7,9 @@ class Firebase {
     constructor() {
         if (!app.apps.length) {
             app.initializeApp(firebaseConfig)
-            console.log('Firebase inicializado correctamente')
         } else {
             this.app = getApps()[0];
         }
-
         this.db = app.firestore();
         this.storage = app.storage();
     }

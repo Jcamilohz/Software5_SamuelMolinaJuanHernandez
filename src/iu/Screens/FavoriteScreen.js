@@ -42,7 +42,6 @@ const FavoritesScreen = ({ navigation }) => {
                     </View>
 
                     <View style={styles.section}>
-                        <Text style={styles.text}>Tus productos favoritos</Text>
 
                         {favoriteItems.length === 0 ? (
                             <Text style={styles.text}>No hay productos en tus favoritos</Text>
@@ -78,7 +77,6 @@ const FavoritesScreen = ({ navigation }) => {
                             </View>
                         </View>
                     )}
-            <Toast ref={(ref) => Toast.setRef(ref)} />
         </SafeAreaView>
     );
 };

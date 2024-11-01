@@ -48,85 +48,69 @@ export const CartProvider = ({ children }) => {
   }, [user]);
 
   const getCartItems = async () => {
-    try {
-      const cartSnapshot = await firebase.db
-        .collection('cart')
-        .where('userId', '==', user?.id)
+    const cartSnapshot = await firebase.db
+      .collection('cart')
+      .where('userId', '==', user?.id)
+      .get();
+
+    const cartPromises = cartSnapshot.docs.map(async (doc) => {
+      const cartData = doc.data();
+      const productDoc = await firebase.db
+        .collection('product')
+        .doc(cartData.productId)
         .get();
+      
+      if (productDoc.exists) {
+        return {
+          id: doc.id,
+          ...productDoc.data(),
+          cartId: doc.id,
+          quantity: cartData.quantity || 1,
+        };
+      }
+      return null;
+    });
 
-      const cartPromises = cartSnapshot.docs.map(async (doc) => {
-        const cartData = doc.data();
-        const productDoc = await firebase.db
-          .collection('product')
-          .doc(cartData.productId)
-          .get();
-        
-        if (productDoc.exists) {
-          return {
-            id: doc.id,
-            ...productDoc.data(),
-            cartId: doc.id,
-            quantity: cartData.quantity || 1,
-          };
-        }
-        return null;
-      });
-
-      const cartItems = (await Promise.all(cartPromises)).filter(item => item !== null);
-      dispatch({ type: 'SET_CART', payload: cartItems });
-    } catch (error) {
-      console.error('Error al obtener elementos del carrito:', error);
-    }
+    const cartItems = (await Promise.all(cartPromises)).filter(item => item !== null);
+    dispatch({ type: 'SET_CART', payload: cartItems });
   };
 
   const addToCart = async (product, quantity = 1) => {
-    try {
-      const cartRef = await firebase.db.collection('cart').add({
-        userId: user.id,
-        productId: product.id,
-        quantity,
-        addedAt: new Date().toISOString(),
-      });
+    const cartRef = await firebase.db.collection('cart').add({
+      userId: user.id,
+      productId: product.id,
+      quantity,
+      addedAt: new Date().toISOString(),
+    });
 
-      dispatch({
-        type: 'ADD_TO_CART',
-        payload: {
-          ...product,
-          cartId: cartRef.id,
-          quantity,
-        },
-      });
-    } catch (error) {
-      console.error('Error al agregar al carrito:', error);
-    }
+    dispatch({
+      type: 'ADD_TO_CART',
+      payload: {
+        ...product,
+        cartId: cartRef.id,
+        quantity,
+      },
+    });
   };
 
   const removeFromCart = async (cartId) => {
-    try {
-      await firebase.db.collection('cart').doc(cartId).delete();
-      dispatch({ type: 'REMOVE_FROM_CART', payload: cartId });
-    } catch (error) {
-      console.error('Error al eliminar del carrito:', error);
-    }
+    await firebase.db.collection('cart').doc(cartId).delete();
+    dispatch({ type: 'REMOVE_FROM_CART', payload: cartId });
   };
 
   const clearCart = async () => {
-    try {
-      const cartSnapshot = await firebase.db
-        .collection('cart')
-        .where('userId', '==', user?.id)
-        .get();
+    const cartSnapshot = await firebase.db
+      .collection('cart')
+      .where('userId', '==', user?.id)
+      .get();
 
-      const batch = firebase.db.batch();
-      cartSnapshot.docs.forEach(doc => {
-        batch.delete(doc.ref);
-      });
+    const batch = firebase.db.batch();
+    cartSnapshot.docs.forEach(doc => {
+      batch.delete(doc.ref);
+    });
 
-      await batch.commit();
-      dispatch({ type: 'CLEAR_CART' });
-    } catch (error) {
-      console.error('Error al vaciar el carrito:', error);
-    }
+    await batch.commit();
+    dispatch({ type: 'CLEAR_CART' });
   };
 
   return (
@@ -142,3 +126,5 @@ export const CartProvider = ({ children }) => {
 };
 
 export const useCart = () => useContext(CartContext);
+
+export default CartProvider;

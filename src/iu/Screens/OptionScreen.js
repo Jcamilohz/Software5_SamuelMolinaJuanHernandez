@@ -34,7 +34,7 @@ const OptionScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.mainBackground}>
-      <View style={styles.container6}>
+      <View style={styles.container3}>
         <View style={styles.opcions}>
           <ScrollView>
             {user && options.map((option, index) => (
@@ -55,7 +55,7 @@ const OptionScreen = ({ navigation }) => {
           </ScrollView>
         </View>
       </View>
-      <Toast ref={(ref) => Toast.setRef(ref)} />
+
     </SafeAreaView>
   );
 };

@@ -59,7 +59,6 @@ const SesionScreen = ({ navigation }) => {
           });
         }
       } catch (error) {
-        console.error('Error en login:', error);
         Toast.show({
           type: 'error',
           text1: 'Error',
@@ -140,8 +139,6 @@ const SesionScreen = ({ navigation }) => {
         setModalVisible={setModalVisible}
         onSendEmail={handleSendEmail}
       />
-
-      <Toast ref={(ref) => Toast.setRef(ref)} />
     </SafeAreaView>
   );
 };

@@ -2,20 +2,29 @@ import React from 'react';
 import { ProductProvider } from './ProductProvider';
 import { CartProvider } from './CartProvider';
 import { UserProvider } from './UserContext';
-import { FavoritesProvider } from './FavoriteProvider'; 
+import { FavoritesProvider } from './FavoriteProvider';
 import { CommentProvider } from './CommentProvider';
+import { QuestionProvider } from './QuestionProvider';
+import { PurchaseProvider } from './ProductPaidProvider';
+import { CategoryProvider} from './CategorieProvider';
 
 const AppProvider = ({ children }) => {
   return (
     <ProductProvider>
-        <UserProvider>
+      <UserProvider>
+        <PurchaseProvider>
         <CartProvider>
-          <FavoritesProvider> 
+          <FavoritesProvider>
             <CommentProvider>
-            {children}
+              <QuestionProvider>
+                <CategoryProvider>
+                {children}
+                </CategoryProvider>
+              </QuestionProvider>
             </CommentProvider>
           </FavoritesProvider>
-      </CartProvider>
+        </CartProvider>
+        </PurchaseProvider>
       </UserProvider>
     </ProductProvider>
   );

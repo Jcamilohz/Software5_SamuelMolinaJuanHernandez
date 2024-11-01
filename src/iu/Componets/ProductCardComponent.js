@@ -10,7 +10,7 @@ const ProductCardComponent = ({ product, onPress }) => {
         <Text style={styles.title}>{product.name}</Text>
         {product.discount ? (
           <>
-            <Text style={styles.beforePrice}>
+            <Text style={styles.text2Line}>
               Precio antes: ${product.price}
             </Text>
             <Text style={styles.textGreen}>

@@ -65,7 +65,6 @@ const Navigation = () => {
     return (
         <NavigationContainer>
             <AppNavigator />
-            <Toast ref={(ref) => Toast.setRef(ref)} />
         </NavigationContainer>
     );
 }

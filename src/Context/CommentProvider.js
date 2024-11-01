@@ -38,47 +38,34 @@ export const CommentProvider = ({ children }) => {
   }, [user]);
 
   const getComments = async (productId) => {
-    try {
-      const commentSnapshot = await firebase.db
-        .collection('comment')
-        .where('productId', '==', productId)
-        .get();
-
-      const comments = commentSnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-
-      dispatch({ type: 'SET_COMMENTS', payload: comments });
-    } catch (error) {
-      console.error('Error al obtener comentarios:', error);
-    }
+    const commentSnapshot = await firebase.db
+      .collection('comment')
+      .where('productId', '==', productId)
+      .get();
+  
+    const comments = commentSnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+  
+    dispatch({ type: 'SET_COMMENTS', payload: comments });
   };
 
   const addComment = async (productId, comment, score) => {
-    if (!user) {
-      console.error('Debes estar autenticado para agregar comentarios');
-      return;
-    }
+    const newComment = {
+      productId,
+      personId: user.id,
+      comment,
+      score,
+      commentDate: new Date().toISOString(),
+    };
 
-    try {
-      const newComment = {
-        productId,
-        personId: user.id,
-        comment,
-        score,
-        commentDate: new Date().toISOString(),
-      };
+    const commentRef = await firebase.db.collection('comment').add(newComment);
 
-      const commentRef = await firebase.db.collection('comment').add(newComment);
-
-      dispatch({
-        type: 'ADD_COMMENT',
-        payload: { id: commentRef.id, ...newComment },
-      });
-    } catch (error) {
-      console.error('Error al agregar comentario:', error);
-    }
+    dispatch({
+      type: 'ADD_COMMENT',
+      payload: { id: commentRef.id, ...newComment },
+    });
   };
 
   return (

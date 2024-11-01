@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Pressable } from 'react-native';
+import { View, Text, Pressable, Image } from 'react-native';
 import styles from '../../styles/styles';
 
 const ProfileViewComponent = ({
@@ -15,10 +15,14 @@ const ProfileViewComponent = ({
   countryData,
   filteredDepartments,
   filteredCities,
+  imageProfile,
   onEdit,
 }) => {
   return (
     <View>
+       <View style={styles.imageContainer}>
+          <Image source={{ uri: imageProfile }} style={styles.profileImage2} resizeMode="contain"/>
+        </View>
       <View style={styles.profileBox}>
         <Text style={styles.profileLabelPf}>Nombre: {name || 'Sin nombre'}</Text>
       </View>

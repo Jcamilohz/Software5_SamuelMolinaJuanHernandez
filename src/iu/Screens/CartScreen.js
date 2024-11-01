@@ -83,7 +83,6 @@ const CartScreen = ({ navigation }) => {
           </View>
         </View>
       )}
-      <Toast ref={(ref) => Toast.setRef(ref)} />
     </SafeAreaView>
   );
 };
