@@ -17,7 +17,7 @@ const SearchResultsScreen = ({ route, navigation }) => {
     <SafeAreaView style={styles.mainBackground}>
       <Header navigation={navigation} />
 
-      <View style={styles.searchResults}>
+      <View style={styles.padding}>
         <Text style={styles.text}>Resultados de búsqueda para "{query}"</Text>
       </View>
 

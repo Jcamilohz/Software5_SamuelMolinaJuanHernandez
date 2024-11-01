@@ -67,8 +67,6 @@ const HelpScreen = ({ navigation }) => {
           <Text style={styles.helpContactLink}>Contáctanos</Text>
         </Pressable>
       </ScrollView>
-
-      <Toast ref={(ref) => Toast.setRef(ref)} />
     </SafeAreaView>
   );
 };

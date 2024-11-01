@@ -1,4 +1,4 @@
-import React, { useState , useEffect  } from 'react'; 
+import React, { useState, useEffect } from 'react'; 
 import { SafeAreaView, ScrollView, Text } from 'react-native';
 import { useProduct } from '../../Context/ProductProvider';
 import { useCart } from '../../Context/CartProvider';  
@@ -13,10 +13,9 @@ import ProductDescriptionModal from '../Modals/ProductDescriptionModal';
 import CommentModal from '../Modals/CommentModal';
 import QuestionModal from '../Modals/QuestionsModal';
 import RelatedProducts from '../Componets/RelatedComponent';
-import commentData from '../../data/CommentData';
-import questionData from '../../data/QuestionData';
 import { useUser } from '../../Context/UserContext';
 import { useComment } from '../../Context/CommentProvider';
+import { useQuestion } from '../../Context/QuestionProvider';
 
 const ProductDetailScreen = ({ route, navigation }) => {
   const { productId } = route.params;
@@ -25,7 +24,7 @@ const ProductDetailScreen = ({ route, navigation }) => {
   const { favoriteItems, addToFavorites, removeFromFavorites } = useFavorites(); 
   const { user } = useUser();
   const { comments, getComments } = useComment();
-
+  const { questions, getQuestions } = useQuestion(); 
 
   const product = products.find(product => product.id === productId);
   if (!product) {
@@ -47,11 +46,12 @@ const ProductDetailScreen = ({ route, navigation }) => {
   useEffect(() => {
     if (product) {
       getComments(productId);
+      getQuestions(productId);
     }
   }, [productId]);
 
   const recentComments = comments.slice(0, 2);
-  const recentQuestions = questionData.filter(question => question.productId === productId).slice(0, 2) || []; 
+  const recentQuestions = questions.slice(0, 2); 
 
   const isFavorite = favoriteItems.some(item => item.id === product.id);
 
@@ -117,6 +117,32 @@ const ProductDetailScreen = ({ route, navigation }) => {
     }
   };
 
+  const handleAddComment = (comment, score) => {
+    if (!user) {
+      Toast.show({
+        type: 'error',
+        text1: 'Inicio de sesión requerido',
+        text2: 'Debes estar autenticado para agregar comentarios',
+        position: 'bottom',
+      });
+      return false;
+    }
+    return true;
+  };
+
+  const handleAddQuestion = (question) => {
+    if (!user) {
+      Toast.show({
+        type: 'error',
+        text1: 'Inicio de sesión requerido',
+        text2: 'Debes estar autenticado para hacer preguntas',
+        position: 'bottom',
+      });
+      return false;
+    }
+    return true;
+  };
+
   return (
     <SafeAreaView style={styles.mainBackground}>
       <Header navigation={navigation} />
@@ -151,15 +177,15 @@ const ProductDetailScreen = ({ route, navigation }) => {
         modalVisible={modalCommentVisible}
         setModalVisible={setModalCommentVisible}
         productId={product.id}
+        onBeforeComment={handleAddComment}
       />
 
       <QuestionModal
         modalVisible={modalQuestionVisible}
         setModalVisible={setModalQuestionVisible}
         productId={product.id}
+        onSubmit={handleAddQuestion}
       />
-
-      <Toast ref={(ref) => Toast.setRef(ref)} />
     </SafeAreaView>
   );
 };

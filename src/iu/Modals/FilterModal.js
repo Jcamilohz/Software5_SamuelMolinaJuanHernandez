@@ -45,7 +45,7 @@ const FilterModal = ({ modalVisible, setModalVisible }) => {
         <View style={styles.modalContainermfp}>
           <Text style={styles.modalTitlemfp}>Filtrar Opciones</Text>
 
-          <ScrollView contentContainerStyle={styles.scrollContentContainer}>
+          <ScrollView contentContainerStyle={styles.scrollView}>
             <Text style={styles.modalDescriptionTextmfp}>Selecciona Categorías</Text>
             {selectedCategories.length > 0 ? (
               selectedCategories.map((selectedCategory, index) => (

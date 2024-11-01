@@ -5,7 +5,7 @@ import styles from '../../styles/styles';
 const ProductInfoComponent = ({ product, isFavorite, toggleFavorite, setModalDescriptionVisible,  isUserLoggedIn  }) => {
   return (
     <View>
-      <View style={styles.productDetailsPdS}>
+      <View style={styles.padding}>
         <Text style={styles.titlePdS}>{product.name}</Text>
         <View style={styles.sectionHeaderPdS}>
           <Image source={{ uri: product.image }}  style={styles.imagePdS} resizeMode="contain" />
@@ -24,7 +24,7 @@ const ProductInfoComponent = ({ product, isFavorite, toggleFavorite, setModalDes
       <View style={styles.productInfoPdS}>
         {product.discount ? (
           <>
-            <Text style={styles.beforePricePdS}>Precio antes: ${product.price}</Text>
+            <Text style={styles.text2Line}>Precio antes: ${product.price}</Text>
             <Text style={styles.textGreenPdS}>Precio ahora: ${product.discountPrice}</Text>
             <Text style={styles.textRedPdS}>{product.discount}% de descuento</Text>
           </>

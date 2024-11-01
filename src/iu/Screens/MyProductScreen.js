@@ -53,7 +53,7 @@ const MyProductScreen = ({ navigation }) => {
 
               <View style={styles.productInfoContainer1}>
                 <Text style={styles.productName1}>{product.name}</Text>
-                <Text style={styles.productPrice1}>Precio: ${product.price}</Text>
+                <Text style={styles.text}>Precio: ${product.price}</Text>
                 <Text style={styles.productStock1}>Stock: {product.stock}</Text>
               </View>
 
@@ -85,7 +85,6 @@ const MyProductScreen = ({ navigation }) => {
           <Text style={styles.noProductsText1}>No hay productos publicados.</Text>
         )}
       </ScrollView>
-      <Toast ref={(ref) => Toast.setRef(ref)} />
     </SafeAreaView>
   );
 };

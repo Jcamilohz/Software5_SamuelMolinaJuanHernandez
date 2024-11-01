@@ -16,6 +16,7 @@ const ProfileScreen = () => {
   const [userName, setUserName] = useState(user?.userName || '');
   const [mail, setMail] = useState(user?.mail || '');
   const [birthDate, setBirthDate] = useState(user?.birthDate || '');
+  const [imageProfile, setImageProfile] = useState(user?.imageProfile || null);
   const [address, setAddress] = useState(user?.address || '');
   const [country, setCountry] = useState('');
   const [department, setDepartment] = useState('');
@@ -31,6 +32,7 @@ const ProfileScreen = () => {
       setMail(user.mail);
       setBirthDate(user.birthDate);
       setAddress(user.address);
+      setImageProfile(user.imageProfile);
 
       const selectedCountry = countryData.find(c => c.name === user.country);
       if (selectedCountry) {
@@ -168,7 +170,7 @@ const ProfileScreen = () => {
   };
 
   return (
-    <SafeAreaView style={styles.profileMainBackgroundPf}>
+    <SafeAreaView style={styles.profileMainBackground}>
       <ScrollView>
         {isEditing ? (
           <ProfileEditComponent
@@ -197,23 +199,23 @@ const ProfileScreen = () => {
           />
         ) : (
           <ProfileViewComponent
-            name={name}
-            lastName={lastName}
-            userName={userName}
-            mail={mail}
-            birthDate={birthDate}
-            address={address}
-            country={country}
-            department={department}
-            city={city}
-            countryData={countryData}
-            filteredDepartments={filteredDepartments}
-            filteredCities={filteredCities}
-            onEdit={() => setIsEditing(true)}
+          name={name}
+          lastName={lastName}
+          userName={userName}
+          mail={mail}
+          birthDate={birthDate}
+          address={address}
+          country={country}
+          department={department}
+          city={city}
+          countryData={countryData}
+          filteredDepartments={filteredDepartments}
+          filteredCities={filteredCities}
+          imageProfile={imageProfile}
+          onEdit={() => setIsEditing(true)}
           />
         )}
       </ScrollView>
-      <Toast ref={(ref) => Toast.setRef(ref)} />
     </SafeAreaView>
   );
 };

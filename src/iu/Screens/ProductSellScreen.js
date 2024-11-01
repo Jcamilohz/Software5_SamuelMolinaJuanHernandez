@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SafeAreaView, ScrollView, View, Text, TextInput, Pressable, Image } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { launchImageLibrary } from 'react-native-image-picker';
 import styles from '../../styles/styles';
 import Toast from 'react-native-toast-message';
-import categoriesData from '../../data/CategoriesData';
+import { useCategory } from '../../Context/CategorieProvider';
 import { useProduct } from '../../Context/ProductProvider';
 import { useUser } from '../../Context/UserContext';
 import firebase from '../../firebase/firebase';
@@ -16,14 +16,21 @@ const ProductSellScreen = () => {
     const [shippingCost, setShippingCost] = useState('');
     const [stock, setStock] = useState('');
     const [description, setDescription] = useState('');
-    const [selectedCategories, setSelectedCategories] = useState([categoriesData[0]]);
     const [imageUri, setImageUri] = useState(null);
     const [isUploading, setIsUploading] = useState(false);
     const { addProduct } = useProduct();
     const { user } = useUser();
+    const { categories } = useCategory();
+    const [selectedCategories, setSelectedCategories] = useState([]);
+
+    useEffect(() => {
+        if (categories.length > 0) {
+            setSelectedCategories([categories[0]]);
+        }
+    }, [categories]);
 
     const handleAddCategory = () => {
-        setSelectedCategories([...selectedCategories, categoriesData[0]]);
+        setSelectedCategories([...selectedCategories, categories[0]]);
     };
 
     const handleCategoryChange = (value, index) => {
@@ -36,70 +43,54 @@ const ProductSellScreen = () => {
         const updatedCategories = selectedCategories.filter((_, i) => i !== index);
         setSelectedCategories(updatedCategories);
     };
-
     const uploadImageToStorage = async (uri) => {
-        try {
-            const response = await fetch(uri);
-            const blob = await response.blob();
-            
-            const timestamp = Date.now();
-            const fileName = `product_images/${timestamp}_${Math.random().toString(36).substr(2, 9)}`;
-            
-            const storageRef = firebase.storage.ref().child(fileName);
-            await storageRef.put(blob);
-            
-            const downloadUrl = await storageRef.getDownloadURL();
-            return downloadUrl;
-        } catch (error) {
-            console.error('Error al subir imagen:', error);
-            throw error;
-        }
+        const response = await fetch(uri);
+        const blob = await response.blob();
+        const fileName = `product_images/${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+        const storageRef = firebase.storage.ref().child(fileName);
+        await storageRef.put(blob);
+        return await storageRef.getDownloadURL();
     };
 
     const handleSelectImage = () => {
-        const options = {
-            mediaType: 'photo',
-            quality: 1,
-        };
-
-        launchImageLibrary(options, (response) => {
+        launchImageLibrary({ mediaType: 'photo', quality: 1 }, (response) => {
             if (response.didCancel) {
-                console.log('User cancelled image picker');
-            } else if (response.errorCode) {
-                console.error('ImagePicker Error: ', response.errorMessage);
+                Toast.show({
+                    type: 'info',
+                    text1: 'Imagen no seleccionada',
+                    text2: 'Selecciona una imagen para tu producto.',
+                    position: 'bottom',
+                });
             } else if (response.assets && response.assets.length > 0) {
-                const selectedImage = response.assets[0];
-                setImageUri(selectedImage.uri);
-                console.log('Selected image URI:', selectedImage.uri);
+                setImageUri(response.assets[0].uri);
             }
         });
     };
 
     const handlePublishProduct = async () => {
+        if (!productName || !price || !stock || !imageUri || selectedCategories.length === 0) {
+            Toast.show({
+                type: 'error',
+                text1: 'Error',
+                text2: 'Por favor completa todos los campos requeridos, selecciona una imagen y al menos una categoría',
+                position: 'bottom',
+            });
+            return;
+        }
+    
+        setIsUploading(true);
         try {
-            if (!productName || !price || !stock || !imageUri) {
-                Toast.show({
-                    type: 'error',
-                    text1: 'Error',
-                    text2: 'Por favor completa todos los campos requeridos y selecciona una imagen',
-                    position: 'bottom',
-                });
-                return;
-            }
-
-            setIsUploading(true);
             const imageUrl = await uploadImageToStorage(imageUri);
-            
             const calculatedDiscountPrice = price - (price * (discount / 100));
-
+    
             const newProduct = {
                 name: productName,
-                price: parseFloat(price) || 0,
-                discountPrice: parseFloat(calculatedDiscountPrice) || 0,
-                discount: parseFloat(discount) || 0,
-                shippingCost: parseFloat(shippingCost) || 0,
+                price: parseFloat(price),
+                discountPrice: parseFloat(calculatedDiscountPrice),
+                discount: parseFloat(discount),
+                shippingCost: parseFloat(shippingCost),
                 freeShipping: parseFloat(shippingCost) === 0,
-                stock: parseInt(stock) || 0,
+                stock: parseInt(stock),
                 categories: selectedCategories.filter(cat => cat),
                 sellerId: user?.id || '',
                 description: description || `${productName}\nPrecio: ${price}\nDescuento: ${discount}%\nCategorías: ${selectedCategories.join(', ')}`,
@@ -107,33 +98,24 @@ const ProductSellScreen = () => {
                 createdAt: new Date().toISOString(),
                 status: 'active',
             };
-
-            console.log('Datos del producto antes de agregar:', JSON.stringify(newProduct, null, 2));
-            for (const key in newProduct) {
-                if (newProduct[key] === undefined) {
-                    console.error(`El campo "${key}" tiene un valor 'undefined'.`);
-                }
-            }
-
+    
             await addProduct(newProduct);
-
             Toast.show({
                 type: 'success',
                 text1: 'Producto Publicado',
                 text2: `El producto "${productName}" ha sido publicado.`,
                 position: 'bottom',
             });
+
             setProductName('');
             setPrice('');
             setDiscount('');
             setShippingCost('');
             setStock('');
             setDescription('');
-            setSelectedCategories([categoriesData[0]]);
+            setSelectedCategories(categories.length > 0 ? [categories[0]] : []);
             setImageUri(null);
-
-        } catch (error) {
-            console.error('Error al publicar producto:', error);
+        } catch {
             Toast.show({
                 type: 'error',
                 text1: 'Error',
@@ -144,14 +126,13 @@ const ProductSellScreen = () => {
             setIsUploading(false);
         }
     };
-
     return (
         <SafeAreaView style={styles.mainBackground}>
             <ScrollView>
                 <View style={styles.containerPadding}>
                     <Text style={styles.headerTitle1}>Publicar Producto</Text>
 
-                    <Text style={styles.label1}>Nombre del producto *</Text>
+                    <Text style={styles.label1}>Nombre del producto</Text>
                     <TextInput
                         style={styles.input1}
                         placeholder="Ingresa el nombre del producto"
@@ -159,7 +140,7 @@ const ProductSellScreen = () => {
                         onChangeText={setProductName}
                     />
 
-                    <Text style={styles.label1}>Precio *</Text>
+                    <Text style={styles.label1}>Precio</Text>
                     <TextInput
                         style={styles.input1}
                         placeholder="Ingresa el precio"
@@ -186,7 +167,7 @@ const ProductSellScreen = () => {
                         onChangeText={setShippingCost}
                     />
 
-                    <Text style={styles.label1}>Stock *</Text>
+                    <Text style={styles.label1}>Stock</Text>
                     <TextInput
                         style={styles.input1}
                         placeholder="Ingresa la cantidad de stock"
@@ -203,11 +184,10 @@ const ProductSellScreen = () => {
                                 style={styles.picker1}
                                 onValueChange={(itemValue) => handleCategoryChange(itemValue, index)}
                             >
-                                {categoriesData.map((category, categoryIndex) => (
+                                {categories.map((category, categoryIndex) => (
                                     <Picker.Item key={categoryIndex} label={category} value={category} />
                                 ))}
                             </Picker>
-
                             {selectedCategories.length > 1 && (
                                 <Pressable style={styles.removeButton} onPress={() => handleRemoveCategory(index)}>
                                     <Text style={styles.removeButtonText}>Eliminar</Text>
@@ -230,8 +210,8 @@ const ProductSellScreen = () => {
                         onChangeText={setDescription}
                     />
 
-                    <Pressable 
-                        style={[styles.actionButton1, isUploading && { opacity: 0.7 }]} 
+                    <Pressable
+                        style={[styles.actionButton1, isUploading && { opacity: 0.7 }]}
                         onPress={handleSelectImage}
                         disabled={isUploading}
                     >
@@ -246,8 +226,8 @@ const ProductSellScreen = () => {
                         />
                     )}
 
-                    <Pressable 
-                        style={[styles.actionButton1, isUploading && { opacity: 0.7 }]} 
+                    <Pressable
+                        style={[styles.actionButton1, isUploading && { opacity: 0.7 }]}
                         onPress={handlePublishProduct}
                         disabled={isUploading}
                     >
@@ -257,7 +237,6 @@ const ProductSellScreen = () => {
                     </Pressable>
                 </View>
             </ScrollView>
-            <Toast ref={(ref) => Toast.setRef(ref)} />
         </SafeAreaView>
     );
 };
