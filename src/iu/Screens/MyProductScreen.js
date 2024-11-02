@@ -1,26 +1,25 @@
 import React from 'react';
-import { SafeAreaView } from 'react-native';
-import { useProduct } from '../../Context/ProductProvider'; 
+import { SafeAreaView, View, Text, ScrollView, Pressable, Image } from 'react-native';
+import { useProduct } from '../../Context/ProductProvider';
+import { useUser } from '../../Context/UserContext'; 
 import styles from '../../styles/styles';
-import MyProductComponent from '../Componets/MyProductComponent'; 
 import Toast from 'react-native-toast-message';
 
 const MyProductScreen = ({ navigation }) => {
-  const { products, setProducts } = useProduct(); 
+  const { products, setProducts } = useProduct();
+  const { user } = useUser();
 
-
-  const sellerProducts = products.filter(product => product.sellerId === 1);
+  const publishedProducts = products.filter(product => product.sellerId === user?.id);
 
   const handlePausePublication = (productId) => {
-    const productName = sellerProducts.find(p => p.id === productId)?.name || 'producto';
-    const updatedProducts = sellerProducts.map(product =>
+    const productName = publishedProducts.find(p => p.id === productId)?.name || 'producto';
+    const updatedProducts = publishedProducts.map(product =>
       product.id === productId ? { ...product, paused: !product.paused } : product
     );
-    
-    
+
     setProducts(updatedProducts);
 
-    const isPaused = sellerProducts.find(p => p.id === productId)?.paused;
+    const isPaused = publishedProducts.find(p => p.id === productId)?.paused;
     Toast.show({
       type: 'success',
       text1: 'Publicación actualizada',
@@ -30,9 +29,8 @@ const MyProductScreen = ({ navigation }) => {
   };
 
   const handleCancelPublication = (productId) => {
-    const productName = sellerProducts.find(p => p.id === productId)?.name || 'producto';
-    const updatedProducts = sellerProducts.filter(product => product.id !== productId);
-    
+    const productName = publishedProducts.find(p => p.id === productId)?.name || 'producto';
+    const updatedProducts = publishedProducts.filter(product => product.id !== productId);
     
     setProducts(updatedProducts);
 
@@ -46,13 +44,47 @@ const MyProductScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.mainBackground}>
-      <MyProductComponent 
-        products={sellerProducts} 
-        navigation={navigation}
-        onPausePublication={handlePausePublication}
-        onCancelPublication={handleCancelPublication}
-      />
-      <Toast ref={(ref) => Toast.setRef(ref)} />
+      <ScrollView style={styles.productListContainer1}>
+        <Text style={styles.headerTitle1}>Productos Publicados</Text>
+        {publishedProducts.length > 0 ? (
+          publishedProducts.map((product) => (
+            <View key={product.id} style={[styles.productCardContainer1, product.paused && styles.productPaused]}>
+              <Image source={{ uri: product.image }} style={styles.productImage1} resizeMode="contain" />
+
+              <View style={styles.productInfoContainer1}>
+                <Text style={styles.productName1}>{product.name}</Text>
+                <Text style={styles.text}>Precio: ${product.price}</Text>
+                <Text style={styles.productStock1}>Stock: {product.stock}</Text>
+              </View>
+
+              {!product.paused && (
+                <Pressable 
+                  style={styles.actionButton1} 
+                  onPress={() => navigation.navigate('ProductDetail', { productId: product.id })}
+                >
+                  <Text style={styles.buttonText1}>Ver Publicación</Text>
+                </Pressable>
+              )}
+
+              <Pressable 
+                style={styles.actionButton1} 
+                onPress={() => handlePausePublication(product.id)}
+              >
+                <Text style={styles.buttonText1}>{product.paused ? 'Despausar Publicación' : 'Pausar Publicación'}</Text>
+              </Pressable>
+
+              <Pressable 
+                style={styles.actionButton1} 
+                onPress={() => handleCancelPublication(product.id)}
+              >
+                <Text style={styles.buttonText1}>Cancelar Publicación</Text>
+              </Pressable>
+            </View>
+          ))
+        ) : (
+          <Text style={styles.noProductsText1}>No hay productos publicados.</Text>
+        )}
+      </ScrollView>
     </SafeAreaView>
   );
 };

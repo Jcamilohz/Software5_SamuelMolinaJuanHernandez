@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'; 
 import { View, Text, Modal, TextInput, Pressable, Image, ScrollView } from 'react-native';
 import styles from '../../styles/styles';
-import personData from '../../data/PersonData';
+import { useUser } from '../../Context/UserContext';
 
 const PaymentModal = ({ modalVisible, setModalVisible, onSubmit }) => {
-    const getPersonById = personData.find(person => person.id === 1);
+    const { user } = useUser();
     const [paymentMethod, setPaymentMethod] = useState(null);
 
     const handlePaymentMethodChange = (method) => {
@@ -25,23 +25,26 @@ const PaymentModal = ({ modalVisible, setModalVisible, onSubmit }) => {
                     <ScrollView>
                         <Text style={styles.title}>Finalizar Compra</Text>
                         <Text style={styles.text}>Dirección de Entrega:</Text>
-                        <Text style={styles.text}>{getPersonById.adress}</Text>
-                        <Text style={styles.text}>{getPersonById.city}, {getPersonById.departament}</Text>
-                        <Text style={styles.text}>{getPersonById.country}</Text>
+                        {user ? (
+                            <>
+                                <Text style={styles.text}>{user.address}</Text>
+                                <Text style={styles.text}>{user.city}, {user.departament}</Text>
+                                <Text style={styles.text}>{user.country}</Text>
+                            </>
+                        ) : (
+                            <Text style={styles.text}>Información no disponible</Text>
+                        )}
 
                         <Text style={styles.text}>Selecciona un método de pago:</Text>
                         <View style={styles.sectionHeader}>
                             <Pressable onPress={() => handlePaymentMethodChange('PSE')} style={styles.paymentOption}>
                                 <Image source={require('../../Iconos/PSE.jpg')} style={styles.icon2} resizeMode="contain" />
-
                             </Pressable>
                             <Pressable onPress={() => handlePaymentMethodChange('MasterCard')} style={styles.paymentOption}>
                                 <Image source={require('../../Iconos/MasterCard.png')} style={styles.icon2} resizeMode="contain" />
-
                             </Pressable>
                             <Pressable onPress={() => handlePaymentMethodChange('Visa')} style={styles.paymentOption}>
                                 <Image source={require('../../Iconos/Visa.jpg')} style={styles.icon2} resizeMode="contain" />
-
                             </Pressable>
                             <Pressable onPress={() => handlePaymentMethodChange('Efecty')} style={styles.paymentOption}>
                                 <Image source={require('../../Iconos/efecty.png')} style={styles.icon2} resizeMode="contain" />
@@ -49,7 +52,7 @@ const PaymentModal = ({ modalVisible, setModalVisible, onSubmit }) => {
                         </View>
 
                         {paymentMethod === 'PSE' && (
-                            <View >
+                            <View>
                                 <TextInput style={styles.input} placeholder="Banco" placeholderTextColor="gray" />
                                 <TextInput style={styles.input} placeholder="Cuenta" placeholderTextColor="gray" />
                                 <TextInput style={styles.input} placeholder="Contraseña" secureTextEntry placeholderTextColor="gray" />
@@ -88,8 +91,6 @@ const PaymentModal = ({ modalVisible, setModalVisible, onSubmit }) => {
                         <Text style={styles.text}>Compra YA</Text>
                     </Pressable>
                 </View>
-
-
             </View>
         </Modal>
     );

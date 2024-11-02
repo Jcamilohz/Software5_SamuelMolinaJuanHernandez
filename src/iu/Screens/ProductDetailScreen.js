@@ -1,24 +1,32 @@
-import React, { useState } from 'react'; 
+import React, { useState, useEffect } from 'react'; 
 import { SafeAreaView, ScrollView, Text } from 'react-native';
+import { useProduct } from '../../Context/ProductProvider';
 import { useCart } from '../../Context/CartProvider';  
 import { useFavorites } from '../../Context/FavoriteProvider'; 
 import styles from '../../styles/styles';
-import Header from '../Header';
-import ProductDetailComponent from '../Componets/ProductDetailComponent';
+import Header from '../Componets/HeaderComponent';
 import Toast from 'react-native-toast-message';
-import productData from '../../data/ProductData';
-import commentData from '../../data/CommentData';
-import questionData from '../../data/QuestionData';
+import ProductInfoComponent from '../Componets/ProductInfoComponent';
+import ProductActionsComponent from '../Componets/ProductActionsComponent';
+import ProductFeedbackComponent from '../Componets/ProductFeedbackComponent';
 import ProductDescriptionModal from '../Modals/ProductDescriptionModal';
 import CommentModal from '../Modals/CommentModal';
 import QuestionModal from '../Modals/QuestionsModal';
+import RelatedProducts from '../Componets/RelatedComponent';
+import { useUser } from '../../Context/UserContext';
+import { useComment } from '../../Context/CommentProvider';
+import { useQuestion } from '../../Context/QuestionProvider';
 
 const ProductDetailScreen = ({ route, navigation }) => {
   const { productId } = route.params;
+  const { products } = useProduct();  
   const { cartItems, addToCart } = useCart(); 
   const { favoriteItems, addToFavorites, removeFromFavorites } = useFavorites(); 
+  const { user } = useUser();
+  const { comments, getComments } = useComment();
+  const { questions, getQuestions } = useQuestion(); 
 
-  const product = productData.find(product => product.id === productId);
+  const product = products.find(product => product.id === productId);
   if (!product) {
     return (
       <SafeAreaView style={styles.mainBackground}>
@@ -34,15 +42,33 @@ const ProductDetailScreen = ({ route, navigation }) => {
   const [modalDescriptionVisible, setModalDescriptionVisible] = useState(false);
   const [modalCommentVisible, setModalCommentVisible] = useState(false);
   const [modalQuestionVisible, setModalQuestionVisible] = useState(false);
+  
+  useEffect(() => {
+    if (product) {
+      getComments(productId);
+      getQuestions(productId);
+    }
+  }, [productId]);
 
-  const recentComments = commentData.filter(comment => comment.productId === productId).slice(0, 2) || [];
-  const recentQuestions = questionData.filter(question => question.productId === productId).slice(0, 2) || [];
+  const recentComments = comments.slice(0, 2);
+  const recentQuestions = questions.slice(0, 2); 
 
-  const isFavorite = favoriteItems.some(item => item.id === product.id);
+  const favoriteItem = favoriteItems.find(item => item.id === product.id);
+  const isFavorite = !!favoriteItem;
 
   const handleToggleFavorite = () => {
+    if (!user) {
+      Toast.show({
+        type: 'error',
+        text1: 'Inicio de sesión requerido',
+        text2: 'Debes iniciar sesión para agregar productos a favoritos',
+        position: 'bottom',
+      });
+      return;
+    }
+
     if (isFavorite) {
-      removeFromFavorites(product.id);
+      removeFromFavorites(favoriteItem.favoriteId); 
       Toast.show({
         type: 'info',
         text1: 'Eliminado de Favoritos',
@@ -61,8 +87,18 @@ const ProductDetailScreen = ({ route, navigation }) => {
   };
 
   const handleAddToCart = () => {
+    if (!user) {
+      Toast.show({
+        type: 'error',
+        text1: 'Inicio de sesión requerido',
+        text2: 'Debes iniciar sesión para agregar productos al carrito',
+        position: 'bottom',
+      });
+      return;
+    }
+  
     const isProductInCart = cartItems.find(item => item.id === product.id);
-
+    
     if (isProductInCart) {
       Toast.show({
         type: 'error',
@@ -82,26 +118,56 @@ const ProductDetailScreen = ({ route, navigation }) => {
     }
   };
 
+  const handleAddComment = (comment, score) => {
+    if (!user) {
+      Toast.show({
+        type: 'error',
+        text1: 'Inicio de sesión requerido',
+        text2: 'Debes estar autenticado para agregar comentarios',
+        position: 'bottom',
+      });
+      return false;
+    }
+    return true;
+  };
+
+  const handleAddQuestion = (question) => {
+    if (!user) {
+      Toast.show({
+        type: 'error',
+        text1: 'Inicio de sesión requerido',
+        text2: 'Debes estar autenticado para hacer preguntas',
+        position: 'bottom',
+      });
+      return false;
+    }
+    return true;
+  };
+
   return (
     <SafeAreaView style={styles.mainBackground}>
       <Header navigation={navigation} />
       <ScrollView>
-        <ProductDetailComponent
-          product={product}
-          isFavorite={isFavorite}  
+        <ProductInfoComponent 
+          product={product} 
+          isFavorite={isFavorite} 
           toggleFavorite={handleToggleFavorite}
+          setModalDescriptionVisible={setModalDescriptionVisible}
+          isUserLoggedIn={!!user} 
+        />
+        <ProductActionsComponent 
           handleAddToCart={handleAddToCart} 
           handleBuyNow={() => navigation.navigate('buy', { products: [product] })}
-          recentComments={recentComments}
-          recentQuestions={recentQuestions}
-          relatedProductsVisible={relatedProductsVisible}
-          setModalDescriptionVisible={setModalDescriptionVisible} 
+        />
+        {relatedProductsVisible && <RelatedProducts product={product} navigation={navigation} />}
+        <ProductFeedbackComponent
+          recentComments={recentComments}  
+          recentQuestions={recentQuestions} 
           setModalCommentVisible={setModalCommentVisible}
-          setModalQuestionVisible={setModalQuestionVisible}
+          setModalQuestionVisible={setModalQuestionVisible} 
         />
       </ScrollView>
 
-   
       <ProductDescriptionModal
         modalVisible={modalDescriptionVisible}
         setModalVisible={setModalDescriptionVisible}
@@ -112,15 +178,15 @@ const ProductDetailScreen = ({ route, navigation }) => {
         modalVisible={modalCommentVisible}
         setModalVisible={setModalCommentVisible}
         productId={product.id}
+        onBeforeComment={handleAddComment}
       />
 
       <QuestionModal
         modalVisible={modalQuestionVisible}
         setModalVisible={setModalQuestionVisible}
         productId={product.id}
+        onSubmit={handleAddQuestion}
       />
-
-      <Toast ref={(ref) => Toast.setRef(ref)} />
     </SafeAreaView>
   );
 };

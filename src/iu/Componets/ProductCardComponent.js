@@ -2,15 +2,15 @@ import React from 'react';
 import { View, Text, Image, Pressable } from 'react-native';
 import styles from '../../styles/styles';
 
-const ProductCard = ({ product, onPress }) => {
+const ProductCardComponent = ({ product, onPress }) => {
   return (
     <Pressable style={styles.productCard} onPress={onPress}>
-      <Image source={product.image} style={styles.productImage} resizeMode="contain" />
+ <Image source={{ uri: product.image }} style={styles.productImage} resizeMode="contain" />
       <View style={styles.productInfo}>
         <Text style={styles.title}>{product.name}</Text>
         {product.discount ? (
           <>
-            <Text style={styles.beforePrice}>
+            <Text style={styles.text2Line}>
               Precio antes: ${product.price}
             </Text>
             <Text style={styles.textGreen}>
@@ -37,4 +37,4 @@ const ProductCard = ({ product, onPress }) => {
   );
 };
 
-export default ProductCard;
+export default ProductCardComponent;

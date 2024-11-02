@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { View, Text, Modal, Pressable, TextInput, ScrollView } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import styles from '../../styles/styles';
-import CategoriesData from '../../data/CategoriesData';
+import { useCategory } from '../../Context/CategorieProvider';
 
 const FilterModal = ({ modalVisible, setModalVisible }) => {
+  const { categories } = useCategory();
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
@@ -12,7 +13,9 @@ const FilterModal = ({ modalVisible, setModalVisible }) => {
   const [freeShipping, setFreeShipping] = useState(false);
 
   const handleAddCategory = () => {
-    setSelectedCategories([...selectedCategories, CategoriesData[0]]);
+    if (categories.length > 0) {
+      setSelectedCategories([...selectedCategories, categories[0]]);
+    }
   };
 
   const handleCategoryChange = (value, index) => {
@@ -45,7 +48,7 @@ const FilterModal = ({ modalVisible, setModalVisible }) => {
         <View style={styles.modalContainermfp}>
           <Text style={styles.modalTitlemfp}>Filtrar Opciones</Text>
 
-          <ScrollView contentContainerStyle={styles.scrollContentContainer}>
+          <ScrollView contentContainerStyle={styles.scrollView}>
             <Text style={styles.modalDescriptionTextmfp}>Selecciona Categorías</Text>
             {selectedCategories.length > 0 ? (
               selectedCategories.map((selectedCategory, index) => (
@@ -55,7 +58,7 @@ const FilterModal = ({ modalVisible, setModalVisible }) => {
                     style={styles.picker}
                     onValueChange={(itemValue) => handleCategoryChange(itemValue, index)}
                   >
-                    {CategoriesData.map((category, categoryIndex) => (
+                    {categories.map((category, categoryIndex) => (
                       <Picker.Item key={categoryIndex} label={category} value={category} />
                     ))}
                   </Picker>

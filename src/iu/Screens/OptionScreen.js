@@ -1,7 +1,6 @@
 import React from 'react';
-import { SafeAreaView } from 'react-native';
+import { SafeAreaView, View, Text, Pressable, ScrollView } from 'react-native';
 import styles from '../../styles/styles';
-import OptionComponent from '../Componets/OptionComponent';
 import { useUser } from '../../Context/UserContext';
 import Toast from 'react-native-toast-message';
 
@@ -20,7 +19,6 @@ const OptionScreen = ({ navigation }) => {
       setTimeout(() => {
         navigation.navigate('sesion'); 
       }, 1500);
-      
     } else {
       navigation.navigate('sesion');
     }
@@ -36,12 +34,28 @@ const OptionScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.mainBackground}>
-      <OptionComponent 
-        navigation={navigation} 
-        user={user} 
-        handleLogout={handleLogout} 
-        options={options} 
-      />
+      <View style={styles.container3}>
+        <View style={styles.opcions}>
+          <ScrollView>
+            {user && options.map((option, index) => (
+              <Pressable
+                key={index}
+                style={styles.optionButton}
+                onPress={() => navigation.navigate(option.route)}
+              >
+                <Text style={styles.textWhite}>{option.label}</Text>
+              </Pressable>
+            ))}
+
+            <Pressable style={styles.optionButton} onPress={handleLogout}>
+              <Text style={styles.textWhite}>
+                {user ? 'Cerrar Sesión' : 'Iniciar Sesión'}
+              </Text>
+            </Pressable>
+          </ScrollView>
+        </View>
+      </View>
+
     </SafeAreaView>
   );
 };

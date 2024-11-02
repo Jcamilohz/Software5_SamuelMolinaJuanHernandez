@@ -21,16 +21,20 @@ import DiscountedProductScreen from "../iu/Screens/DiscountedProductScreen";
 import RecommendedProducts from "../iu/Screens/RecommendedProductsScreen";
 import FreeShippingProductScreen from "../iu/Screens/FreeShippingProductScreen";
 import BuyScreen from "../iu/Screens/BuyScreen";
+import { useCart } from '../Context/CartProvider';
+import { useFavorites } from '../Context/FavoriteProvider'
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 function MainTab() {
+    const { cartItems } = useCart();  
+    const { favoriteItems } = useFavorites();
     return (
         <Tab.Navigator initialRouteName="home" >
             <Tab.Screen name="home" component={Home} options={{ tabBarLabel: "", headerShown: false ,tabBarIcon: () => ( <Image source={require('../Iconos/casa.png')} style={{ width: 24, height: 24 }}/> )}} />
-            <Tab.Screen name="cart" component={CartScreen} options={{ tabBarBadge: 3, tabBarLabel: "Carrito", headerShown: false ,tabBarIcon: () => ( <Image source={require('../Iconos/carrito-de-compras.png')} style={{ width: 24, height: 24 }}/> )}} />
-            <Tab.Screen name="favorites" component={FavoriteScreen} options={{ tabBarBadge: 20, tabBarLabel: "Mis Favoritos", headerShown: false,tabBarIcon: () => ( <Image source={require('../Iconos/favorito.png')} style={{ width: 24, height: 24 }}/> )}} /> 
+            <Tab.Screen name="cart" component={CartScreen} options={{ tabBarBadge: cartItems.length > 0 ? cartItems.length : null, tabBarLabel: "Carrito", headerShown: false ,tabBarIcon: () => ( <Image source={require('../Iconos/carrito-de-compras.png')} style={{ width: 24, height: 24 }}/> )}} />
+            <Tab.Screen name="favorites" component={FavoriteScreen} options={{  tabBarBadge: favoriteItems.length > 0 ? favoriteItems.length : null, tabBarLabel: "Mis Favoritos", headerShown: false,tabBarIcon: () => ( <Image source={require('../Iconos/favorito.png')} style={{ width: 24, height: 24 }}/> )}} /> 
             <Tab.Screen name="options" component={OptionScreen} options={{ tabBarLabel: "Opciones", headerTitle: "Opciones",tabBarIcon: () => ( <Image source={require('../Iconos/lista-de-opciones.png')} style={{ width: 24, height: 24 }}/> )}} />
         </Tab.Navigator>
     );
@@ -61,7 +65,6 @@ const Navigation = () => {
     return (
         <NavigationContainer>
             <AppNavigator />
-            <Toast ref={(ref) => Toast.setRef(ref)} />
         </NavigationContainer>
     );
 }

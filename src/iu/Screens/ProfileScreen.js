@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView } from 'react-native';
 import { useUser } from '../../Context/UserContext';
 import { countryData, departmentData, cityData } from '../../data/NationalityData'; 
-import ProfileComponent from '../Componets/ProfileComponent';
 import styles from '../../styles/styles';
 import Toast from 'react-native-toast-message';
+import ProfileViewComponent from '../Componets/ProfileViewComponent';
+import ProfileEditComponent from '../Componets/ProfileEditComponent';
 
 const ProfileScreen = () => {
   const { user, updateUser } = useUser(); 
@@ -15,6 +16,7 @@ const ProfileScreen = () => {
   const [userName, setUserName] = useState(user?.userName || '');
   const [mail, setMail] = useState(user?.mail || '');
   const [birthDate, setBirthDate] = useState(user?.birthDate || '');
+  const [imageProfile, setImageProfile] = useState(user?.imageProfile || null);
   const [address, setAddress] = useState(user?.address || '');
   const [country, setCountry] = useState('');
   const [department, setDepartment] = useState('');
@@ -30,6 +32,7 @@ const ProfileScreen = () => {
       setMail(user.mail);
       setBirthDate(user.birthDate);
       setAddress(user.address);
+      setImageProfile(user.imageProfile);
 
       const selectedCountry = countryData.find(c => c.name === user.country);
       if (selectedCountry) {
@@ -167,36 +170,52 @@ const ProfileScreen = () => {
   };
 
   return (
-    <SafeAreaView style={styles.profileMainBackgroundPf}>
-      <ScrollView contentContainerStyle={styles.profileScrollViewPf}>
-        <ProfileComponent
-          isEditing={isEditing}
-          setIsEditing={setIsEditing}
+    <SafeAreaView style={styles.profileMainBackground}>
+      <ScrollView>
+        {isEditing ? (
+          <ProfileEditComponent
+            name={name}
+            setName={setName}
+            lastName={lastName}
+            setLastName={setLastName}
+            userName={userName}
+            setUserName={setUserName}
+            mail={mail}
+            setMail={setMail}
+            birthDate={birthDate}
+            setBirthDate={setBirthDate}
+            address={address}
+            setAddress={setAddress}
+            country={country}
+            handleCountryChange={handleCountryChange}
+            department={department}
+            handleDepartmentChange={handleDepartmentChange}
+            city={city}
+            setCity={setCity}
+            filteredCountries={countryData}
+            filteredDepartments={filteredDepartments}
+            filteredCities={filteredCities}
+            handleSave={handleSave}
+          />
+        ) : (
+          <ProfileViewComponent
           name={name}
-          setName={setName}
           lastName={lastName}
-          setLastName={setLastName}
           userName={userName}
-          setUserName={setUserName}
           mail={mail}
-          setMail={setMail}
           birthDate={birthDate}
-          setBirthDate={setBirthDate}
           address={address}
-          setAddress={setAddress}
           country={country}
-          setCountry={handleCountryChange}
           department={department}
-          setDepartment={handleDepartmentChange}
           city={city}
-          setCity={setCity}
-          filteredCountries={countryData} 
+          countryData={countryData}
           filteredDepartments={filteredDepartments}
           filteredCities={filteredCities}
-          handleSave={handleSave}
-        />
+          imageProfile={imageProfile}
+          onEdit={() => setIsEditing(true)}
+          />
+        )}
       </ScrollView>
-      <Toast ref={(ref) => Toast.setRef(ref)} />
     </SafeAreaView>
   );
 };

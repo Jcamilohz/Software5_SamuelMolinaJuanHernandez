@@ -71,6 +71,23 @@
 
    - **Descripción**: Esta librería proporciona un componente Picker para React Native, que permite a los usuarios seleccionar opciones de una lista desplegable.
 
+### **5. react-native-image-picker**
+
+   - **Descripción**: `react-native-image-picker` es una librería que permite seleccionar imágenes y videos desde la galería o capturarlos con la cámara. Es útil para aplicaciones que requieren capturar o subir medios visuales directamente desde el dispositivo del usuario.
+
+### **6. firebase**
+
+   - **Descripción**: `firebase` proporciona el conjunto completo de servicios de Firebase y permite integrarlos en aplicaciones web o móviles. Es una opción robusta para manejar autenticación, bases de datos en tiempo real, Firestore, y mucho más en tu aplicación, facilitando un desarrollo rápido y escalable.
+
+### **7. @react-native-firebase/app**
+
+   - **Descripción**: `@react-native-firebase/app` es la base de Firebase en aplicaciones React Native. Proporciona una integración fácil con Firebase y facilita el uso de otros servicios de Firebase, como autenticación, base de datos en tiempo real y almacenamiento. Esta biblioteca es el núcleo de Firebase y es necesaria para usar otras dependencias de Firebase en la aplicación.
+
+### **8. @react-native-firebase/storage**
+
+   - **Descripción**: `@react-native-firebase/storage` permite la integración de Firebase Storage en aplicaciones React Native. Esta biblioteca facilita la carga, descarga y gestión de archivos multimedia en la nube, ideal para aplicaciones que necesitan almacenamiento de imágenes, videos y documentos.
+
+
 ## **Solución de Problemas con React Native Gesture Handler**
 
 Si tienes problemas con el `handler` de `react-native`, puedes intentar lo siguiente:
@@ -83,30 +100,6 @@ Si tienes problemas con el `handler` de `react-native`, puedes intentar lo sigui
    npm cache clean --force
    npx react-native-clean-project
    ```
-
-2. **Ajustar el `MainActivity` en Android:**
-
-   Abre el archivo `MainActivity.java`, que se encuentra en `android/app/src/main/java/<tu-paquete>/MainActivity.java`, y asegúrate de que contiene lo siguiente:
-
-   - Importa `RNGestureHandlerEnabledRootView`:
-
-     ```java
-     import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;
-     ```
-
-   - Ajusta el método `createReactActivityDelegate()`:
-
-     ```java
-     @Override
-     protected ReactActivityDelegate createReactActivityDelegate() {
-         return new ReactActivityDelegate(this, getMainComponentName()) {
-             @Override
-             protected RNGestureHandlerEnabledRootView createRootView() {
-                 return new RNGestureHandlerEnabledRootView(MainActivity.this);
-             }
-         };
-     }
-     ```
 
 ## **Usuario de Prueba**
 
