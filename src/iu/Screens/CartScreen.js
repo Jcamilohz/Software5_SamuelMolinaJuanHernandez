@@ -13,8 +13,8 @@ const CartScreen = ({ navigation }) => {
     return total + productPrice;
   }, 0);
 
-  const handleRemoveProduct = (productId) => {
-    removeFromCart(productId);
+  const handleRemoveProduct = (cartId) => {
+    removeFromCart(cartId);
     Toast.show({
       type: 'success',
       text1: 'Producto eliminado',
@@ -42,15 +42,11 @@ const CartScreen = ({ navigation }) => {
               <Text style={styles.text}>No hay productos en tu carrito</Text>
             ) : (
               <>
-                <View style={styles.sectionHeader}>
-                  <Text style={styles.text}>Productos en tu carrito</Text>
-                </View>
-
                 {cartItems.map(product => (
-                  <View key={product.id} style={styles.productContainer}>
+                  <View key={product.cartId} style={styles.productContainer}>
                     <Pressable
                       style={styles.removeButton}
-                      onPress={() => handleRemoveProduct(product.id)}
+                      onPress={() => handleRemoveProduct(product.cartId)}
                     >
                       <Text style={styles.removeButtonText}>X</Text>
                     </Pressable>
@@ -60,10 +56,6 @@ const CartScreen = ({ navigation }) => {
                     />
                   </View>
                 ))}
-
-
-
-
               </>
             )}
           </View>

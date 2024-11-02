@@ -1,15 +1,22 @@
 import React from 'react';
 import { View, Text, ScrollView, Pressable, Image } from 'react-native';
 import styles from '../../styles/styles';
-import productData from '../../data/ProductData';
+import { useProduct } from '../../Context/ProductProvider';
 
 const RelatedProducts = ({ product, navigation }) => {
-  const relatedProducts = productData.filter(p =>
-    p.categories.some(category => product.categories.includes(category)) && p.id !== product.id
-  ).slice(0, 5);
+  const { products } = useProduct();
+
+
+  const relatedProducts = products
+    .filter(
+      p => 
+        p.categories.some(category => product.categories.includes(category)) &&
+        p.id !== product.id
+    )
+    .slice(0, 5); 
 
   return (
-    <View style={styles.sectionPdS}>
+    <View style={styles.padding}>
       <Text style={styles.sectionTitlePdS}>Productos Relacionados</Text>
       <ScrollView horizontal>
         {relatedProducts.length > 0 ? (
@@ -20,7 +27,7 @@ const RelatedProducts = ({ product, navigation }) => {
               onPress={() => navigation.navigate('ProductDetail', { productId: relatedProduct.id })}
             >
               <Image
-                source={relatedProduct.image}
+                source={{ uri: relatedProduct.image }}
                 style={styles.relatedProductImage}
                 resizeMode="contain"
               />
