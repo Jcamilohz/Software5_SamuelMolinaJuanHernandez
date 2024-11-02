@@ -23,7 +23,7 @@ const favoritesReducer = (state, action) => {
     case 'REMOVE_FROM_FAVORITES':
       return {
         ...state,
-        favoriteItems: state.favoriteItems.filter(item => item.id !== action.payload),
+        favoriteItems: state.favoriteItems.filter(item => item.favoriteId !== action.payload), 
       };
     default:
       return state;
@@ -76,19 +76,14 @@ export const FavoritesProvider = ({ children }) => {
       addedAt: new Date().toISOString(),
     });
 
-    dispatch({
-      type: 'ADD_TO_FAVORITES',
-      payload: {
-        ...product,
-        favoriteId: favoriteRef.id
-      },
+    dispatch({type: 'ADD_TO_FAVORITES',payload: {...product,favoriteId: favoriteRef.id},
     });
   };
 
-  const removeFromFavorites = async (favoriteId) => {
-    await firebase.db.collection('favorites').doc(favoriteId).delete();
-    dispatch({ type: 'REMOVE_FROM_FAVORITES', payload: favoriteId });
-  };
+  const removeFromFavorites = async (favoriteId) => {    
+        await firebase.db.collection('favorites').doc(favoriteId).delete();
+        dispatch({ type: 'REMOVE_FROM_FAVORITES', payload: favoriteId });
+};
 
   return (
     <FavoritesContext.Provider value={{

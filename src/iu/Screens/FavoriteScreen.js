@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { SafeAreaView, ScrollView, View, Pressable, Text } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { useFavorites } from '../../Context/FavoriteProvider';
@@ -19,8 +19,8 @@ const FavoritesScreen = ({ navigation }) => {
         }
     };
 
-    const handleRemoveFromFavorites = (productId) => {
-        removeFromFavorites(productId);
+    const handleRemoveFromFavorites = (favoriteId) => {
+        removeFromFavorites(favoriteId);
         Toast.show({
             type: 'success',
             text1: 'Producto eliminado de favoritos',
@@ -42,13 +42,15 @@ const FavoritesScreen = ({ navigation }) => {
                     </View>
 
                     <View style={styles.section}>
-
                         {favoriteItems.length === 0 ? (
                             <Text style={styles.text}>No hay productos en tus favoritos</Text>
                         ) : (
                             favoriteItems.map(product => (
-                                <View key={product.id} style={styles.productContainer}>
-                                    <Pressable style={styles.removeButton} onPress={() => handleRemoveFromFavorites(product.id)}>
+                                <View key={product.favoriteId} style={styles.productContainer}>
+                                    <Pressable 
+                                        style={styles.removeButton} 
+                                        onPress={() => handleRemoveFromFavorites(product.favoriteId)}
+                                    >
                                         <Text style={styles.removeButtonText}>X</Text>
                                     </Pressable>
                                     <ProductCard 
@@ -59,24 +61,23 @@ const FavoritesScreen = ({ navigation }) => {
                             ))
                         )}
                     </View>
-
-
                 </View>
             </ScrollView>
-            {favoriteItems.length > 0 && (
-                        <View>
-                            <View style={styles.section}>
-                                <Text style={styles.text}>Precio total de todos tus productos favoritos:</Text>
-                                <Text style={styles.text}>${totalFavoritePrice.toFixed(2)}</Text>
-                            </View>
 
-                            <View style={styles.containerButton}>
-                                <Pressable style={styles.buttonGreen} onPress={handleBuyAll}>
-                                    <Text style={styles.textWhite}>Comprar Todo YA</Text>
-                                </Pressable>
-                            </View>
-                        </View>
-                    )}
+            {favoriteItems.length > 0 && (
+                <View>
+                    <View style={styles.section}>
+                        <Text style={styles.text}>Precio total de todos tus productos favoritos:</Text>
+                        <Text style={styles.text}>${totalFavoritePrice.toFixed(2)}</Text>
+                    </View>
+
+                    <View style={styles.containerButton}>
+                        <Pressable style={styles.buttonGreen} onPress={handleBuyAll}>
+                            <Text style={styles.textWhite}>Comprar Todo YA</Text>
+                        </Pressable>
+                    </View>
+                </View>
+            )}
         </SafeAreaView>
     );
 };

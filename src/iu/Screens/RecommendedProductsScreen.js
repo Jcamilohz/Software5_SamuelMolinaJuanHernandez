@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { SafeAreaView, View, Text, ScrollView } from 'react-native';
 import styles from '../../styles/styles';
-import products from '../../data/ProductData'; 
 import ProductCard from '../Componets/ProductCardComponent';
+import { useProduct } from '../../Context/ProductProvider';
 
 const RecommendedProductScreen = ({ navigation }) => {
+  const { products, getProducts } = useProduct();
+
+  useEffect(() => {
+    getProducts();
+  }, []);
+
   const recommendedProducts = products.filter(product => product.recommended);
 
   return (
@@ -14,13 +20,17 @@ const RecommendedProductScreen = ({ navigation }) => {
       </View>
       <ScrollView>
         <View style={styles.section}>
-          {recommendedProducts.map(product => (
-            <ProductCard 
-              key={product.id} 
-              product={product} 
-              onPress={() => navigation.navigate('ProductDetail', { productId: product.id })} 
-            />
-          ))}
+          {recommendedProducts.length > 0 ? (
+            recommendedProducts.map(product => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                onPress={() => navigation.navigate('ProductDetail', { productId: product.id })}
+              />
+            ))
+          ) : (
+            <Text style={styles.noRelatedProductsText}>No hay productos recomendados.</Text>
+          )}
         </View>
       </ScrollView>
     </SafeAreaView>

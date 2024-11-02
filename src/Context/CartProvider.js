@@ -23,7 +23,7 @@ const cartReducer = (state, action) => {
     case 'REMOVE_FROM_CART':
       return {
         ...state,
-        cartItems: state.cartItems.filter(item => item.id !== action.payload),
+        cartItems: state.cartItems.filter(item => item.cartId !== action.payload),
       };
     case 'CLEAR_CART':
       return {
@@ -64,7 +64,7 @@ export const CartProvider = ({ children }) => {
         return {
           id: doc.id,
           ...productDoc.data(),
-          cartId: doc.id,
+          cartId: doc.id, 
           quantity: cartData.quantity || 1,
         };
       }
@@ -94,8 +94,8 @@ export const CartProvider = ({ children }) => {
   };
 
   const removeFromCart = async (cartId) => {
-    await firebase.db.collection('cart').doc(cartId).delete();
-    dispatch({ type: 'REMOVE_FROM_CART', payload: cartId });
+      await firebase.db.collection('cart').doc(cartId).delete();
+      dispatch({ type: 'REMOVE_FROM_CART', payload: cartId });
   };
 
   const clearCart = async () => {

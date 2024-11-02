@@ -53,7 +53,8 @@ const ProductDetailScreen = ({ route, navigation }) => {
   const recentComments = comments.slice(0, 2);
   const recentQuestions = questions.slice(0, 2); 
 
-  const isFavorite = favoriteItems.some(item => item.id === product.id);
+  const favoriteItem = favoriteItems.find(item => item.id === product.id);
+  const isFavorite = !!favoriteItem;
 
   const handleToggleFavorite = () => {
     if (!user) {
@@ -67,7 +68,7 @@ const ProductDetailScreen = ({ route, navigation }) => {
     }
 
     if (isFavorite) {
-      removeFromFavorites(product.id);
+      removeFromFavorites(favoriteItem.favoriteId); 
       Toast.show({
         type: 'info',
         text1: 'Eliminado de Favoritos',
